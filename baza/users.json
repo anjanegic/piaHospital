@@ -1,0 +1,42 @@
+[
+    {
+        "username": "pera",
+        "password" : "Pera123!",
+        "first_name" : "Petar",
+        "last_name" : "Peric",
+        "type": "patient",
+        "email": "pera@gmail.com",
+        "address": "Bulevar Nikole Tesle 15",
+        "phone": "0612288927"
+    },
+    {
+        "username": "maja",
+        "password" : "Maja123!",
+        "first_name" : "Marija",
+        "last_name" : "Maric",
+        "type": "patient",
+        "email": "maja@gmail.com",
+        "address": "Bulevar Mihajla Pupina 32",
+        "phone": "0632638837"
+    },
+    {
+        "username": "ana",
+        "password" : "Ana123!",
+        "first_name" : "Ana",
+        "last_name" : "Andjelkovic",
+        "type": "patient",
+        "email": "ana@gmail.com",
+        "address": "Bulevar Umetnosti 1",
+        "phone": "0652493997"
+    },
+    {
+        "username": "paja",
+        "password" : "Paja123!",
+        "first_name" : "Pavle",
+        "last_name" : "Pajic",
+        "type": "patient",
+        "email": "paja@gmail.com",
+        "address": "Nikole Markovica 22",
+        "phone": "0622960898"
+    }
+]
