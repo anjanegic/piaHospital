@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, RouterStateSnapshot, TitleStrategy } from '@angular/router';
 import { DoctorComponent } from './doctor/doctor.component';
 import { LoginComponent } from './login/login.component';
 import { PatientComponent } from './patient/patient.component';
+import { NgModule } from '@angular/core';
 
 const routes: Routes = [
-  { path: "", component: LoginComponent },
-  { path: "patient", component: PatientComponent},
-  { path: "doctor", component: DoctorComponent}
+  { path: "", component: LoginComponent, title: 'Login' },
+  { path: "patient", component: PatientComponent, title: "Patient"},
+  { path: "doctor", component: DoctorComponent, title: "Doctor"}
 ];
 
 @NgModule({
