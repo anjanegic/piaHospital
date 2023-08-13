@@ -1,0 +1,17 @@
+{
+  "name": "hospital-pia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run client & npm run server",
+    "server": "npm run --prefix packages/backend start",
+    "client": "npm run --prefix packages/frontend start"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lerna": "^7.1.5"
+  },
+  "dependencies": {}
+}

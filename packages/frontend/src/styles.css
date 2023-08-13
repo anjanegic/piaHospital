@@ -1,0 +1,29 @@
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.css";
+@import "ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.css";
+
+* {
+  box-sizing: border-box;
+}
+
+/* Disable default margin */
+html,
+body {
+  font-family: FontPoppins;
+  margin: 0;
+  background-color: #f3e0d4;
+  color: #383832;
+}
+.page {
+  margin-left: auto;
+}
+
+.title {
+  margin-right: auto;
+  margin-left: 3%;
+}
+
+@font-face {
+  font-family: "FontPoppins";
+  src: url("src/assets/Poppins/Poppins-Medium.ttf");
+}
