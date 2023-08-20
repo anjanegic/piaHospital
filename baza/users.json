@@ -7,7 +7,17 @@
         "type": "patient",
         "email": "pera@gmail.com",
         "address": "Bulevar Nikole Tesle 15",
-        "phone": "0612288927"
+        "phone": "0612288927",
+        "profile_picture": "../../assets/profile-icon-person-user-19.png",
+        "approved" : true,
+        "bookedAppointments": [
+            {
+                "date": "2023-08-20T09:00:00.000Z",
+                "appointment": { "name": "Biopsija kože", "duration": 60, "price": 3000 },
+                "doctor": "milos_petrovic",
+                "patient": "pera"
+            }
+        ]
     },
     {
         "username": "maja",
@@ -17,7 +27,10 @@
         "type": "patient",
         "email": "maja@gmail.com",
         "address": "Bulevar Mihajla Pupina 32",
-        "phone": "0632638837"
+        "phone": "0632638837",
+        "profile_picture": "../../assets/profile-icon-person-user-19.png",
+        "approved" : true,
+        "bookedAppointments": []
     },
     {
         "username": "ana",
@@ -27,7 +40,10 @@
         "type": "patient",
         "email": "ana@gmail.com",
         "address": "Bulevar Umetnosti 1",
-        "phone": "0652493997"
+        "phone": "0652493997",
+        "profile_picture": "../../assets/profile-icon-person-user-19.png",
+        "approved" : true,
+        "bookedAppointments": []
     },
     {
         "username": "paja",
@@ -37,6 +53,185 @@
         "type": "patient",
         "email": "paja@gmail.com",
         "address": "Nikole Markovica 22",
-        "phone": "0622960898"
+        "phone": "0622960898",
+        "profile_picture": "../../assets/profile-icon-person-user-19.png",
+        "approved" : true,
+        "bookedAppointments": []
+    },
+    {
+        "first_name": "Miloš",
+        "last_name": "Petrović",
+        "username": "milos_petrovic",
+        "password": "Milos123!",
+        "type": "doctor",
+        "email": "milos@example.com",
+        "address": "Knez Mihailova 10, Beograd",
+        "phone": "065-111-222",
+        "license": 12345,
+        "specialization": "Dermatohirurgija",
+        "branch": "Hirurgija dermatologije",
+        "approved": true,
+        "profile_picture": "../../assets/doctor1.jpeg",
+        "appointments": [
+            { "name": "Biopsija kože", "duration": 60, "price": 3000 },
+            { "name": "Uklanjanje mladeža", "duration": 45, "price": 2500 },
+            { "name": "Revizija ožiljaka", "duration": 90, "price": 4500 }
+        ],
+        "bookedAppointments": [
+            {
+                "date": "2023-08-20T09:00:00.000Z",
+                "appointment": { "name": "Biopsija kože", "duration": 60, "price": 3000 },
+                "doctor": "milos_petrovic",
+                "patient": "pera"
+            }
+        ]
+    },
+    {
+        "first_name": "Ana",
+        "last_name": "Jovanović",
+        "username": "ana_jovanovic",
+        "password": "Ana123!",
+        "type": "doctor",
+        "email": "ana@example.com",
+        "address": "Trg Republike 5, Beograd",
+        "phone": "065-222-333",
+        "license": 54321,
+        "specialization": "Pedijatrijska dermatologija",
+        "branch": "Dečija dermatologija",
+        "approved": true,
+        "profile_picture": "../../assets/doctor8.jpeg",
+        "appointments": [
+            { "name": "Konsultacija za dečiji ekcem", "duration": 30, "price": 1500 },
+            { "name": "Testiranje alergije na koži kod dece", "duration": 75, "price": 4000 },
+            { "name": "Procena začetka akni kod beba", "duration": 45, "price": 2500 }
+        ],
+        "bookedAppointments": []
+      },
+      {
+        "first_name": "Marko",
+        "last_name": "Nikolić",
+        "username": "marko_nikolic",
+        "password": "Marko123!",
+        "type": "doctor",
+        "email": "marko@example.com",
+        "address": "Kneza Mihaila 10, Beograd",
+        "phone": "065-111-222",
+        "license": 98765,
+        "specialization": "Estetska dermatologija",
+        "branch": "Estetika dermatologije",
+        "approved": true,
+        "profile_picture": "../../assets/doctor4.jpeg",
+        "appointments": [
+            { "name": "Tretman botoksom", "duration": 30, "price": 2000 },
+            { "name": "Punjenje filerima", "duration": 60, "price": 3500 },
+            { "name": "Hemijski piling", "duration": 45, "price": 3000 }
+        ],
+        "bookedAppointments": []
+    },
+    {
+        "first_name": "Nikola",
+        "last_name": "Ilić",
+        "username": "nikola_ilic",
+        "password": "Nikola123!",
+        "type": "doctor",
+        "email": "nikola@example.com",
+        "address": "Nemanjina 15, Beograd",
+        "phone": "064-333-444",
+        "license": 76543,
+        "specialization": "Dermatopatologija",
+        "branch": "Patologija kože",
+        "approved": true,
+        "profile_picture": "../../assets/doctor3.jpeg",
+        "appointments": [
+            { "name": "Analiza lezija na koži", "duration": 45, "price": 2500 },
+            { "name": "Tumačenje biopsije", "duration": 60, "price": 3000 },
+            { "name": "Konsultacija za histopatologiju", "duration": 90, "price": 4000 }    
+        ],
+        "bookedAppointments": []
+    },
+    {
+        "first_name": "Marija",
+        "last_name": "Petrović",
+        "username": "marija_petrovic",
+        "password": "Maki123!",
+        "type": "doctor",
+        "email": "marija@example.com",
+        "address": "Krunska 20, Beograd",
+        "phone": "063-444-555",
+        "license": 65432,
+        "specialization": "Dermatološka alergologija",
+        "branch": "Alergologija kože",
+        "approved": true,
+        "profile_picture": "../../assets/doctor2.jpeg",
+        "appointments": [
+            { "name": "Testiranje alergije flasterima", "duration": 60, "price": 3500 },
+            { "name": "Testiranje alergije ubodom kože", "duration": 30, "price": 2000 },
+            { "name": "Konsultacija za atopijski dermatitis", "duration": 45, "price": 2500 }
+        ],
+        "bookedAppointments": []
+    },
+    {
+        "first_name": "Ivan",
+        "last_name": "Kovačević",
+        "username": "ivan_kovacevic",
+        "password": "Ivan123!",
+        "type": "doctor",
+        "email": "ivan@example.com",
+        "address": "Svetogorska 25, Beograd",
+        "phone": "064-555-666",
+        "license": 54321,
+        "specialization": "Dermatološka imunologija",
+        "branch": "Imunologija kože",
+        "approved": true,
+        "profile_picture": "../../assets/doctor5.webp",
+        "appointments": [
+            { "name": "Imunosupresivna terapija", "duration": 60, "price": 3000 },
+            { "name": "Konsultacija za autoimune poremećaje kože", "duration": 45, "price": 2500 },
+            { "name": "Procena imunodeficijencije", "duration": 90, "price": 4500 }
+        ],
+        "bookedAppointments": []
+    },
+    {
+        "first_name": "Milica",
+        "last_name": "Janković",
+        "username": "milica_jankovic",
+        "password": "Mica123!",
+        "type": "doctor",
+        "email": "milica@example.com",
+        "address": "Bulevar Kralja Aleksandra 30, Beograd",
+        "phone": "063-666-777",
+        "license": 43210,
+        "specialization": "Dermato-onkologija",
+        "branch": "Onkologija kože",
+        "approved": true,
+        "profile_picture": "../../assets/doctor7.jpeg",
+        "appointments": [
+            { "name": "Pregled raka kože", "duration": 45, "price": 3000 },
+            { "name": "Dijagnoza melanoma", "duration": 60, "price": 3500 },
+            { "name": "Konsultacija za hemoterapiju", "duration": 90, "price": 4500 }
+        ],
+        "bookedAppointments": []
+    },
+    {
+        "first_name": "Stefan",
+        "last_name": "Pavlović",
+        "username": "stefan_pavlovic",
+        "password": "Stefan123!",
+        "type": "doctor",
+        "email": "stefan@example.com",
+        "address": "Kralja Milutina 40, Beograd",
+        "phone": "065-777-888",
+        "license": 32109,
+        "specialization": "Dermatološka laserska terapija",
+        "branch": "Laserska terapija kože",
+        "approved": true,
+        "profile_picture": "../../assets/doctor6.jpeg",
+        "appointments": [
+            { "naziv": "Uklanjanje dlaka laserom", "duration": 30, "price": 2000 },
+            { "naziv": "Uklanjanje tetovaža laserom", "duration": 60, "price": 3500 },
+            { "naziv": "Smanjenje ožiljaka laserom", "duration": 45, "price": 3000 }
+        ],
+        "bookedAppointments": []
     }
+ 
 ]

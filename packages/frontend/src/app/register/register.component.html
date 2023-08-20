@@ -1,0 +1,94 @@
+<div class="log-reg">
+  <mat-card class="inline-block">
+    <mat-card-title>Register</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="formRegister" (ngSubmit)="submitRegister()">
+        <mat-form-field class="example-full-width">
+          <input
+            type="text"
+            matInput
+            placeholder="Ime"
+            formControlName="firstname"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input
+            type="text"
+            matInput
+            placeholder="Prezime"
+            formControlName="lastname"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input
+            type="text"
+            matInput
+            placeholder="Korisnicko ime"
+            formControlName="usernameRegister"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input
+            type="password"
+            matInput
+            placeholder="Lozinka"
+            formControlName="passwordRegister"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input
+            type="text"
+            matInput
+            placeholder="E-mail"
+            formControlName="email"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input
+            type="text"
+            matInput
+            placeholder="Telefon"
+            formControlName="phone"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input
+            type="text"
+            matInput
+            placeholder="Adresa"
+            formControlName="address"
+          />
+        </mat-form-field>
+
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Profilna slika</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <input type="file" (change)="onFileSelected($event)" />
+          </mat-card-content>
+        </mat-card>
+
+        <p *ngIf="errorRegister" class="error">
+          {{ errorRegister }}
+        </p>
+
+        <p *ngIf="registerSuccess" class="registerSuccess">
+          {{ registerSuccess }}
+        </p>
+
+        <div class="button">
+          <button type="submit" mat-raised-button color="primary">
+            Register
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

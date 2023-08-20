@@ -66,6 +66,18 @@ const User = new Schema({
     },
     branch: {
         type: String
+    },
+    approved: {
+        type: Boolean
+    },
+    profile_picture: {
+        type: String
+    },
+    appointments: {
+        type: Array
+    },
+    bookedAppointments: {
+        type: Array
     }
 });
 exports.default = (0, mongoose_1.model)('Users', User, 'users');

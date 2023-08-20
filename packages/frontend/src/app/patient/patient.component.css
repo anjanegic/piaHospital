@@ -1,0 +1,345 @@
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+}
+
+.itemsInsideDiv {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.example-headers-align {
+  margin-left: 8px;
+}
+
+.align {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.key {
+  margin-left: 7px;
+  margin-right: 0;
+}
+
+.password-change {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 8px;
+}
+
+.error {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: red;
+}
+
+.passwordChanged {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: rgb(54, 165, 32);
+}
+
+.mat-tab-labels {
+  display: flex;
+  justify-content: center; /* Promena ovde */
+}
+
+.mat-tab-label {
+  flex: 1;
+  text-align: center;
+}
+
+.full-width-tabs {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.profile-details {
+  text-align: center;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  width: 400px;
+}
+
+.editFields mat-form-field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.saveCancel {
+  margin-right: 10px;
+  margin: 5px;
+}
+button {
+  margin-top: 10px;
+}
+
+.profile-picture button {
+  position: absolute;
+  bottom: -30px; /* Promenite ovu vrednost prema potrebama */
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile-picture button mat-icon {
+  font-size: 24px;
+}
+
+.profile-picture:hover button {
+  display: block;
+}
+
+.profileImg {
+  width: 170px;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-picture img {
+  display: flex;
+  align-items: center;
+}
+.centralImg {
+  display: flex;
+  justify-content: space-around;
+}
+
+/* DOCTORS */
+:host {
+  /* display: flex; */
+  flex-direction: column;
+  align-items: center;
+  margin: 100px 0px;
+}
+body {
+  background-color: #fdfcf9;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  width: 100%;
+}
+
+.infoAbout {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.info img {
+  max-width: 120px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+mat-card {
+  box-shadow: 0px 0px 10px 0px #9b9b9b, 0 1px 1px 0 #000000, 0 1px 3px 0 #9b9b9b;
+}
+
+.registerLink {
+  display: flex;
+  justify-content: center;
+}
+
+.log-reg {
+  display: flex;
+  justify-content: center;
+  max-width: 450;
+  margin: 0 auto;
+  padding: 12px;
+  /* border: 5px rgb(88,35,117) solid; */
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.main-description {
+  color: rgba(88, 35, 117, 1);
+}
+
+.description {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.carousel-image {
+  object-fit: cover;
+  height: 300px;
+}
+
+.error {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: red;
+}
+
+.registerSuccess {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: rgb(54, 165, 32);
+}
+
+.waitForApproval {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: rgb(216, 151, 9);
+}
+
+/* lekari */
+
+.doctors-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.doctor-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(25% - 20px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  -webkit-box-shadow: -3px 1px 3px 1px rgba(172, 140, 167, 0.75);
+  -moz-box-shadow: -3px 1px 5px 1px rgba(172, 140, 167, 0.75);
+  box-shadow: -3px 1px 5px 1px rgba(172, 140, 167, 0.75);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.doctor-card:hover {
+  box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.2); /* Povećajte veličinu kartice prilikom hover-a */
+  background-color: rgba(90, 56, 103, 0.084); /* Promena boje pozadine */
+}
+
+.doctor-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.doctor-info {
+  text-align: center;
+  margin-left: 20px;
+}
+
+.search-bar {
+  margin-left: 10px;
+  text-align: left;
+  width: 400px;
+}
+
+.searchSort {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.divNasidoktori {
+  background: rgb(88, 35, 117);
+  background: linear-gradient(
+    90deg,
+    rgba(88, 35, 117, 1) 0%,
+    rgba(243, 224, 212, 1) 24%,
+    rgba(243, 224, 212, 1) 100%
+  );
+}
+
+.nasidoktori {
+  margin-left: 20px;
+  color: rgb(250, 248, 245);
+}
+
+.doctor-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.doctor-specialization {
+  font-size: 18px;
+}
+
+.demo-table {
+  width: 100%;
+}
+
+.mat-column-demo-position {
+  width: 32px;
+  border-right: 1px solid currentColor;
+  padding-right: 24px;
+  text-align: center;
+}
+
+.mat-column-demo-name {
+  padding-left: 16px;
+  font-size: 20px;
+}
+
+.mat-column-demo-weight {
+  font-style: italic;
+}
+
+.mat-column-demo-symbol {
+  width: 32px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.error-message {
+  color: white;
+  background-color: red;
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.buttons_book_back{
+  display: flex;
+  justify-content: space-around;
+}

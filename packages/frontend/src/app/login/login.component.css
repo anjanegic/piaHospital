@@ -34,15 +34,26 @@ body {
   display: inline-block;
 }
 
-.log-reg {
-  display: flex;
-  justify-content: space-around;
+mat-card {
+  box-shadow: 0px 0px 10px 0px #9b9b9b,
+      0 1px 1px 0 #000000,
+      0 1px 3px 0 #9b9b9b;
 }
 
-mat-card {
-  max-width: 400px;
-  margin: 0 auto;
+.registerLink{
+  display: flex;
+  justify-content: center;
 }
+
+.log-reg {
+  display: flex;
+  justify-content: center;
+  max-width: 450;
+  margin: 0 auto;
+  padding: 12px;
+  /* border: 5px rgb(88,35,117) solid; */
+}
+
 
 .mat-form-field {
   width: 100%;
@@ -68,3 +79,80 @@ mat-card {
   object-fit: cover;
   height: 300px;
 }
+
+.error {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: red;
+}
+
+.registerSuccess {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: rgb(54, 165, 32);
+}
+
+.waitForApproval {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: rgb(216, 151, 9);
+}
+
+/* app.component.css */
+
+.doctors-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.doctor-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(25% - 20px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  -webkit-box-shadow: -3px 1px 3px 1px rgba(172, 140, 167, 0.75);
+  -moz-box-shadow: -3px 1px 5px 1px rgba(172, 140, 167, 0.75);
+  box-shadow: -3px 1px 5px 1px rgba(172, 140, 167, 0.75);
+}
+
+.doctor-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.doctor-info {
+  text-align: center;
+}
+
+.search-bar {
+  margin-left: 10px;
+  text-align: left;
+  width: 400px;
+}
+
+.searchSort{
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.divNasidoktori{
+  background: rgb(88,35,117);
+  background: linear-gradient(90deg, rgba(88,35,117,1) 0%, rgba(243,224,212,1) 24%, rgba(243,224,212,1) 100%);
+}
+
+.nasidoktori{
+  margin-left: 20px;
+  color: rgb(250, 248, 245);
+}
+

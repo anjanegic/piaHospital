@@ -10,6 +10,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSelectModule} from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatListModule} from '@angular/material/list';
+import {MatTableModule} from '@angular/material/table';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +24,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { PatientComponent } from './patient/patient.component';
 import { DoctorComponent } from './doctor/doctor.component';
+import { RouterModule } from '@angular/router';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +33,7 @@ import { DoctorComponent } from './doctor/doctor.component';
     LoginComponent,
     PatientComponent,
     DoctorComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +48,17 @@ import { DoctorComponent } from './doctor/doctor.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatExpansionModule,
-    CarouselModule
+    CarouselModule,
+    RouterModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatTabsModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatListModule,
+    MatTableModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -5,10 +5,15 @@
       kozmetologiju u Srbiji.
     </h3>
     <p>
-      Ordinaciju Dr Goran je osnovao 2003. godine dr Goran Lakić, specijalista
-      dermatovenerologije, nakon osmogodišnjeg stručnog iskustva stečenog radom
-      na Vojnomedicinskoj akademiji (VMA), KBC Zvezdara i više privatnih
-      ustanova.
+      Dobrodošli u Ordinaciju Dr Goran – osnovanu 2003. godine od strane dr
+      Gorana Lakića, priznatog stručnjaka iz oblasti dermatovenerologije. Sa
+      više od osam godina iskustva u vodećim medicinskim ustanovama kao što su
+      Vojnomedicinska akademija (VMA) i KBC Zvezdara, naša ordinacija
+      predstavlja sigurno mesto za vašu dermatološku negu. Duboko posvećeni
+      pružanju individualnog pristupa svakom pacijentu, naš tim stručnjaka
+      kombinuje najnovije tehnologije sa suptilnošću i empatijom, kako bismo
+      osigurali da se svaka vaša potreba za dermatološkom brigom zadovolji na
+      najvišem nivou.
     </p>
   </div>
 </div>
@@ -29,16 +34,17 @@
     <img class="carousel-image" src="../../assets/carosel4.jpeg" />
   </ng-template>
 </owl-carousel-o>
+
 <div class="log-reg">
   <mat-card class="inline-block">
-    <mat-card-title>Login</mat-card-title>
+    <mat-card-title>Prijava</mat-card-title>
     <mat-card-content>
-      <form [formGroup]="form" (ngSubmit)="submit()">
+      <form [formGroup]="formLogin" (ngSubmit)="submitLogin()">
         <mat-form-field class="example-full-width">
           <input
             type="text"
             matInput
-            placeholder="Username"
+            placeholder="Korisnicko ime"
             formControlName="username"
           />
         </mat-form-field>
@@ -47,217 +53,75 @@
           <input
             type="password"
             matInput
-            placeholder="Password"
+            placeholder="Lozinka"
             formControlName="password"
           />
         </mat-form-field>
 
-        <p *ngIf="error" class="error">
-          {{ error }}
+        <p *ngIf="errorLogin" class="error">
+          {{ errorLogin }}
+        </p>
+
+        <p *ngIf="waitApproval" class="waitForApproval">
+          {{ waitApproval }}
         </p>
 
         <div class="button">
-          <button type="submit" mat-button>Login</button>
+          <button type="submit" mat-raised-button color="primary">Login</button>
         </div>
       </form>
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card class="inline-block">
-    <mat-card-title>Register</mat-card-title>
-    <mat-card-content>
-      <form [formGroup]="form" (ngSubmit)="submit()">
-        <mat-form-field class="example-full-width">
-          <input
-            type="text"
-            matInput
-            placeholder="Username"
-            formControlName="username"
-          />
-        </mat-form-field>
-
-        <mat-form-field class="example-full-width">
-          <input
-            type="password"
-            matInput
-            placeholder="Password"
-            formControlName="password"
-          />
-        </mat-form-field>
-
-        <p *ngIf="error" class="error">
-          {{ error }}
+      <div class="registerLink">
+        <p>
+          Nemate nalog?
+          <a routerLink="/register" color="primary">Registrujte se ovde!</a>
         </p>
-
-        <div class="button">
-          <button type="submit" mat-button>Login</button>
-        </div>
-      </form>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
-<!--
-<div class="profiledeck section" style="width: auto; overflow: visible">
-  <div id="profile-deck_koypla7hvf " class="embedded-anchor"></div>
-  <div class="container">
-    <h2
-      id="ourdoctors_koypla7hvf_"
-      data-nav="Our Doctors"
-      data-nav-show="true"
-      class="scroll-adjust nospy"
-    >
-      Our Doctors
-    </h2>
-    <div
-      class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 body-text"
-    ></div>
-  </div>
-  <div
-    class="row pd-component clearboth medium"
-    id="pd-koypla7hvf"
-    data-page-path="/content/shc/en/medical-clinics/general-dermatology-clinic"
-    data-page-title="General Dermatology Clinic"
-    data-page-header="General Dermatology Clinic"
-    style="z-index: auto"
-  >
-    <div class="tileRow row0-koypla7hvf deckIDkoypla7hvf"></div>
-    <div class="tileRow row1-koypla7hvf deckIDkoypla7hvf">
-      <div
-        id="profile-koypla7hvf-0"
-        class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-6 profile-tile"
-        style="height: 220px; width: 220px"
-      >
-        <span
-          ><div class="tile-image-container">
-            <img
-              class="profile-image lazyloaded"
-              width="220px"
-              height="220px"
-              data-src="/content/dam/SHC/doctors-medicalstaff/p/polrodriguez-marlyanne-md.jpg/jcr:content/renditions/original.transform/220x220-q76/image.jpg"
-              alt="Marlyanne Pol-Rodriguez, MD, FAAD"
-              style="width: 220px; height: 220px"
-              src="/content/dam/SHC/doctors-medicalstaff/p/polrodriguez-marlyanne-md.jpg/jcr:content/renditions/original.transform/220x220-q76/image.jpg"
-            />
-          </div>
-          <div class="tile-detail profile-has-no-image" style="height: 87px">
-            <span class="name">Marlyanne Pol-Rodriguez, MD, FAAD</span
-            ><br /><span class="title">General dermatologist</span>
-          </div></span
-        >
-      </div>
-      <div
-        id="profile-koypla7hvf-1"
-        class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-6 profile-tile"
-        style="height: 220px; width: 220px"
-      >
-        <span
-          ><div class="tile-image-container">
-            <img
-              class="profile-image lazyloaded"
-              width="220px"
-              height="220px"
-              data-src="/content/dam/SHC/doctors-medicalstaff/y/yanikoglu-caely-md.png/jcr:content/renditions/original.transform/220x220-q76/image.jpg"
-              alt="Caely Hambro Yanikoglu, MD"
-              style="width: 220px; height: 220px"
-              src="/content/dam/SHC/doctors-medicalstaff/y/yanikoglu-caely-md.png/jcr:content/renditions/original.transform/220x220-q76/image.jpg"
-            />
-          </div>
-          <div class="tile-detail profile-has-no-image" style="height: 87px">
-            <span class="name">Caely Hambro Yanikoglu, MD</span><br /><span
-              class="title"
-            ></span></div
-        ></span>
-      </div>
-      <div
-        id="profile-koypla7hvf-2"
-        class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-6 profile-tile"
-        style="height: 220px; width: 220px"
-      >
-        <span
-          ><div class="tile-image-container">
-            <div class="no-img-available" alt="Richard Owguan Chen, MD">
-              <svg width="220" height="220">
-                <image
-                  xlink:href="/etc/clientlibs/shc/main/svg/shc-logo-profiledeck.svg"
-                  src="/etc/clientlibs/shc/main/img/shc-logo-profiledeck.jpg"
-                  width="220"
-                  height="220"
-                ></image>
-              </svg>
-            </div>
-          </div>
-          <div class="tile-detail" style="height: 87px">
-            <span class="name">Richard Owguan Chen, MD</span><br /><span
-              class="title"
-              >Dermatologist</span
-            >
-          </div></span
-        >
+<div class="divNasidoktori">
+  <h2 class="nasidoktori">Nasi doktori</h2>
+</div>
+
+<div class="searchSort">
+  <mat-icon>search</mat-icon>
+  <mat-form-field class="search-bar">
+    <input
+      matInput
+      placeholder="Pretraga po imenu, prezimenu ili specijalizaciji"
+      [(ngModel)]="searchText"
+      (ngModelChange)="filterDoctors()"
+      variant="filled"
+    />
+  </mat-form-field>
+  <button mat-button [matMenuTriggerFor]="menu">
+    <mat-icon>sort</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="sortDoctors('first_name')">
+      <!-- <mat-icon>sort_by_alpha</mat-icon> -->Po imenu
+    </button>
+    <button mat-menu-item (click)="sortDoctors('last_name')">
+      <!-- <mat-icon>sort_by_alpha</mat-icon> -->Po prezimenu
+    </button>
+    <button mat-menu-item (click)="sortDoctors('specialization')">
+      <!--<mat-icon>sort</mat-icon> -->
+      Po specijalizaciji
+    </button>
+  </mat-menu>
+</div>
+<div class="doctors-container">
+  <ng-container *ngIf="doctorsToDisplay.length > 0; else noDoctors">
+    <div *ngFor="let doctor of doctorsToDisplay" class="doctor-card">
+      <img [src]="doctor.profile_picture" alt="Profilna slika" />
+      <div class="doctor-info">
+        <p>{{ doctor.first_name }} {{ doctor.last_name }}</p>
+        <p>{{ doctor.specialization }}</p>
       </div>
     </div>
-    <div class="tileRow row2-koypla7hvf deckIDkoypla7hvf">
-      <div
-        id="profile-koypla7hvf-3"
-        class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-6 profile-tile"
-        style="height: 220px; width: 220px"
-      >
-        <span
-          ><div class="tile-image-container">
-            <img
-              class="profile-image lazyloaded"
-              width="220px"
-              height="220px"
-              data-src="/content/dam/SHC/doctors-medicalstaff/c/chang-annelynn-md.jpg/jcr:content/renditions/original.transform/220x220-q76/image.jpg"
-              alt="Anne Lynn S. Chang, MD"
-              style="width: 220px; height: 220px"
-              src="/content/dam/SHC/doctors-medicalstaff/c/chang-annelynn-md.jpg/jcr:content/renditions/original.transform/220x220-q76/image.jpg"
-            />
-          </div>
-          <div class="tile-detail" style="height: 87px">
-            <span class="name">Anne Lynn S. Chang, MD</span><br /><span
-              class="title"
-              >Dermatologist</span
-            >
-          </div></span
-        >
-      </div>
-      <div
-        id="profile-koypla7hvf-4"
-        class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-6 profile-tile"
-        style="height: 220px; width: 220px"
-      >
-        <span
-          ><div class="tile-image-container">
-            <img
-              class="profile-image lazyloaded"
-              width="220px"
-              height="220px"
-              data-src="/content/dam/SHC/doctors-medicalstaff/r/rieger-kerri-md.jpg/jcr:content/renditions/original.transform/220x220-q76/image.jpg"
-              alt="Kerri E. Rieger, MD, PhD"
-              style="width: 220px; height: 220px"
-              src="/content/dam/SHC/doctors-medicalstaff/r/rieger-kerri-md.jpg/jcr:content/renditions/original.transform/220x220-q76/image.jpg"
-            />
-          </div>
-          <div class="tile-detail" style="height: 87px">
-            <span class="name">Kerri E. Rieger, MD, PhD</span><br /><span
-              class="title"
-              >Dermatopathologist</span
-            >
-          </div></span
-        >
-      </div>
-      <div
-        id="summary-tile-koypla7hvf"
-        class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-6 summary-tile"
-        style="height: 220px; width: 220px"
-      >
-        <div class="summary-content card">
-          <div class="overlay"></div>
-          <span class="totalCount koypla7hvf">31</span>
-          <h3>Doctors</h3>
-          <a href="#">View All »</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
+  </ng-container>
+</div>
+
+<ng-template #noDoctors>
+  <p>No doctors to show</p>
+</ng-template>

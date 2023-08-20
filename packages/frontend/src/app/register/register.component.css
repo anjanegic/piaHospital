@@ -1,0 +1,57 @@
+:host {
+  /* display: flex; */
+  flex-direction: column;
+  align-items: center;
+  margin: 100px 0px;
+}
+body {
+  background-color: #fdfcf9;
+}
+
+
+
+.inline-block {
+  display: inline-block;
+}
+
+mat-card {
+  box-shadow: 0px 0px 10px 0px #9b9b9b,
+      0 1px 1px 0 #000000,
+      0 1px 3px 0 #9b9b9b;
+}
+
+
+.log-reg {
+  display: flex;
+  justify-content: center;
+  max-width: 450;
+  margin: 0 auto;
+  padding: 12px;
+}
+
+
+.mat-form-field {
+  width: 100%;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.main-description {
+  color: rgba(88, 35, 117, 1);
+}
+.error {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: red;
+}
+
+.registerSuccess {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: rgb(54, 165, 32);
+}

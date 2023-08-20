@@ -1,3 +1,6 @@
+import { BookedAppointment } from './bookedAppointments';
+import { Appointment } from "./appointment";
+
 export class User{
     first_name: string;
     last_name: string;
@@ -10,4 +13,8 @@ export class User{
     license: number;
     specialization: string;
     branch: string;
+    approved: boolean;
+    profile_picture: string;
+    appointments: Array<Appointment>
+    bookedAppointments: Array<BookedAppointment>
 }

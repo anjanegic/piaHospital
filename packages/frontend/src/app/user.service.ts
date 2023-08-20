@@ -18,4 +18,78 @@ export class UserService {
     }
     return this.http.post(`${this.uri}/login`, data);
   }
+
+  register(username, password, firstname, lastname, email, address, phone, profile_picture){
+    const data = {
+      username: username,
+      password: password,
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      address: address,
+      phone: phone,
+      profile_picture: profile_picture
+    }
+    console.log(data)
+    return this.http.post(`${this.uri}/register`, data);
+  }
+
+  getBooks(user) {
+    const data = {
+      user: user
+    }
+    return this.http.post(`${this.uri}/getBooks`, data);
+  }
+
+
+  getAllDoctors(){
+    return this.http.get(`${this.uri}/getAllDoctors`);
+  }
+
+  changePassword(loggedInUsername, oldPassword, newPassword){
+    const data = {
+      username: loggedInUsername,
+      password: oldPassword,
+      newPassword: newPassword
+    }
+    return this.http.post(`${this.uri}/changePassword`, data);
+  }
+
+  getLoggedInUser(loggedInUsername){
+    const data = {
+      username: loggedInUsername
+    }
+    return this.http.post(`${this.uri}/getLoggedInUser`, data);
+  }
+
+  updateUserProfile(loggedInUsername, updatedProfile){
+
+    const data = {
+      username: loggedInUsername,
+      updatedProfile: updatedProfile
+    }
+    return this.http.post(`${this.uri}/updateUserProfile`, data);
+  }
+
+  findAppointment(doctor, date){
+    console.log(doctor.username)
+    const data = {
+      doctor: doctor.username,
+      date: date
+    }
+    console.log(date)
+    return this.http.post(`${this.uri}/findAppointment`, data);
+  }
+
+  bookAppointment(doctor, patient, date, appointment){
+    console.log(doctor.username)
+    const data = {
+      doctor: doctor.username,
+      patient: patient,
+      date: date,
+      appointment: appointment
+    }
+    console.log(date)
+    return this.http.post(`${this.uri}/bookAppointment`, data);
+  }
 }

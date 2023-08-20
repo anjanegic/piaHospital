@@ -4,13 +4,8 @@
   justify-content: space-between;
   background-color: #fff;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-  background: rgb(243, 224, 212);
-  background: linear-gradient(
-    90deg,
-    rgba(243, 224, 212, 1) 0%,
-    rgba(243, 224, 212, 1) 27%,
-    rgba(88, 35, 117, 1) 100%
-  );
+  background: rgb(243,224,212);
+  background: linear-gradient(90deg, rgba(243,224,212,1) 0%, rgba(243,224,212,1) 39%, rgba(88,35,117,1) 100%);
   background-size: cover;
   display: flex;
   align-items: center;
