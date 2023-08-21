@@ -1,9 +1,11 @@
+import { BookedAppointment } from './../models/bookedAppointments';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
 import { UserService } from '../user.service';
 import { passwordValidator } from '../validators/passwordValidator';
+
 
 @Component({
   selector: 'app-patient',
@@ -34,6 +36,8 @@ export class PatientComponent implements OnInit {
   doctors: User[] = [];
   filteredDoctors: User[] = [];
   doctorsToDisplay: User[] = [];
+
+  upcomingAppointments: BookedAppointment[] = [];
   sortAscending: boolean = true;
   constructor(private servis: UserService ,private router: Router, private formBuilder: FormBuilder ) {
     const today = new Date();
@@ -42,7 +46,6 @@ export class PatientComponent implements OnInit {
 
     this.minDate = today.toISOString().split('T')[0];
     this.maxDate = nextTwoWeeks.toISOString().split('T')[0];
-
   }
 
   ngOnInit() {
@@ -73,11 +76,30 @@ export class PatientComponent implements OnInit {
           phone: [this.loggedInUser.phone, Validators.required]
         });
     });
+
     this.servis.getAllDoctors().subscribe((doctors: User[]) => {
       this.doctors = doctors;
       this.updateDisplayedDoctors();
     });
+
+    this.servis.getBookedAppointments(this.loggedInUsername).subscribe((appoin: BookedAppointment[]) => {
+      console.log(appoin['message'])
+      if(appoin['message'].length>0){
+         this.upcomingAppointments = appoin['message'];
+      }
+
+      for (let d of this.upcomingAppointments){
+        let appointments = [];
+        this.servis.getLoggedInUser(d.doctor).subscribe((user: User) => {
+          appointments.push(user);
+        });
+        this.bookedAppointmentsDoctors = appointments
+      }
+
+    })
   }
+
+  bookedAppointmentsDoctors = [];
   changeThePassword() {
     this.error='';
     this.passwordChanged=''
@@ -144,7 +166,6 @@ export class PatientComponent implements OnInit {
 
   updateDisplayedDoctors() {
     if (this.searchText === '') {
-      console.log(this.doctors[8])
       this.doctorsToDisplay = this.doctors;
     }
   }
@@ -176,13 +197,12 @@ export class PatientComponent implements OnInit {
         doctor.branch.toLowerCase().includes(lowerCaseSearch)
       );
     });
-    this.doctorsToDisplay = this.filteredDoctors; // Ažurirajte doctorsToDisplay
+    this.doctorsToDisplay = this.filteredDoctors;
   }
 
   cancelEditingProfile() {
     this.editingProfile = false;
     this.showEditProfilePictureInput = false;
-    // Resetujte vrednosti editableFields na originalne vrednosti iz loggedInUser
   }
   showEditButton: boolean = false;
 
@@ -214,28 +234,44 @@ export class PatientComponent implements OnInit {
   selectedHour: number;
   hours: number[] = Array.from({ length: 9 }, (_, i) => i + 9); // Sati od 9 do 17
   errorBook: string;
+  successBook: string;
 
   scheduleAppointment() {
     this.errorBook="";
+    this.successBook="";
     let selectedDateTime = null;
     if (this.selectedDate && this.selectedHour !== undefined) {
       const [year, month, day] = this.selectedDate.split('-');
       selectedDateTime = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), this.selectedHour, 0, 0);
 
-      console.log(selectedDateTime);
+
       this.servis.findAppointment(this.selectedDoctor, selectedDateTime).subscribe((respObj)=>{
         if(respObj['message']=='error'){
           this.errorBook="Termin nije slobodan, molimo vas izaberite drugi"
-        }else {
+        }else if(respObj['message']=='free') {
           this.servis.bookAppointment(this.selectedDoctor, this.loggedInUsername, selectedDateTime, this.selectedAppointmentType).subscribe((respObj)=>{
-            if(respObj['message']=='ok'){
-              this.errorBook="Vas termin je zakazan"
+            if(respObj['message']=='Success'){
+              this.successBook="Vas termin je zakazan"
+              this.ngOnInit();
             }
           })
         }
       })
     }
   }
+
+  // getDoctor(a){
+  //   let doctor: User;
+  //   this.servis.getLoggedInUser(a.doctor).subscribe((user: User) => {
+  //     doctor = user;
+  //   });
+  //   return doctor;
+  // }
+
+  cancelAppointment(appointment: any) {
+    // Implement your cancellation logic here
+  }
+
 
   logout(){
     sessionStorage.clear()

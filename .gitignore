@@ -3,3 +3,4 @@
 .nx/cache
 node_modules
 config.env
+packages/backend/dist

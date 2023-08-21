@@ -47,7 +47,7 @@
 
 .mat-tab-labels {
   display: flex;
-  justify-content: center; /* Promena ovde */
+  justify-content: center;
 }
 
 .mat-tab-label {
@@ -95,7 +95,7 @@ button {
 
 .profile-picture button {
   position: absolute;
-  bottom: -30px; /* Promenite ovu vrednost prema potrebama */
+  bottom: -30px;
   left: 50%;
   transform: translateX(-50%);
   display: none;
@@ -133,7 +133,6 @@ button {
   /* display: flex; */
   flex-direction: column;
   align-items: center;
-  margin: 100px 0px;
 }
 body {
   background-color: #fdfcf9;
@@ -180,7 +179,6 @@ mat-card {
   max-width: 450;
   margin: 0 auto;
   padding: 12px;
-  /* border: 5px rgb(88,35,117) solid; */
 }
 
 .mat-form-field {
@@ -286,9 +284,12 @@ mat-card {
   background: linear-gradient(
     90deg,
     rgba(88, 35, 117, 1) 0%,
-    rgba(243, 224, 212, 1) 24%,
-    rgba(243, 224, 212, 1) 100%
+    rgb(255, 255, 255) 24%,
+    rgb(255, 255, 255) 100%
   );
+  height: 50px;
+  display: flex;
+  justify-items: flex-start;
 }
 
 .nasidoktori {
@@ -338,8 +339,46 @@ mat-card {
   border-radius: 5px;
   margin-top: 10px;
 }
+.success-message {
+  color: white;
+  background-color: rgb(1, 160, 67);
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
 
-.buttons_book_back{
+.buttons_book_back {
   display: flex;
   justify-content: space-around;
 }
+
+/* APOINTMENTS */
+
+.appointment-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 10px 0;
+  padding: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.cancel-button {
+  margin-top: 10px;
+  background-color: #ff4d4f;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #ff7875;
+}
+

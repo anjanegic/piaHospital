@@ -13,5 +13,7 @@ userRouter.route('/changePassword').post((req, res) => new user_controller_1.Use
 userRouter.route('/getLoggedInUser').post((req, res) => new user_controller_1.UserController().getLoggedInUser(req, res));
 userRouter.route('/updateUserProfile').post((req, res) => new user_controller_1.UserController().updateUserProfile(req, res));
 userRouter.route('/findAppointment').post((req, res) => new user_controller_1.UserController().findAppointment(req, res));
+userRouter.route('/bookAppointment').post((req, res) => new user_controller_1.UserController().bookAppointment(req, res));
+userRouter.route('/getBookedAppointments').post((req, res) => new user_controller_1.UserController().getBookedAppointments(req, res));
 exports.default = userRouter;
 //# sourceMappingURL=user.routes.js.map

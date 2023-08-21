@@ -144,8 +144,6 @@
         <!-- JEDAN DOKTOR -->
         <div class="doctors-info" *ngIf="selectedDoctor; else doctorList">
           <div class="doctor-card-details">
-
-
             <div class="doctor-info">
               <p class="doctor-name">
                 {{ selectedDoctor.first_name }} {{ selectedDoctor.last_name }}
@@ -155,12 +153,10 @@
                 {{ selectedDoctor.specialization }}
               </p>
               <p>Ogranak: {{ selectedDoctor.branch }}</p>
-
             </div>
             <!-- PREGLEDI KOJE OMOGUCAVA LEKAR -->
             <div class="appointments">
               <table mat-table [dataSource]="selectedDoctor.appointments" class="mat-elevation-z8 demo-table">
-
                 <ng-container matColumnDef="name">
                   <th mat-header-cell *matHeaderCellDef>Pregled</th>
                   <td mat-cell *matCellDef="let appointment">
@@ -169,7 +165,9 @@
                 </ng-container>
 
                 <ng-container matColumnDef="duration">
-                  <th mat-header-cell *matHeaderCellDef>Duzina pregleda (min)</th>
+                  <th mat-header-cell *matHeaderCellDef>
+                    Duzina pregleda (min)
+                  </th>
                   <td mat-cell *matCellDef="let appointment">
                     {{ appointment.duration }}
                   </td>
@@ -201,25 +199,27 @@
 
               <mat-form-field color="accent">
                 <mat-label>Datum pregleda</mat-label>
-                <input type="date" matInput [(ngModel)]="selectedDate" [min]="minDate" [max]="maxDate">
+                <input type="date" matInput [(ngModel)]="selectedDate" [min]="minDate" [max]="maxDate" />
               </mat-form-field>
 
               <mat-form-field color="accent">
                 <mat-label>Vreme pregleda</mat-label>
                 <select matNativeControl [(ngModel)]="selectedHour">
-                  <option *ngFor="let hour of hours" [value]="hour">{{ hour }}:00</option>
+                  <option *ngFor="let hour of hours" [value]="hour">
+                    {{ hour }}:00
+                  </option>
                 </select>
               </mat-form-field>
               <p class="error-message" *ngIf="errorBook">{{ errorBook }}</p>
+              <p class="success-message" *ngIf="successBook">{{ successBook }}</p>
               <div class="buttons_book_back">
+                <button mat-stroked-button color="primary" (click)="clearSelectedDoctor()">
+                  Nazad na sve lekare
+                </button>
                 <button mat-raised-button color="primary" (click)="scheduleAppointment()">
                   Zakazi pregled
                 </button>
-                <button mat-raised-button color="primary" (click)="clearSelectedDoctor()">
-                  Nazad na sve lekare
-                </button>
               </div>
-
             </div>
           </div>
         </div>
@@ -239,10 +239,33 @@
       </div>
 
       <ng-template #noDoctors>
-        <p>No doctors to show</p>
+        <p>Nema doktora</p>
       </ng-template>
     </mat-tab>
-    <mat-tab label="Pregledi">Pregledi</mat-tab>
+    <mat-tab label="Pregledi">
+      <ng-container *ngIf="upcomingAppointments.length > 0; else noUpcomingAppointments">
+      <div *ngFor="let appointment of upcomingAppointments; let i = index" class="appointment-card">
+        <div *ngFor="let a of bookedAppointmentsDoctors; let i = index" class="appointment-card">
+        <div class="appointment-details">
+          <p class="detail-label">Pregled:</p>
+          <p>{{ appointment.appointment.name }}</p>
+          <p class="detail-label">Datum i vreme:</p>
+          <p>{{ appointment.date | date:'dd.MM.yyyy HH:mm' }}h</p>
+
+          <p class="detail-label">Ogranak:</p>
+          <p>{{ a.branch }}</p>
+          <p class="detail-label">Doktor:</p>
+          <p>{{ a.first_name }} {{a.last_name}}</p>
+          <button mat-button class="cancel-button" (click)="cancelAppointment(appointment)">Otkazi pregled</button>
+        </div>
+        </div>
+      </div>
+      </ng-container>
+      <ng-template #noUpcomingAppointments>
+        <p>Nemate zakazanih pregleda</p>
+      </ng-template>
+    </mat-tab>
+
     <mat-tab label="Obavestenja">Obavestenja</mat-tab>
   </mat-tab-group>
 </div>

@@ -2,7 +2,6 @@
 @import "ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.css";
 @import "ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.css";
 
-
 * {
   box-sizing: border-box;
 }
@@ -10,9 +9,9 @@
 /* Disable default margin */
 html,
 body {
+  height: 100%;
   font-family: FontPoppins;
   margin: 0;
-  background-color: #f3e0d4;
   color: #383832;
 }
 .page {
@@ -27,13 +26,4 @@ body {
 @font-face {
   font-family: "FontPoppins";
   src: url("src/assets/Poppins/Poppins-Medium.ttf");
-}
-
-.docsFooter{
-  margin-top: 15px;
-  display: block;
-  padding: 12px;
-  font-size: 12px;
-  background: rgb(243,224,212);
-  background: linear-gradient(90deg, rgba(243,224,212,1) 0%, rgba(243,224,212,1) 39%, rgba(88,35,117,1) 100%);
 }

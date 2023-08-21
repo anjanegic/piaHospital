@@ -31,6 +31,13 @@ userRouter.route('/findAppointment').post(
     (req, res)=>new UserController().findAppointment(req, res)
 )
 
+userRouter.route('/bookAppointment').post(
+    (req, res)=>new UserController().bookAppointment(req, res)
+)
+
+userRouter.route('/getBookedAppointments').post(
+    (req, res)=>new UserController().getBookedAppointments(req, res)
+)
 
 
 export default userRouter;

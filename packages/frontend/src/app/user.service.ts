@@ -1,5 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
+// How to send http params
+    // const params = new HttpParams()
+    // params.set('bla', 'vrednost')
+    // this.http.get('sad', {params})
 
 @Injectable({
   providedIn: 'root'
@@ -72,12 +77,11 @@ export class UserService {
   }
 
   findAppointment(doctor, date){
-    console.log(doctor.username)
+
     const data = {
       doctor: doctor.username,
       date: date
     }
-    console.log(date)
     return this.http.post(`${this.uri}/findAppointment`, data);
   }
 
@@ -89,7 +93,14 @@ export class UserService {
       date: date,
       appointment: appointment
     }
-    console.log(date)
     return this.http.post(`${this.uri}/bookAppointment`, data);
+  }
+
+  getBookedAppointments(user){
+    const data = {
+      user:user
+    }
+    console.log(data)
+    return this.http.post(`${this.uri}/getBookedAppointments`, data);
   }
 }

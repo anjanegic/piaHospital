@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserController = void 0;
 const user_1 = __importDefault(require("../models/user"));
 const jwt = require('jsonwebtoken');
 class UserController {
@@ -45,7 +44,6 @@ class UserController {
                 approved: false,
                 profile_picture: profile_picture
             });
-            //let user = new UserModel(req.body)
             user.save((err, resp) => {
                 if (err) {
                     console.log(err);
@@ -109,7 +107,6 @@ class UserController {
                                 console.log(err);
                             }
                             else {
-                                console.log("passed");
                                 passed = 1;
                             }
                         });
@@ -130,41 +127,75 @@ class UserController {
                 else {
                     if (user.bookedAppointments.length > 0) {
                         for (let b of user.bookedAppointments) {
-                            console.log(b.date);
                             const firstDate = new Date(b.date);
                             const secondDate = new Date(date);
                             console.log(firstDate.getTime(), secondDate.getTime());
                             if (firstDate.getTime() == secondDate.getTime())
-                                res.json({ 'message': 'error' });
+                                return res.json({ 'message': 'error' });
                         }
                     }
+                    return res.json({ 'message': 'free' });
                 }
             });
         };
         this.bookAppointment = (req, res) => {
-            let doctor = req.body.doctor;
-            let patient = req.body.patient;
-            let date = req.body.date;
-            let appointment = req.body.appointment;
-            let bookedAppointment = {
-                "doctor": doctor,
-                "patient": patient,
-                "date": date,
-                "appointment": appointment
-            };
-            console.log(bookedAppointment);
-            user_1.default.findOneAndUpdate({ username: doctor }, { $push: { bookedAppointments: bookedAppointment } }, (err, success) => {
-                console.log(doctor);
-                if (err)
-                    console.log(err);
-                else
-                    res.json({ msg: "Success" });
+            const { doctor, patient, date, appointment } = req.body;
+            let message = 'Success';
+            user_1.default.findOne({ 'username': doctor }, (err, user) => {
+                let appointmentFromUser = {};
+                if (err) {
+                    return res.json({ message: 'error' });
+                }
+                else {
+                    for (const a of user.appointments) {
+                        if (a.name === appointment) {
+                            appointmentFromUser = a;
+                            break;
+                        }
+                    }
+                }
+                let bookedAppointment = {
+                    "doctor": doctor,
+                    "patient": patient,
+                    "date": date,
+                    "appointment": appointmentFromUser
+                };
+                user_1.default.findOneAndUpdate({ username: doctor }, { $push: { bookedAppointments: bookedAppointment } }, (err, success) => {
+                    if (err) {
+                        return res.json({ message: 'error' });
+                    }
+                });
+                user_1.default.findOneAndUpdate({ username: patient }, { $push: { bookedAppointments: bookedAppointment } }, (err, success) => {
+                    if (err) {
+                        console.log(err);
+                        return res.json({ message: 'error' });
+                    }
+                });
             });
-            user_1.default.findOneAndUpdate({ username: patient }, { $push: { bookedAppointments: bookedAppointment } }, (err, success) => {
+            return res.json({ message });
+        };
+        this.getBookedAppointments = (req, res) => {
+            let user = req.body.user;
+            user_1.default.findOne({ 'username': user }, (err, u) => {
+                let bookedAppointments = [];
                 if (err)
                     console.log(err);
-                else
-                    res.json({ msg: "Success" });
+                else if (!u) {
+                    return res.json({ 'message': 'error' });
+                }
+                else {
+                    if (u.bookedAppointments.length > 0) {
+                        for (let b of u.bookedAppointments) {
+                            console.log(b.date);
+                            const firstDate = new Date(b.date);
+                            const secondDate = new Date();
+                            console.log(firstDate.getTime(), secondDate.getTime());
+                            if (firstDate.getTime() > secondDate.getTime())
+                                bookedAppointments.push(b);
+                        }
+                        return res.json({ 'message': bookedAppointments });
+                    }
+                }
             });
         };
     }

@@ -12,9 +12,9 @@ const connection = mongoose_1.default.connection;
 connection.once('open', () => {
     console.log('db connected');
 });
-const app = (0, express_1.default)();
+const app = express_1.default();
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use(cors_1.default());
 app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/users', user_routes_1.default);
 app.listen(4000, () => console.info('Running.'));
