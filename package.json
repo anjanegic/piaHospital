@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run client & npm run server",
+    "install": "npm --prefix packages/backend i  & npm --prefix packages/frontend i",
+    "start": "lerna run start --stream --parallel",
     "server": "npm run --prefix packages/backend start",
     "client": "npm run --prefix packages/frontend start"
   },
