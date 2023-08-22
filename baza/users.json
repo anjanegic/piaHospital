@@ -245,9 +245,9 @@
         "approved": true,
         "profile_picture": "../../assets/doctor6.jpeg",
         "appointments": [
-            { "naziv": "Uklanjanje dlaka laserom", "duration": 30, "price": 2000 },
-            { "naziv": "Uklanjanje tetovaža laserom", "duration": 60, "price": 3500 },
-            { "naziv": "Smanjenje ožiljaka laserom", "duration": 45, "price": 3000 }
+            { "name": "Uklanjanje dlaka laserom", "duration": 30, "price": 2000 },
+            { "name": "Uklanjanje tetovaža laserom", "duration": 60, "price": 3500 },
+            { "name": "Smanjenje ožiljaka laserom", "duration": 45, "price": 3000 }
         ],
         "bookedAppointments": []
     }

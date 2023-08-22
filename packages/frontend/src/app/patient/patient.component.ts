@@ -254,7 +254,14 @@ export class PatientComponent implements OnInit {
           this.servis.bookAppointment(this.selectedDoctor, this.loggedInUsername, selectedDateTime, this.selectedAppointmentType).subscribe((respObj)=>{
             if(respObj['message']=='Success'){
               this.successBook="Vas termin je zakazan"
-              this.ngOnInit();
+              this.servis.getBookedAppointments(this.loggedInUsername).subscribe((appoin: BookedAppointment[]) => {
+                console.log((appoin['message']))
+                if(appoin['message'].length>0){
+                   this.upcomingAppointments = appoin['message'];
+                }else{
+                  this.upcomingAppointments = [];
+                }
+              });
             }
           })
         }
