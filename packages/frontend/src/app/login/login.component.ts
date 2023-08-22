@@ -78,10 +78,12 @@ export class LoginComponent implements OnInit {
             sessionStorage.setItem('username', user.username);
             sessionStorage.setItem('first_name', user.first_name);
             sessionStorage.setItem('last_name', user.last_name);
-            console.log(sessionStorage.getItem('username'))
             // this.authentication(user);
             this.ruter.navigate(['patient']);
           }else{
+            sessionStorage.setItem('username', user.username);
+            sessionStorage.setItem('first_name', user.first_name);
+            sessionStorage.setItem('last_name', user.last_name);
             // this.authentication(user);
             this.ruter.navigate(['doctor']);
           }

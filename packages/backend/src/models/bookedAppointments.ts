@@ -1,4 +1,5 @@
 import Appointment from "./appointment";
+import User from "./user";
 import mongoose, { model } from 'mongoose'
 
 const Schema = mongoose.Schema;
@@ -8,10 +9,10 @@ const BookedAppointment = new Schema({
         type: Appointment
     },
     doctor: {
-        type: String
+        type: User
     },
     patient: {
-        type: String
+        type: User
     },
     date:{
         type: String

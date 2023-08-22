@@ -103,4 +103,12 @@ export class UserService {
     console.log(data)
     return this.http.post(`${this.uri}/getBookedAppointments`, data);
   }
+
+  deleteAppointment(app, username) {
+    const data = {
+      app:app,
+      username: username
+    }
+    return this.http.post(`${this.uri}/deleteAppointment`, data);
+  }
 }

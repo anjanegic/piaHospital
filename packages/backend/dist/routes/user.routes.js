@@ -15,5 +15,6 @@ userRouter.route('/updateUserProfile').post((req, res) => new user_controller_1.
 userRouter.route('/findAppointment').post((req, res) => new user_controller_1.UserController().findAppointment(req, res));
 userRouter.route('/bookAppointment').post((req, res) => new user_controller_1.UserController().bookAppointment(req, res));
 userRouter.route('/getBookedAppointments').post((req, res) => new user_controller_1.UserController().getBookedAppointments(req, res));
+userRouter.route('/deleteAppointment').post((req, res) => new user_controller_1.UserController().deleteAppointment(req, res));
 exports.default = userRouter;
 //# sourceMappingURL=user.routes.js.map

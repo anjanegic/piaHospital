@@ -13,6 +13,7 @@ body {
   font-family: FontPoppins;
   margin: 0;
   color: #383832;
+  background: rgb(249, 240, 240);
 }
 .page {
   margin-left: auto;

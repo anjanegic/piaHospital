@@ -1,1 +1,125 @@
-<p>doctor works!</p>
+<div class="headLogPass">
+<div class="password-change">
+  <mat-accordion class="example-headers-align">
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header class="itemsInsideDiv">
+        <mat-panel-title class="align"> Promeni lozinku </mat-panel-title>
+        <mat-panel-description class="align">
+          Kliknite da promenite
+          <mat-icon class="key"> key </mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <form [formGroup]="passwordForm" (ngSubmit)="changeThePassword()">
+        <div>
+          <mat-form-field>
+            <mat-label>Stara lozinka</mat-label>
+            <input matInput type="password" formControlName="oldPassword" />
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Nova lozinka</mat-label>
+            <input matInput type="password" formControlName="newPassword" />
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Ponovite novu lozinku</mat-label>
+            <input matInput type="password" formControlName="confirmPassword" />
+          </mat-form-field>
+        </div>
+        <mat-action-row>
+          <button mat-button color="primary" type="submit">Promeni</button>
+        </mat-action-row>
+        <p *ngIf="error" class="error">
+          {{ error }}
+        </p>
+        <p *ngIf="passwordChanged" class="passwordChanged">
+          {{ passwordChanged }}
+        </p>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<div class="logout-button">
+  <button mat-raised-button color="primary" (click)="logout()">Izloguj se</button>
+</div>
+
+</div>
+<div class="menu">
+  <mat-tab-group animationDuration="0ms" class="full-width-tabs">
+    <mat-tab label="Profil">
+      <div class="profile">
+        <h2>Vaš Profil</h2>
+        <div class="profile-picture" (mouseover)="showEditButton = true" (mouseout)="showEditButton = false">
+          <div class="centralImg">
+            <img class="profileImg" [src]="loggedInUser.profile_picture" alt="Profilna slika" />
+          </div>
+          <div>
+            <mat-card *ngIf="showEditProfilePictureInput">
+              <mat-card-content>
+                <input type="file" (change)="handleProfilePictureChange($event)" class="file-input" />
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+        <div class="profile-details">
+          <ng-container *ngIf="!editingProfile">
+            <p><strong>Ime:</strong> {{ loggedInUser.first_name }}</p>
+            <p><strong>Prezime:</strong> {{ loggedInUser.last_name }}</p>
+            <p><strong>Adresa:</strong> {{ loggedInUser.address }}</p>
+            <p><strong>E-mail adresa:</strong> {{ loggedInUser.email }}</p>
+            <p><strong>Kontakt telefon:</strong> {{ loggedInUser.phone }}</p>
+            <button mat-raised-button color="primary" (click)="startEditingProfile()">
+              Ažuriraj Profil
+            </button>
+          </ng-container>
+          <ng-container *ngIf="editingProfile">
+            <form [formGroup]="profileForm">
+              <div class="editFields">
+                <mat-form-field>
+                  <mat-label>Ime</mat-label>
+                  <input matInput formControlName="first_name" />
+                </mat-form-field>
+              </div>
+              <div class="editFields">
+                <mat-form-field>
+                  <mat-label>Prezime</mat-label>
+                  <input matInput formControlName="last_name" />
+                </mat-form-field>
+              </div>
+              <div class="editFields">
+                <mat-form-field>
+                  <mat-label>Adresa</mat-label>
+                  <input matInput formControlName="address" />
+                </mat-form-field>
+              </div>
+              <div class="editFields">
+                <mat-form-field>
+                  <mat-label>E-mail adresa</mat-label>
+                  <input matInput formControlName="email" />
+                </mat-form-field>
+              </div>
+              <div class="editFields">
+                <mat-form-field>
+                  <mat-label>Kontakt telefon</mat-label>
+                  <input matInput formControlName="phone" />
+                </mat-form-field>
+              </div>
+              <button class="saveCancel" mat-raised-button color="primary" (click)="saveEditedProfile()">
+                Sačuvaj
+              </button>
+              <button class="saveCancel" mat-raised-button color="warn" (click)="cancelEditingProfile()">
+                Otkaži
+              </button>
+            </form>
+          </ng-container>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Pregledi">
+    </mat-tab>
+
+    <mat-tab label="Razno">Obavestenja</mat-tab>
+  </mat-tab-group>
+</div>

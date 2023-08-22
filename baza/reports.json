@@ -1,0 +1,56 @@
+{
+    
+    "patient": {
+        "username": "pera",
+        "password" : "Pera123!",
+        "first_name" : "Petar",
+        "last_name" : "Peric",
+        "type": "patient",
+        "email": "pera@gmail.com",
+        "address": "Bulevar Nikole Tesle 15",
+        "phone": "0612288927",
+        "profile_picture": "../../assets/profile-icon-person-user-19.png",
+        "approved" : true,
+        "bookedAppointments": [
+            {
+                "date": "2023-08-23T09:00:00.000Z",
+                "appointment": { "name": "Biopsija kože", "duration": 60, "price": 3000 },
+                "doctor": "milos_petrovic",
+                "patient": "pera"
+            },
+            {
+                "date": "2023-08-24T010:00:00.000Z",
+                "appointment": { "name": "Biopsija kože", "duration": 60, "price": 3000 },
+                "doctor": "milos_petrovic",
+                "patient": "maja"
+            }
+        ]
+    
+    },
+    "doctor": {
+        "first_name": "Marko",
+        "last_name": "Nikolić",
+        "username": "marko_nikolic",
+        "password": "Marko123!",
+        "type": "doctor",
+        "email": "marko@example.com",
+        "address": "Kneza Mihaila 10, Beograd",
+        "phone": "065-111-222",
+        "license": 98765,
+        "specialization": "Estetska dermatologija",
+        "branch": "Estetika dermatologije",
+        "approved": true,
+        "profile_picture": "../../assets/doctor4.jpeg",
+        "appointments": [
+            { "name": "Tretman botoksom", "duration": 30, "price": 2000 },
+            { "name": "Punjenje filerima", "duration": 60, "price": 3500 },
+            { "name": "Hemijski piling", "duration": 45, "price": 3000 }
+        ],
+        "bookedAppointments": []
+    },
+    "date": "2023-08-25T09:00:00.000Z",
+    "recommendedNextAppointment": "2023-09-15T10:30:00.000Z",
+    "recommendedTherapy": "Uzimanje propisane terapije svakodnevno u trajanju od 2 nedelje.",
+    "diagnosis": "Pacijentu je dijagnostikovan blaži oblik alergijske reakcije na koži.",
+    "reasonForVisit": "Pacijent se žali na svrab i crvenilo kože."
+  }

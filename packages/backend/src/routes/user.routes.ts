@@ -39,5 +39,7 @@ userRouter.route('/getBookedAppointments').post(
     (req, res)=>new UserController().getBookedAppointments(req, res)
 )
 
-
+userRouter.route('/deleteAppointment').post(
+    (req, res)=>new UserController().deleteAppointment(req, res)
+)
 export default userRouter;

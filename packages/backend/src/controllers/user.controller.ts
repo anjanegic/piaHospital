@@ -1,4 +1,5 @@
 import express from 'express'
+import { json } from 'stream/consumers';
 import User from '../models/user'
 const jwt = require('jsonwebtoken');
 
@@ -154,23 +155,27 @@ export class UserController {
                     }
                 }
             }
-            let bookedAppointment = {
-                "doctor": doctor,
-                "patient": patient,
-                "date": date,
-                "appointment": appointmentFromUser
-            }
-            User.findOneAndUpdate({ username: doctor }, { $push: { bookedAppointments: bookedAppointment } }, (err, success) => {
-                if (err) {
-                    return res.json({ message: 'error' });
+            User.findOne({ 'username': patient }, (err, user2) => {
+                let bookedAppointment = {
+                    "doctor": user,
+                    "patient": user2,
+                    "date": date,
+                    "appointment": appointmentFromUser
                 }
-            });
-            User.findOneAndUpdate({ username: patient }, { $push: { bookedAppointments: bookedAppointment } }, (err, success) => {
-                if (err) {
-                    console.log(err);
-                    return res.json({ message: 'error' });
-                }
-            });
+                User.findOneAndUpdate({ username: doctor }, { $push: { bookedAppointments: bookedAppointment } }, (err, success) => {
+                    if (err) {
+                        return res.json({ message: 'error' });
+                    }
+                });
+                User.findOneAndUpdate({ username: patient }, { $push: { bookedAppointments: bookedAppointment } }, (err, success) => {
+                    if (err) {
+                        console.log(err);
+                        return res.json({ message: 'error' });
+                    }
+                });
+            
+            })
+           
         })
         return res.json({ message });
     }
@@ -187,7 +192,6 @@ export class UserController {
             else {
                 if (u.bookedAppointments.length > 0) {
                     for (let b of u.bookedAppointments) {
-                        console.log(b.date)
                         const firstDate = new Date(b.date);
                         const secondDate = new Date();
                         console.log(firstDate.getTime(), secondDate.getTime());
@@ -200,6 +204,47 @@ export class UserController {
                 }
             }
         })
+    }
+
+    deleteAppointment = (req: express.Request, res: express.Response) => {
+        let app = req.body.app;
+        let username = req.body.username;
+        User.findOne({'username': username }, function (err, user) {
+            if (err){
+                console.log(err)
+            }
+            else{
+                for (let b of user.bookedAppointments) {
+                    const first = new Date(app.date);
+                    const sec = new Date(b.date);
+                    console.log("PRVI "+ first.getTime() + ", DRUGI: "+sec.getTime());
+                    
+                    if (first.getTime() === sec.getTime()) {
+                        const indexToRemove = user.bookedAppointments.findIndex(appointment => first.getTime() === sec.getTime());
+                      
+                        if (indexToRemove !== -1) {
+                          user.bookedAppointments.splice(indexToRemove, 1);
+                          console.log('Element je uspešno uklonjen.');
+                          break;
+                        } else {
+                          console.log('Element nije pronađen u nizu.');
+                        }
+                    }
+
+
+                }
+                User.updateOne({ 'username': username }, { $set:  {"bookedAppointments": user.bookedAppointments}}, (err, resp) => {
+                    if (err) {
+                        console.log(err)
+                    }
+                    else {
+                        console.log("USPEJHHHHH")
+                        return res.json({ message: user.bookedAppointments})
+                    }
+                })
+                
+            }
+        });
     }
 }
 

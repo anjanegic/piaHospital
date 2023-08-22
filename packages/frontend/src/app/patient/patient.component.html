@@ -1,45 +1,52 @@
-<div class="password-change">
-  <mat-accordion class="example-headers-align">
-    <mat-expansion-panel hideToggle>
-      <mat-expansion-panel-header class="itemsInsideDiv">
-        <mat-panel-title class="align"> Promeni lozinku </mat-panel-title>
-        <mat-panel-description class="align">
-          Kliknite da promenite
-          <mat-icon class="key"> key </mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <form [formGroup]="passwordForm" (ngSubmit)="changeThePassword()">
-        <div>
-          <mat-form-field>
-            <mat-label>Stara lozinka</mat-label>
-            <input matInput type="password" formControlName="oldPassword" />
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field>
-            <mat-label>Nova lozinka</mat-label>
-            <input matInput type="password" formControlName="newPassword" />
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field>
-            <mat-label>Ponovite novu lozinku</mat-label>
-            <input matInput type="password" formControlName="confirmPassword" />
-          </mat-form-field>
-        </div>
-        <mat-action-row>
-          <button mat-button color="primary" type="submit">Promeni</button>
-        </mat-action-row>
-        <p *ngIf="error" class="error">
-          {{ error }}
-        </p>
-        <p *ngIf="passwordChanged" class="passwordChanged">
-          {{ passwordChanged }}
-        </p>
-      </form>
-    </mat-expansion-panel>
-  </mat-accordion>
+<div class="headLogPass">
+  <div class="password-change">
+    <mat-accordion class="example-headers-align">
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header class="itemsInsideDiv">
+          <mat-panel-title class="align"> Promeni lozinku </mat-panel-title>
+          <mat-panel-description class="align">
+            Kliknite da promenite
+            <mat-icon class="key"> key </mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form [formGroup]="passwordForm" (ngSubmit)="changeThePassword()">
+          <div>
+            <mat-form-field>
+              <mat-label>Stara lozinka</mat-label>
+              <input matInput type="password" formControlName="oldPassword" />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Nova lozinka</mat-label>
+              <input matInput type="password" formControlName="newPassword" />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Ponovite novu lozinku</mat-label>
+              <input matInput type="password" formControlName="confirmPassword" />
+            </mat-form-field>
+          </div>
+          <mat-action-row>
+            <button mat-button color="primary" type="submit">Promeni</button>
+          </mat-action-row>
+          <p *ngIf="error" class="error">
+            {{ error }}
+          </p>
+          <p *ngIf="passwordChanged" class="passwordChanged">
+            {{ passwordChanged }}
+          </p>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div class="logout-button">
+    <button mat-raised-button color="primary" (click)="logout()">Izloguj se</button>
+  </div>
 </div>
+
+
 <div class="menu">
   <mat-tab-group animationDuration="0ms" class="full-width-tabs">
     <mat-tab label="Profil">
@@ -243,9 +250,10 @@
       </ng-template>
     </mat-tab>
     <mat-tab label="Pregledi">
+      <h3 style="display: flex; justify-content: center;">Budući pregledi</h3>
       <ng-container *ngIf="upcomingAppointments.length > 0; else noUpcomingAppointments">
       <div *ngFor="let appointment of upcomingAppointments; let i = index" class="appointment-card">
-        <div *ngFor="let a of bookedAppointmentsDoctors; let i = index" class="appointment-card">
+
         <div class="appointment-details">
           <p class="detail-label">Pregled:</p>
           <p>{{ appointment.appointment.name }}</p>
@@ -253,17 +261,46 @@
           <p>{{ appointment.date | date:'dd.MM.yyyy HH:mm' }}h</p>
 
           <p class="detail-label">Ogranak:</p>
-          <p>{{ a.branch }}</p>
+          <p>{{ appointment.doctor.branch }}</p>
           <p class="detail-label">Doktor:</p>
-          <p>{{ a.first_name }} {{a.last_name}}</p>
+          <p>{{ appointment.doctor.first_name }} {{appointment.doctor.last_name }}</p>
           <button mat-button class="cancel-button" (click)="cancelAppointment(appointment)">Otkazi pregled</button>
-        </div>
         </div>
       </div>
       </ng-container>
       <ng-template #noUpcomingAppointments>
-        <p>Nemate zakazanih pregleda</p>
+        <p style="margin-left: 8px;">Nemate zakazanih pregleda</p>
       </ng-template>
+
+
+      <ng-container *ngIf="userReports.length > 0; else noUserReports">
+        <h3 style="display: flex; justify-content: center;">Vaši izveštaji</h3>
+        <div *ngFor="let report of userReports; let i = index" class="report-card">
+          <div class="report-details">
+            <p class="detail-label">Datum izveštaja:</p>
+            <p class="report-value">{{ report.date | date:'dd.MM.yyyy HH:mm' }}h</p>
+
+            <p class="detail-label">Doktor:</p>
+            <p class="report-value">{{ report.doctor.first_name }} {{ report.doctor.last_name }}</p>
+
+            <p class="detail-label">Specijalizacija:</p>
+            <p class="report-value">{{ report.doctor.specialization }}</p>
+
+            <p class="detail-label">Preporučena terapija:</p>
+            <p class="report-value">{{ report.recommendedTherapy }}</p>
+
+            <p class="detail-label">Dijagnoza:</p>
+            <p class="report-value">{{ report.diagnosis }}</p>
+
+            <p class="detail-label">Razlog posete:</p>
+            <p class="report-value">{{ report.reasonForVisit }}</p>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noUserReports>
+        <p style="margin-left: 8px">Nemate dostupne izveštaje</p>
+      </ng-template>
+
     </mat-tab>
 
     <mat-tab label="Obavestenja">Obavestenja</mat-tab>

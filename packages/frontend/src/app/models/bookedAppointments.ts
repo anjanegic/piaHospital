@@ -1,8 +1,9 @@
+import { User } from './user';
 import { Appointment } from "./appointment";
 
 export class BookedAppointment{
   appointment: Appointment;
-  doctor: String;
-  patient: String;
+  doctor: User;
+  patient: User;
   date: Date;
 }

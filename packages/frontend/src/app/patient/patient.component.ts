@@ -1,3 +1,5 @@
+import { Report } from './../models/report';
+import { ReportService } from './../report.service';
 import { BookedAppointment } from './../models/bookedAppointments';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -39,13 +41,14 @@ export class PatientComponent implements OnInit {
 
   upcomingAppointments: BookedAppointment[] = [];
   sortAscending: boolean = true;
-  constructor(private servis: UserService ,private router: Router, private formBuilder: FormBuilder ) {
+  constructor(private servis: UserService , private reportsService: ReportService, private router: Router, private formBuilder: FormBuilder ) {
     const today = new Date();
     const nextTwoWeeks = new Date();
     nextTwoWeeks.setDate(today.getDate() + 14);
 
     this.minDate = today.toISOString().split('T')[0];
     this.maxDate = nextTwoWeeks.toISOString().split('T')[0];
+
   }
 
   ngOnInit() {
@@ -83,22 +86,22 @@ export class PatientComponent implements OnInit {
     });
 
     this.servis.getBookedAppointments(this.loggedInUsername).subscribe((appoin: BookedAppointment[]) => {
-      console.log(appoin['message'])
+      console.log(JSON.stringify(appoin['message']))
       if(appoin['message'].length>0){
          this.upcomingAppointments = appoin['message'];
+      }else{
+        this.upcomingAppointments = [];
       }
+      console.log("UPCOMING "+this.upcomingAppointments);
 
-      for (let d of this.upcomingAppointments){
-        let appointments = [];
-        this.servis.getLoggedInUser(d.doctor).subscribe((user: User) => {
-          appointments.push(user);
-        });
-        this.bookedAppointmentsDoctors = appointments
-      }
+    });
 
+    this.reportsService.getUserReports(this.loggedInUsername).subscribe((reports: Report[])=>{
+      this.userReports = reports;
     })
-  }
 
+  }
+  userReports = [];
   bookedAppointmentsDoctors = [];
   changeThePassword() {
     this.error='';
@@ -244,7 +247,6 @@ export class PatientComponent implements OnInit {
       const [year, month, day] = this.selectedDate.split('-');
       selectedDateTime = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), this.selectedHour, 0, 0);
 
-
       this.servis.findAppointment(this.selectedDoctor, selectedDateTime).subscribe((respObj)=>{
         if(respObj['message']=='error'){
           this.errorBook="Termin nije slobodan, molimo vas izaberite drugi"
@@ -260,16 +262,15 @@ export class PatientComponent implements OnInit {
     }
   }
 
-  // getDoctor(a){
-  //   let doctor: User;
-  //   this.servis.getLoggedInUser(a.doctor).subscribe((user: User) => {
-  //     doctor = user;
-  //   });
-  //   return doctor;
-  // }
-
-  cancelAppointment(appointment: any) {
-    // Implement your cancellation logic here
+  cancelAppointment(appointment) {
+    this.servis.deleteAppointment(appointment, this.loggedInUsername).subscribe((respObj: BookedAppointment[])=>{
+      console.log(respObj['message'])
+      if(respObj){
+        this.upcomingAppointments = respObj['message'];
+      } else {
+        console.log("Error");
+      }
+    })
   }
 
 
