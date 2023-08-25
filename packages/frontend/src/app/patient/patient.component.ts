@@ -1,3 +1,4 @@
+import { Appointment } from './../models/appointment';
 import { Report } from './../models/report';
 import { ReportService } from './../report.service';
 import { BookedAppointment } from './../models/bookedAppointments';
@@ -27,7 +28,7 @@ export class PatientComponent implements OnInit {
   editableFields: { label: string; value: string }[] = [];
   editingProfile: boolean = false;
   showEditProfilePictureInput: boolean = false;
-  passwordErrors: {[key: string]: string} = {
+  passwordErrors: { [key: string]: string } = {
     passwordRequirements: "Password must be between 8 and 14 characters, have 1 uppercase character, 1 number, 1 special character and start with a letter!",
     repeatingCharacters: "Password must not contain repeating characters."
   };
@@ -41,7 +42,7 @@ export class PatientComponent implements OnInit {
 
   upcomingAppointments: BookedAppointment[] = [];
   sortAscending: boolean = true;
-  constructor(private servis: UserService , private reportsService: ReportService, private router: Router, private formBuilder: FormBuilder ) {
+  constructor(private servis: UserService, private reportsService: ReportService, private router: Router, private formBuilder: FormBuilder) {
     const today = new Date();
     const nextTwoWeeks = new Date();
     nextTwoWeeks.setDate(today.getDate() + 14);
@@ -52,67 +53,65 @@ export class PatientComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("Ulogovan: ", sessionStorage.getItem('username'))
-    this.loggedInUsername = sessionStorage.getItem('username')
-    this.loggedInFirstname = sessionStorage.getItem('first_name')
-    this.loggedInLastname = sessionStorage.getItem('last_name')
+    console.log('Ulogovan: ', sessionStorage.getItem('username'));
+    this.loggedInUsername = sessionStorage.getItem('username');
+    this.loggedInFirstname = sessionStorage.getItem('first_name');
+    this.loggedInLastname = sessionStorage.getItem('last_name');
     this.passwordForm = this.formBuilder.group({
       oldPassword: ['', Validators.required],
       newPassword: ['', [Validators.required, passwordValidator()]],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
     });
 
-    this.servis.getLoggedInUser(this.loggedInUsername).subscribe((user: User) => {
-      this.loggedInUser = user;
-      this.editableFields = [
-        { label: 'Ime', value: this.loggedInUser.first_name },
-        { label: 'Prezime', value: this.loggedInUser.last_name },
-        { label: 'Adresa', value: this.loggedInUser.address },
-        { label: 'E-mail adresa', value: this.loggedInUser.email },
-        { label: 'Kontakt telefon', value: this.loggedInUser.phone }
+    this.servis
+      .getLoggedInUser(this.loggedInUsername)
+      .subscribe((user: User) => {
+        this.loggedInUser = user;
+        this.editableFields = [
+          { label: 'Ime', value: this.loggedInUser.first_name },
+          { label: 'Prezime', value: this.loggedInUser.last_name },
+          { label: 'Adresa', value: this.loggedInUser.address },
+          { label: 'E-mail adresa', value: this.loggedInUser.email },
+          { label: 'Kontakt telefon', value: this.loggedInUser.phone },
         ];
         this.profileForm = this.formBuilder.group({
           first_name: [this.loggedInUser.first_name, Validators.required],
           last_name: [this.loggedInUser.last_name, Validators.required],
           address: [this.loggedInUser.address, Validators.required],
-          email: [this.loggedInUser.email, [Validators.required, Validators.email]],
-          phone: [this.loggedInUser.phone, Validators.required]
+          email: [
+            this.loggedInUser.email,
+            [Validators.required, Validators.email],
+          ],
+          phone: [this.loggedInUser.phone, Validators.required],
         });
-    });
+      });
 
     this.servis.getAllDoctors().subscribe((doctors: User[]) => {
       this.doctors = doctors;
       this.updateDisplayedDoctors();
     });
 
-    this.servis.getBookedAppointments(this.loggedInUsername).subscribe((appoin: BookedAppointment[]) => {
-      console.log(JSON.stringify(appoin['message']))
-      if(appoin['message'].length>0){
-         this.upcomingAppointments = appoin['message'];
-      }else{
-        this.upcomingAppointments = [];
-      }
-      console.log("UPCOMING "+this.upcomingAppointments);
+    this.refreshUpcomingAppointments();
 
-    });
-
-    this.reportsService.getUserReports(this.loggedInUsername).subscribe((reports: Report[])=>{
-      this.userReports = reports;
-    })
+    this.reportsService
+      .getUserReports(this.loggedInUsername)
+      .subscribe((reports: Report[]) => {
+        this.userReports = reports;
+      });
 
   }
   userReports = [];
   bookedAppointmentsDoctors = [];
   changeThePassword() {
-    this.error='';
-    this.passwordChanged=''
+    this.error = '';
+    this.passwordChanged = ''
     if (this.passwordForm.valid) {
       const oldPassword = this.passwordForm.get('oldPassword').value;
       const newPassword = this.passwordForm.get('newPassword').value;
       const confirmPassword = this.passwordForm.get('confirmPassword').value;
       if (newPassword === confirmPassword) {
-        this.servis.changePassword(this.loggedInUsername, oldPassword, newPassword).subscribe((respObj)=>{
-          if(respObj['message']=='ok'){
+        this.servis.changePassword(this.loggedInUsername, oldPassword, newPassword).subscribe((respObj) => {
+          if (respObj['message'] == 'ok') {
             this.passwordChanged = 'Lozinka je promenjena';
           }
           else {
@@ -122,9 +121,9 @@ export class PatientComponent implements OnInit {
       } else {
         this.error = "Lozinke se ne podudaraju"
       }
-    } else{
+    } else {
       const passwordControl = this.passwordForm.get('newPassword');
-        if (passwordControl?.hasError('passwordRequirements')) {
+      if (passwordControl?.hasError('passwordRequirements')) {
         this.error = this.passwordErrors['passwordRequirements'];
       } else if (passwordControl?.hasError('repeatingCharacters')) {
         this.error = this.passwordErrors['repeatingCharacters'];
@@ -151,15 +150,15 @@ export class PatientComponent implements OnInit {
       console.log(Object.keys(updatedProfile));
       console.log(this.profileForm.controls)
       if (Object.keys(updatedProfile).length > 0) {
-        this.servis.updateUserProfile(this.loggedInUsername, updatedProfile).subscribe((respObj)=>{
+        this.servis.updateUserProfile(this.loggedInUsername, updatedProfile).subscribe((respObj) => {
           if (respObj['message'] == 'ok') {
             for (const key in updatedProfile) {
               if (updatedProfile.hasOwnProperty(key)) {
                 this.loggedInUser[key] = updatedProfile[key];
               }
             }
-              this.editingProfile = false;
-              this.showEditProfilePictureInput = false;
+            this.editingProfile = false;
+            this.showEditProfilePictureInput = false;
           } else {
           }
         });
@@ -221,10 +220,14 @@ export class PatientComponent implements OnInit {
   }
 
   selectedDoctor: User;
+  doctorsAppointments: Appointment[];
 
-  selectDoctor(doctor){
+  selectDoctor(doctor) {
     this.servis.getLoggedInUser(doctor).subscribe((user: User) => {
       this.selectedDoctor = user;
+      this.servis.getChosenAppointments(doctor).subscribe((app: Appointment[]) => {
+        this.doctorsAppointments = app;
+      });
     });
   }
 
@@ -240,39 +243,50 @@ export class PatientComponent implements OnInit {
   successBook: string;
 
   scheduleAppointment() {
-    this.errorBook="";
-    this.successBook="";
+    this.errorBook = '';
+    this.successBook = '';
     let selectedDateTime = null;
     if (this.selectedDate && this.selectedHour !== undefined) {
       const [year, month, day] = this.selectedDate.split('-');
-      selectedDateTime = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), this.selectedHour, 0, 0);
+      selectedDateTime = new Date(
+        parseInt(year),
+        parseInt(month) - 1,
+        parseInt(day),
+        this.selectedHour,
+        0,
+        0
+      );
 
-      this.servis.findAppointment(this.selectedDoctor, selectedDateTime).subscribe((respObj)=>{
-        if(respObj['message']=='error'){
-          this.errorBook="Termin nije slobodan, molimo vas izaberite drugi"
-        }else if(respObj['message']=='free') {
-          this.servis.bookAppointment(this.selectedDoctor, this.loggedInUsername, selectedDateTime, this.selectedAppointmentType).subscribe((respObj)=>{
-            if(respObj['message']=='Success'){
-              this.successBook="Vas termin je zakazan"
-              this.servis.getBookedAppointments(this.loggedInUsername).subscribe((appoin: BookedAppointment[]) => {
-                console.log((appoin['message']))
-                if(appoin['message'].length>0){
-                   this.upcomingAppointments = appoin['message'];
-                }else{
-                  this.upcomingAppointments = [];
+      this.servis
+        .findAppointment(this.selectedDoctor, selectedDateTime)
+        .subscribe((respObj) => {
+          if (respObj['message'] == 'error') {
+            this.errorBook = 'Termin nije slobodan, molimo vas izaberite drugi';
+          } else if (respObj['message'] == 'free') {
+            this.servis
+              .bookAppointment(
+                this.selectedDoctor,
+                this.loggedInUsername,
+                selectedDateTime,
+                this.selectedAppointmentType
+              )
+              .subscribe((respObj) => {
+                console.log(respObj);
+
+                if (respObj['message'] == 'Success') {
+                  this.successBook = 'Vas termin je zakazan';
+                  this.refreshUpcomingAppointments();
                 }
               });
-            }
-          })
-        }
-      })
+          }
+        });
     }
   }
 
   cancelAppointment(appointment) {
-    this.servis.deleteAppointment(appointment, this.loggedInUsername).subscribe((respObj: BookedAppointment[])=>{
+    this.servis.deleteAppointment(appointment, this.loggedInUsername).subscribe((respObj: BookedAppointment[]) => {
       console.log(respObj['message'])
-      if(respObj){
+      if (respObj) {
         this.upcomingAppointments = respObj['message'];
       } else {
         console.log("Error");
@@ -280,8 +294,21 @@ export class PatientComponent implements OnInit {
     })
   }
 
+  refreshUpcomingAppointments() {
+    this.servis
+      .getBookedAppointments(this.loggedInUsername)
+      .subscribe((appoin: BookedAppointment[]) => {
+        console.log(JSON.stringify(appoin['message']));
+        if (appoin['message'].length > 0) {
+          this.upcomingAppointments = appoin['message'];
+        } else {
+          this.upcomingAppointments = [];
+        }
+        console.log('UPCOMING ' + this.upcomingAppointments);
+      });
+  }
 
-  logout(){
+  logout() {
     sessionStorage.clear()
     this.router.navigate([''])
   }

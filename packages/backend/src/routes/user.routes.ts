@@ -42,4 +42,18 @@ userRouter.route('/getBookedAppointments').post(
 userRouter.route('/deleteAppointment').post(
     (req, res)=>new UserController().deleteAppointment(req, res)
 )
+
+userRouter.route('/getChosenAppointments').post(
+    (req, res)=>new UserController().getChosenAppointments(req, res)
+)
+
+userRouter.route('/saveCheckedAppointments').post(
+    (req, res)=>new UserController().saveCheckedAppointments(req, res)
+)
+
+userRouter.route('/createAppointment').post(
+    (req, res)=>new UserController().createAppointment(req, res)
+)
+
+
 export default userRouter;

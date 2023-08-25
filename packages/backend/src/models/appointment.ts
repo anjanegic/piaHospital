@@ -11,6 +11,9 @@ const Appointment = new Schema({
     },
     price: {
         type: Number
+    },
+    chose: {
+        type: Boolean
     }
 
 });

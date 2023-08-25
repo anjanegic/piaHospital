@@ -11,18 +11,7 @@
         "profile_picture": "../../assets/profile-icon-person-user-19.png",
         "approved" : true,
         "bookedAppointments": [
-            {
-                "date": "2023-08-23T09:00:00.000Z",
-                "appointment": { "name": "Biopsija kože", "duration": 60, "price": 3000 },
-                "doctor": "milos_petrovic",
-                "patient": "pera"
-            },
-            {
-                "date": "2023-08-24T010:00:00.000Z",
-                "appointment": { "name": "Biopsija kože", "duration": 60, "price": 3000 },
-                "doctor": "milos_petrovic",
-                "patient": "maja"
-            }
+            
         ]
     },
     {
@@ -79,29 +68,12 @@
         "approved": true,
         "profile_picture": "../../assets/doctor1.jpeg",
         "appointments": [
-            { "name": "Biopsija kože", "duration": 60, "price": 3000 },
-            { "name": "Uklanjanje mladeža", "duration": 45, "price": 2500 },
-            { "name": "Revizija ožiljaka", "duration": 90, "price": 4500 }
+            { "name": "Biopsija kože", "duration": 60, "price": 3000, "chosen": false, "approved": true  },
+            { "name": "Uklanjanje mladeža", "duration": 45, "price": 2500, "chosen": false, "approved": true   },
+            { "name": "Revizija ožiljaka", "duration": 90, "price": 4500, "chosen": false, "approved": true   }
         ],
         "bookedAppointments": [
-            {
-                "date": "2023-08-20T09:00:00.000Z",
-                "appointment": { "name": "Biopsija kože", "duration": 60, "price": 3000 },
-                "doctor": "milos_petrovic",
-                "patient": "pera"
-            },
-            {
-                "date": "2023-08-23T09:00:00.000Z",
-                "appointment": { "name": "Biopsija kože", "duration": 60, "price": 3000 },
-                "doctor": "milos_petrovic",
-                "patient": "pera"
-            },
-            {
-                "date": "2023-08-24T09:00:00.000Z",
-                "appointment": { "name": "Biopsija kože", "duration": 60, "price": 3000 },
-                "doctor": "milos_petrovic",
-                "patient": "pera"
-            }
+            
         ]
     },
     {
@@ -119,9 +91,9 @@
         "approved": true,
         "profile_picture": "../../assets/doctor8.jpeg",
         "appointments": [
-            { "name": "Konsultacija za dečiji ekcem", "duration": 30, "price": 1500 },
-            { "name": "Testiranje alergije na koži kod dece", "duration": 75, "price": 4000 },
-            { "name": "Procena začetka akni kod beba", "duration": 45, "price": 2500 }
+            { "name": "Konsultacija za dečiji ekcem", "duration": 30, "price": 1500, "chosen": false, "approved": true   },
+            { "name": "Testiranje alergije na koži kod dece", "duration": 75, "price": 4000, "chosen": false, "approved": true   },
+            { "name": "Procena začetka akni kod beba", "duration": 45, "price": 2500, "chosen": false, "approved": true   }
         ],
         "bookedAppointments": []
       },
@@ -140,9 +112,9 @@
         "approved": true,
         "profile_picture": "../../assets/doctor4.jpeg",
         "appointments": [
-            { "name": "Tretman botoksom", "duration": 30, "price": 2000 },
-            { "name": "Punjenje filerima", "duration": 60, "price": 3500 },
-            { "name": "Hemijski piling", "duration": 45, "price": 3000 }
+            { "name": "Tretman botoksom", "duration": 30, "price": 2000, "chosen": false, "approved": true   },
+            { "name": "Punjenje filerima", "duration": 60, "price": 3500, "chosen": false, "approved": true   },
+            { "name": "Hemijski piling", "duration": 45, "price": 3000, "chosen": false, "approved": true   }
         ],
         "bookedAppointments": []
     },
@@ -161,9 +133,9 @@
         "approved": true,
         "profile_picture": "../../assets/doctor3.jpeg",
         "appointments": [
-            { "name": "Analiza lezija na koži", "duration": 45, "price": 2500 },
-            { "name": "Tumačenje biopsije", "duration": 60, "price": 3000 },
-            { "name": "Konsultacija za histopatologiju", "duration": 90, "price": 4000 }    
+            { "name": "Analiza lezija na koži", "duration": 45, "price": 2500, "chosen": false, "approved": true   },
+            { "name": "Tumačenje biopsije", "duration": 60, "price": 3000, "chosen": false, "approved": true   },
+            { "name": "Konsultacija za histopatologiju", "duration": 90, "price": 4000, "chosen": false, "approved": true   }    
         ],
         "bookedAppointments": []
     },
@@ -182,9 +154,9 @@
         "approved": true,
         "profile_picture": "../../assets/doctor2.jpeg",
         "appointments": [
-            { "name": "Testiranje alergije flasterima", "duration": 60, "price": 3500 },
-            { "name": "Testiranje alergije ubodom kože", "duration": 30, "price": 2000 },
-            { "name": "Konsultacija za atopijski dermatitis", "duration": 45, "price": 2500 }
+            { "name": "Testiranje alergije flasterima", "duration": 60, "price": 3500, "chosen": false, "approved": true   },
+            { "name": "Testiranje alergije ubodom kože", "duration": 30, "price": 2000, "chosen": false, "approved": true   },
+            { "name": "Konsultacija za atopijski dermatitis", "duration": 45, "price": 2500, "chosen": false, "approved": true   }
         ],
         "bookedAppointments": []
     },
@@ -203,9 +175,9 @@
         "approved": true,
         "profile_picture": "../../assets/doctor5.webp",
         "appointments": [
-            { "name": "Imunosupresivna terapija", "duration": 60, "price": 3000 },
-            { "name": "Konsultacija za autoimune poremećaje kože", "duration": 45, "price": 2500 },
-            { "name": "Procena imunodeficijencije", "duration": 90, "price": 4500 }
+            { "name": "Imunosupresivna terapija", "duration": 60, "price": 3000, "chosen": false, "approved": true   },
+            { "name": "Konsultacija za autoimune poremećaje kože", "duration": 45, "price": 2500, "chosen": false, "approved": true   },
+            { "name": "Procena imunodeficijencije", "duration": 90, "price": 4500, "chosen": false, "approved": true   }
         ],
         "bookedAppointments": []
     },
@@ -224,9 +196,9 @@
         "approved": true,
         "profile_picture": "../../assets/doctor7.jpeg",
         "appointments": [
-            { "name": "Pregled raka kože", "duration": 45, "price": 3000 },
-            { "name": "Dijagnoza melanoma", "duration": 60, "price": 3500 },
-            { "name": "Konsultacija za hemoterapiju", "duration": 90, "price": 4500 }
+            { "name": "Pregled raka kože", "duration": 45, "price": 3000, "chosen": false, "approved": true   },
+            { "name": "Dijagnoza melanoma", "duration": 60, "price": 3500, "chosen": false, "approved": true   },
+            { "name": "Konsultacija za hemoterapiju", "duration": 90, "price": 4500, "chosen": false, "approved": true   }
         ],
         "bookedAppointments": []
     },
@@ -245,9 +217,9 @@
         "approved": true,
         "profile_picture": "../../assets/doctor6.jpeg",
         "appointments": [
-            { "name": "Uklanjanje dlaka laserom", "duration": 30, "price": 2000 },
-            { "name": "Uklanjanje tetovaža laserom", "duration": 60, "price": 3500 },
-            { "name": "Smanjenje ožiljaka laserom", "duration": 45, "price": 3000 }
+            { "name": "Uklanjanje dlaka laserom", "duration": 30, "price": 2000, "chosen": false, "approved": true  },
+            { "name": "Uklanjanje tetovaža laserom", "duration": 60, "price": 3500, "chosen": false, "approved": true },
+            { "name": "Smanjenje ožiljaka laserom", "duration": 45, "price": 3000,"chosen": false, "approved": true  }
         ],
         "bookedAppointments": []
     }

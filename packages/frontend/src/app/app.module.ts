@@ -17,6 +17,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatListModule} from '@angular/material/list';
 import {MatTableModule} from '@angular/material/table';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -57,8 +58,8 @@ import { RegisterComponent } from './register/register.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatListModule,
-    MatTableModule
-
+    MatTableModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

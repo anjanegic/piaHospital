@@ -40,7 +40,9 @@ export class UserController {
             phone: req.body.phone,
             type: "patient",
             approved: false,
-            profile_picture: profile_picture
+            profile_picture: profile_picture,
+            appointments: [],
+            bookedAppointments:[]
         })
 
         user.save((err, resp) => {
@@ -49,6 +51,15 @@ export class UserController {
                 res.status(400).json({ "message": "error" })
             }
             else res.json({ "message": "ok" })
+        })
+    }
+
+    saveCheckedAppointments = (req: express.Request, res: express.Response) => {
+        let savedApp = req.body.appointments;
+        let username = req.body.user;
+        User.updateOne({ 'username': username }, { $set: { 'appointments': savedApp } }, (err, resp) => {
+            if (err) console.log(err)
+            else res.json({ 'message': 'ok' })
         })
     }
 
@@ -180,7 +191,7 @@ export class UserController {
         return res.json({ message });
     }
 
-    getBookedAppointments= (req: express.Request, res: express.Response) => {
+    getBookedAppointments = (req: express.Request, res: express.Response) => {
         let user = req.body.user;
         User.findOne({ 'username': user }, (err, u) => {
             let bookedAppointments = [];
@@ -197,13 +208,30 @@ export class UserController {
                         console.log(firstDate.getTime(), secondDate.getTime());
                         if (firstDate.getTime() > secondDate.getTime())
                             bookedAppointments.push(b)
-                        
-                         
                     }
                     return res.json({ 'message': bookedAppointments })
                 }
             }
         })
+    }
+
+    getChosenAppointments = (req: express.Request, res: express.Response) => {
+        let user = req.body.user;
+        console.log(user);
+        
+        User.findOne({'username': user },(err, userD)=>{
+            if (err) console.log(err)
+            else {
+                let chosenApp = [];
+                for(let i of userD.appointments){
+                    if (i.chosen){
+                        chosenApp.push(i)
+                    }
+                }
+                res.json(chosenApp);
+            }
+        })
+        
     }
 
     deleteAppointment = (req: express.Request, res: express.Response) => {
@@ -246,16 +274,17 @@ export class UserController {
             }
         });
     }
+
+    createAppointment= (req: express.Request, res: express.Response) => {
+        let user = req.body.user;
+        let appointment = req.body.appointment;
+
+        User.findOneAndUpdate({ username: user.username }, { $push: { appointments: appointment } }, (err, success) => {
+            if (err) {
+                return res.json({ message: 'error' });
+            } else{
+                return res.json({ message: 'success' });
+            }
+        });
+    }
 }
-
-// function generateJWT(userId) {
-//     const privateKey = 'YOUR_RSA_PRIVATE_KEY'; // Treba da postavite vaš privatni ključ ovde
-
-//     const jwtToken = jwt.sign({}, privateKey, {
-//         algorithm: 'RS256',
-//         expiresIn: '1h', 
-//         subject: userId,
-//     });
-
-//     return jwtToken;
-// }

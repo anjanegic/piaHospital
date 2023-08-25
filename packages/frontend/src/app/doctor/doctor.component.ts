@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Appointment } from '../models/appointment';
+import { BookedAppointment } from '../models/bookedAppointments';
+import { Report } from '../models/report';
 import { User } from '../models/user';
 import { ReportService } from '../report.service';
 import { UserService } from '../user.service';
@@ -41,19 +44,28 @@ export class DoctorComponent implements OnInit {
         { label: 'Prezime', value: this.loggedInUser.last_name },
         { label: 'Adresa', value: this.loggedInUser.address },
         { label: 'E-mail adresa', value: this.loggedInUser.email },
-        { label: 'Kontakt telefon', value: this.loggedInUser.phone }
+        { label: 'Kontakt telefon', value: this.loggedInUser.phone },
+        { label: 'Specijalizacija', value: this.loggedInUser.specialization },
+        { label: 'Ogranak', value: this.loggedInUser.branch }
         ];
         this.profileForm = this.formBuilder.group({
           first_name: [this.loggedInUser.first_name, Validators.required],
           last_name: [this.loggedInUser.last_name, Validators.required],
           address: [this.loggedInUser.address, Validators.required],
           email: [this.loggedInUser.email, [Validators.required, Validators.email]],
-          phone: [this.loggedInUser.phone, Validators.required]
+          phone: [this.loggedInUser.phone, Validators.required],
+          specialization: [this.loggedInUser.specialization, Validators.required],
+          branch: [this.loggedInUser.branch, Validators.required]
         });
+        this.refreshCheckedAppointments();
+
+
+
     });
+    this.refreshUpcomingAppointments();
 
   }
-
+  appointmentsToCheck: any[] = [];
   profileForm: FormGroup;
   passwordForm: FormGroup;
   error: string = "";
@@ -152,6 +164,99 @@ export class DoctorComponent implements OnInit {
       // Implementirajte logiku za promenu profilne slike
     }
     this.showEditProfilePictureInput = false;
+  }
+
+  saveChosenExaminations(){
+    console.log(this.appointmentsToCheck);
+    this.servis.saveCheckedAppointments(this.loggedInUsername, this.appointmentsToCheck).subscribe((respObj)=>{
+      if (respObj['message'] == 'ok') {
+
+      }
+    });
+  }
+
+  changeSelection() {
+    this.fetchSelectedItems()
+  }
+  checkboxesDataList: Appointment[] = []
+  fetchSelectedItems() {
+    this.checkboxesDataList = this.appointmentsToCheck.filter((value, index) => {
+      return value.isChecked
+    });
+  }
+
+  upcomingAppointments: BookedAppointment[] = [];
+
+  refreshUpcomingAppointments() {
+    this.servis
+      .getBookedAppointments(this.loggedInUsername)
+      .subscribe((appoin: BookedAppointment[]) => {
+
+        if (appoin['message'].length > 0) {
+          const n = 3;
+          this.upcomingAppointments = appoin['message'].slice(0,n);
+        } else {
+          this.upcomingAppointments = [];
+        }
+
+      });
+  }
+
+  selectedAppointment: BookedAppointment;
+  userReports: Report[];
+  openPatientRecord(appointment: BookedAppointment): void {
+    this.selectedAppointment = appointment;
+
+    this.reportsService
+      .getUserReports(this.selectedAppointment.patient.username)
+      .subscribe((reports: Report[]) => {
+        this.userReports = reports;
+        console.log(this.userReports);
+
+      });
+
+  }
+  noSelectedAppointments(){
+    this.selectedAppointment = null;
+  }
+
+  newAppointment: Appointment = {
+    name: '',
+    duration: 0,
+    price: 0,
+    chosen: false,
+    approved: false
+  };
+
+  appointmentSuccess: string= "";
+
+  onSubmit() {
+    this.appointmentSuccess = "";
+    console.log(this.newAppointment);
+
+    this.servis.createAppointment(this.loggedInUser, this.newAppointment).subscribe((respObj)=>{
+      console.log(respObj);
+
+      if(respObj['message']=='success'){
+        this.appointmentSuccess = 'Vas pregled je sacuvan';
+        this.refreshCheckedAppointments();
+      }
+    })
+
+    this.newAppointment = {
+      name: '',
+      duration: 0,
+      price: 0,
+      chosen: false,
+      approved: false
+    };
+  }
+
+  refreshCheckedAppointments(){
+    for(let a of this.loggedInUser.appointments){
+      if (a.approved)
+        this.appointmentsToCheck.push(a);
+    }
   }
 
   logout(){

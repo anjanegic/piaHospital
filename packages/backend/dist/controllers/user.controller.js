@@ -42,7 +42,9 @@ class UserController {
                 phone: req.body.phone,
                 type: "patient",
                 approved: false,
-                profile_picture: profile_picture
+                profile_picture: profile_picture,
+                appointments: [],
+                bookedAppointments: []
             });
             user.save((err, resp) => {
                 if (err) {
@@ -51,6 +53,16 @@ class UserController {
                 }
                 else
                     res.json({ "message": "ok" });
+            });
+        };
+        this.saveCheckedAppointments = (req, res) => {
+            let savedApp = req.body.appointments;
+            let username = req.body.user;
+            user_1.default.updateOne({ 'username': username }, { $set: { 'appointments': savedApp } }, (err, resp) => {
+                if (err)
+                    console.log(err);
+                else
+                    res.json({ 'message': 'ok' });
             });
         };
         this.getAllDoctors = (req, res) => {
@@ -199,6 +211,23 @@ class UserController {
                 }
             });
         };
+        this.getChosenAppointments = (req, res) => {
+            let user = req.body.user;
+            console.log(user);
+            user_1.default.findOne({ 'username': user }, (err, userD) => {
+                if (err)
+                    console.log(err);
+                else {
+                    let chosenApp = [];
+                    for (let i of userD.appointments) {
+                        if (i.chosen) {
+                            chosenApp.push(i);
+                        }
+                    }
+                    res.json(chosenApp);
+                }
+            });
+        };
         this.deleteAppointment = (req, res) => {
             let app = req.body.app;
             let username = req.body.username;
@@ -235,16 +264,19 @@ class UserController {
                 }
             });
         };
+        this.createAppointment = (req, res) => {
+            let user = req.body.user;
+            let appointment = req.body.appointment;
+            user_1.default.findOneAndUpdate({ username: user.username }, { $push: { appointments: appointment } }, (err, success) => {
+                if (err) {
+                    return res.json({ message: 'error' });
+                }
+                else {
+                    return res.json({ message: 'success' });
+                }
+            });
+        };
     }
 }
 exports.UserController = UserController;
-// function generateJWT(userId) {
-//     const privateKey = 'YOUR_RSA_PRIVATE_KEY'; // Treba da postavite vaš privatni ključ ovde
-//     const jwtToken = jwt.sign({}, privateKey, {
-//         algorithm: 'RS256',
-//         expiresIn: '1h', 
-//         subject: userId,
-//     });
-//     return jwtToken;
-// }
 //# sourceMappingURL=user.controller.js.map

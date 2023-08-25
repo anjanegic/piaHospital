@@ -1,4 +1,4 @@
-.headLogPass{
+.headLogPass {
   display: flex;
   justify-content: flex-end;
   margin-right: 10px;
@@ -130,6 +130,171 @@ button {
   align-items: center;
 }
 .centralImg {
-  display: flex;
+  display: grid;
   justify-content: space-around;
+}
+
+.examination-list {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.examination-list h2 {
+  margin-bottom: 10px;
+}
+
+.mat-checkbox {
+  margin-bottom: 10px;
+}
+
+.saved {
+  margin-top: 10px;
+}
+
+.checkboxes {
+  display: grid;
+}
+
+.appointment-card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+}
+
+.appointment-details {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.detail-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.no-appointments {
+  margin-left: 8px;
+}
+
+.cancel-button {
+  background-color: #e57373;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #c62828;
+}
+
+.center-text {
+  display: flex;
+  justify-content: center;
+}
+
+.appointment-card {
+  /* Остали стилови за преглед */
+  transition: background-color 0.3s;
+}
+
+.appointment-card:hover {
+  background-color: #fcf4f6cb;
+  cursor: pointer;
+  border: 1.8px solid rgb(167, 167, 167);
+  border-radius: 5px;
+}
+
+.selected-appointment-details {
+  padding: 20px;
+}
+
+.report-card {
+  background-color: #f5f5f5;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Stilови за изглед извештаја */
+.report-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #f7f7f7;
+}
+
+.report-label {
+  font-weight: bold;
+}
+
+.no-reports {
+  color: #888;
+  margin-top: 10px;
+}
+
+/* Karton pacijenta */
+.selected-appointment-details {
+  text-align: left;
+  padding: 20px;
+}
+
+.selected-appointment-details h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.selected-appointment-details .no-reports {
+  font-style: italic;
+}
+
+.selected-appointment-details button {
+  margin-top: 20px;
+}
+
+/* RAZNO */
+
+.misc-tab-content {
+  padding: 20px;
+}
+
+.misc-tab-heading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.misc-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.misc-form mat-form-field {
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 10px;
+}
+
+.misc-button {
+  width: 100%;
+  max-width: 300px;
+}
+
+.appointmentSuccess {
+  display: flex;
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: rgb(163 209 154);
+}
+
+.message{
+  display: flex;
+  justify-content: center;
 }

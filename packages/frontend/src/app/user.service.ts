@@ -111,4 +111,29 @@ export class UserService {
     }
     return this.http.post(`${this.uri}/deleteAppointment`, data);
   }
+
+  getChosenAppointments(user){
+
+    const data = {
+      user:user
+    }
+    return this.http.post(`${this.uri}/getChosenAppointments`, data);
+  }
+
+  saveCheckedAppointments(user, appointments){
+    const data = {
+      user:user,
+      appointments:appointments
+    }
+    return this.http.post(`${this.uri}/saveCheckedAppointments`, data);
+  }
+
+  createAppointment(user, appointment){
+    const data = {
+      user:user,
+      appointment:appointment
+    }
+    return this.http.post(`${this.uri}/createAppointment`, data);
+  }
+
 }

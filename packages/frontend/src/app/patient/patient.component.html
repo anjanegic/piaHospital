@@ -200,7 +200,7 @@
               <mat-form-field>
                 <mat-label>Tip pregleda</mat-label>
                 <mat-select [(ngModel)]="selectedAppointmentType">
-                  <mat-option *ngFor="let a of selectedDoctor.appointments" [value]="a.name">{{ a.name }}</mat-option>
+                  <mat-option *ngFor="let a of doctorsAppointments" [value]="a.name">{{ a.name }}</mat-option>
                 </mat-select>
               </mat-form-field>
 
