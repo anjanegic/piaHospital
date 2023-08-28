@@ -1,3 +1,4 @@
+import { ManagerLoginComponent } from './manager-login/manager-login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -27,14 +28,18 @@ import { PatientComponent } from './patient/patient.component';
 import { DoctorComponent } from './doctor/doctor.component';
 import { RouterModule } from '@angular/router';
 import { RegisterComponent } from './register/register.component';
+import { ManagerComponent } from './manager/manager.component';
 
 @NgModule({
   declarations: [
+
     AppComponent,
     LoginComponent,
     PatientComponent,
     DoctorComponent,
-    RegisterComponent
+    RegisterComponent,
+    ManagerComponent,
+    ManagerLoginComponent
   ],
   imports: [
     BrowserModule,

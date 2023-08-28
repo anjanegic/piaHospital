@@ -51,6 +51,10 @@ export class UserService {
     return this.http.get(`${this.uri}/getAllDoctors`);
   }
 
+  getAllPatients(){
+    return this.http.get(`${this.uri}/getAllPatients`);
+  }
+
   changePassword(loggedInUsername, oldPassword, newPassword){
     const data = {
       username: loggedInUsername,
@@ -134,6 +138,14 @@ export class UserService {
       appointment:appointment
     }
     return this.http.post(`${this.uri}/createAppointment`, data);
+  }
+
+  getPastBookedAppointments(doctor, patient){
+    const data = {
+      doctor:doctor,
+      patient:patient
+    }
+    return this.http.post(`${this.uri}/getPastBookedAppointments`, data);
   }
 
 }

@@ -1,0 +1,168 @@
+<div class="menu">
+  <mat-tab-group animationDuration="0ms" class="full-width-tabs">
+    <mat-tab label="Lekari">
+      <h2 class="title">Svi lekari</h2>
+
+      <div class="doctors-container">
+        <!-- JEDAN DOKTOR -->
+        <div class="doctors-info" *ngIf="selectedDoctor; else doctorList">
+          <div class="doctor-card-details">
+            <div class="doctor-info">
+              <p class="doctor-name">
+                {{ selectedDoctor.first_name }} {{ selectedDoctor.last_name }}
+              </p>
+              <img [src]="selectedDoctor.profile_picture" alt="Profilna slika" />
+              <p class="doctor-specialization">
+                {{ selectedDoctor.specialization }}
+              </p>
+              <p>Ogranak: {{ selectedDoctor.branch }}</p>
+            </div>
+            <!-- PREGLEDI KOJE OMOGUCAVA LEKAR -->
+            <div class="appointments">
+              <table mat-table [dataSource]="selectedDoctor.appointments" class="mat-elevation-z8 demo-table">
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Pregled</th>
+                  <td mat-cell *matCellDef="let appointment">
+                    {{ appointment.name }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="duration">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Duzina pregleda (min)
+                  </th>
+                  <td mat-cell *matCellDef="let appointment">
+                    {{ appointment.duration }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="price">
+                  <th mat-header-cell *matHeaderCellDef>Cena (RSD)</th>
+                  <td mat-cell *matCellDef="let appointment">
+                    {{ appointment.price }}
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="['name', 'duration', 'price']"></tr>
+                <tr mat-row *matRowDef="
+                    let appointment;
+                    columns: ['name', 'duration', 'price']
+                  "></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prikazivanje liste lekara -->
+        <ng-template #doctorList>
+          <ng-container *ngIf="doctors.length > 0; else noDoctors">
+            <div *ngFor="let doctor of doctors" class="doctor-card" (click)="selectDoctor(doctor.username)">
+              <img [src]="doctor.profile_picture" alt="Profilna slika" />
+              <div class="doctor-info">
+                <p>{{ doctor.first_name }} {{ doctor.last_name }}</p>
+                <p>{{ doctor.specialization }}</p>
+              </div>
+            </div>
+          </ng-container>
+        </ng-template>
+      </div>
+
+      <ng-template #noDoctors>
+        <p>Nema doktora</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Pacijenti">
+      <h2 class="title">Svi pacijenti</h2>
+      <div class="doctors-container">
+        <div class="doctors-info" *ngIf="selectedPatient; else patientList">
+          <div class="profile-details">
+            <ng-container *ngIf="!editingProfile">
+              <div class="centralImg">
+                <img class="profileImg" [src]="selectedPatient.profile_picture" alt="Profilna slika" />
+              </div>
+              <p><strong>Ime:</strong> {{ selectedPatient.first_name }}</p>
+              <p><strong>Prezime:</strong> {{ selectedPatient.last_name }}</p>
+              <p><strong>Adresa:</strong> {{ selectedPatient.address }}</p>
+              <p><strong>E-mail adresa:</strong> {{ selectedPatient.email }}</p>
+              <p>
+                <strong>Kontakt telefon:</strong> {{ selectedPatient.phone }}
+              </p>
+
+              <div class="buttons_book_back">
+                <button mat-stroked-button color="primary" (click)="clearSelectedPatient()">
+                  Nazad
+                </button>
+                <button mat-raised-button color="primary" (click)="startEditingProfile()">
+                  Ažuriraj Profil
+                </button>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="editingProfile">
+              <form [formGroup]="profileForm">
+                <div class="editFields">
+                  <mat-form-field>
+                    <mat-label>Ime</mat-label>
+                    <input matInput formControlName="first_name" />
+                  </mat-form-field>
+                </div>
+                <div class="editFields">
+                  <mat-form-field>
+                    <mat-label>Prezime</mat-label>
+                    <input matInput formControlName="last_name" />
+                  </mat-form-field>
+                </div>
+                <div class="editFields">
+                  <mat-form-field>
+                    <mat-label>Adresa</mat-label>
+                    <input matInput formControlName="address" />
+                  </mat-form-field>
+                </div>
+                <div class="editFields">
+                  <mat-form-field>
+                    <mat-label>E-mail adresa</mat-label>
+                    <input matInput formControlName="email" />
+                  </mat-form-field>
+                </div>
+                <div class="editFields">
+                  <mat-form-field>
+                    <mat-label>Kontakt telefon</mat-label>
+                    <input matInput formControlName="phone" />
+                  </mat-form-field>
+                </div>
+                <button class="saveCancel" mat-raised-button color="primary" (click)="saveEditedProfile()">
+                  Sačuvaj
+                </button>
+                <button class="saveCancel" mat-raised-button color="warn" (click)="cancelEditingProfile()">
+                  Otkaži
+                </button>
+              </form>
+
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- PACIJENTI -->
+        <ng-template #patientList>
+          <ng-container *ngIf="patients.length > 0; else noPaticent">
+            <div *ngFor="let patient of patients" class="doctor-card" (click)="selectPatient(patient.username)">
+              <div class="profile-picture" (mouseover)="showEditButton = true" (mouseout)="showEditButton = false">
+                <div class="centralImg">
+                  <img class="profileImg" [src]="patient.profile_picture" alt="Profilna slika" />
+                </div>
+                <div></div>
+              </div>
+
+              <div class="doctor-info">
+                <p>{{ patient.first_name }} {{ patient.last_name }}</p>
+              </div>
+            </div>
+          </ng-container>
+        </ng-template>
+      </div>
+
+      <ng-template #noPaticent>
+        <p>Nema pacijenata</p>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -6,4 +6,5 @@ export class BookedAppointment{
   doctor: User;
   patient: User;
   date: Date;
+  report: boolean;
 }

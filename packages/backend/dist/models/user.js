@@ -13,6 +13,7 @@ var UserType;
 (function (UserType) {
     UserType["Patient"] = "patient";
     UserType["Doctor"] = "doctor";
+    UserType["Manager"] = "manager";
 })(UserType || (UserType = {}));
 const User = new Schema({
     first_name: {

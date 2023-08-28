@@ -16,6 +16,9 @@ const BookedAppointment = new Schema({
     },
     date:{
         type: String
+    },
+    report:{
+        type: Boolean
     }
 
 });

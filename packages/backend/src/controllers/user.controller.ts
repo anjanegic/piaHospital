@@ -11,13 +11,6 @@ export class UserController {
         User.findOne({ 'username': username, 'password': password }, (err, user) => {
             if (err) console.log(err);
             else {
-                //console.log(user._id);
-                // const jwtToken = generateJWT(user._id);
-                // console.log(jwtToken);
-                // const response = {
-                //     token: 123,
-                //     user: user // Dodajte ovde objekat sa informacijama o korisniku
-                // };
                 return res.json(user);
             }
         })
@@ -141,7 +134,7 @@ export class UserController {
                     for (let b of user.bookedAppointments) {
                         const firstDate = new Date(b.date);
                         const secondDate = new Date(date);
-                        console.log(firstDate.getTime(), secondDate.getTime());
+                        //console.log(firstDate.getTime(), secondDate.getTime());
                         if (firstDate.getTime() == secondDate.getTime())
                             return res.json({ 'message': 'error' })
                     }
@@ -171,7 +164,8 @@ export class UserController {
                     "doctor": user,
                     "patient": user2,
                     "date": date,
-                    "appointment": appointmentFromUser
+                    "appointment": appointmentFromUser,
+                    "report": false
                 }
                 User.findOneAndUpdate({ username: doctor }, { $push: { bookedAppointments: bookedAppointment } }, (err, success) => {
                     if (err) {
@@ -286,5 +280,36 @@ export class UserController {
                 return res.json({ message: 'success' });
             }
         });
+    }
+
+    getPastBookedAppointments = (req: express.Request, res: express.Response) =>{
+        let patient = req.body.patient;
+        let doctor = req.body.doctor;
+        User.findOne({ 'username': patient }, (err, u) => {
+            let bookedAppointments = [];
+            if (err)
+                console.log(err);
+            else if (!u) {
+                return res.json({ 'message': 'error' });
+            }
+            else {
+                if (u.bookedAppointments.length > 0) {
+                    for (let b of u.bookedAppointments) {
+                        const firstDate = new Date(b.date);
+                        const secondDate = new Date();
+                        if (firstDate.getTime() <= secondDate.getTime() && b.doctor.username === doctor && b.report === false)
+                            bookedAppointments.push(b)
+                    }
+                    return res.json(bookedAppointments)
+                }
+            }
+        })
+    }
+
+    getAllPatients = (req: express.Request, res: express.Response) => {
+        User.find({ 'type': 'patient' }, (err, user) => {
+            if (err) console.log(err)
+            else res.json(user)
+        })
     }
 }

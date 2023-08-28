@@ -49,7 +49,6 @@ export class PatientComponent implements OnInit {
 
     this.minDate = today.toISOString().split('T')[0];
     this.maxDate = nextTwoWeeks.toISOString().split('T')[0];
-
   }
 
   ngOnInit() {
@@ -304,7 +303,6 @@ export class PatientComponent implements OnInit {
         } else {
           this.upcomingAppointments = [];
         }
-        console.log('UPCOMING ' + this.upcomingAppointments);
       });
   }
 

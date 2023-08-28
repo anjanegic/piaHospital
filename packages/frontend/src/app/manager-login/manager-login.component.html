@@ -1,0 +1,63 @@
+<div class="infoAbout">
+  <div class="description">
+
+  </div>
+</div>
+<owl-carousel-o [options]="customOptions">
+  <ng-template carouselSlide>
+    <img class="carousel-image" src="../../assets/carosel1.webp" />
+  </ng-template>
+  <ng-template carouselSlide>
+    <img class="carousel-image" src="../../assets/carosel2.jpeg" />
+  </ng-template>
+  <ng-template carouselSlide>
+    <img class="carousel-image" src="../../assets/caroselr.jpeg" />
+  </ng-template>
+  <ng-template carouselSlide>
+    <img class="carousel-image" src="../../assets/carosel3.jpeg" />
+  </ng-template>
+  <ng-template carouselSlide>
+    <img class="carousel-image" src="../../assets/carosel4.jpeg" />
+  </ng-template>
+</owl-carousel-o>
+
+<div class="log-reg">
+  <mat-card class="inline-block">
+    <mat-card-title>Prijava</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="formLogin" (ngSubmit)="submitLogin()">
+        <mat-form-field class="example-full-width">
+          <input
+            type="text"
+            matInput
+            placeholder="Korisnicko ime"
+            formControlName="username"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input
+            type="password"
+            matInput
+            placeholder="Lozinka"
+            formControlName="password"
+          />
+        </mat-form-field>
+
+        <p *ngIf="errorLogin" class="error">
+          {{ errorLogin }}
+        </p>
+
+        <p *ngIf="waitApproval" class="waitForApproval">
+          {{ waitApproval }}
+        </p>
+
+        <div class="button">
+          <button type="submit" mat-raised-button color="primary">Login</button>
+        </div>
+      </form>
+      
+    </mat-card-content>
+  </mat-card>
+</div>
+

@@ -1,3 +1,4 @@
+import { BookedAppointment } from './bookedAppointments';
 import { User } from './user';
 export class Report {
   date: Date;
@@ -7,4 +8,5 @@ export class Report {
   recommendedNextAppointment: Date;
   patient: User;
   doctor: User;
+  bookedAppointment: BookedAppointment
 }

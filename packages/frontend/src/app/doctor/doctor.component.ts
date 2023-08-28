@@ -16,7 +16,7 @@ import { passwordValidator } from '../validators/passwordValidator';
 })
 export class DoctorComponent implements OnInit {
 
-  constructor(private servis: UserService , private reportsService: ReportService, private router: Router, private formBuilder: FormBuilder ) {
+  constructor(private servis: UserService, private reportsService: ReportService, private router: Router, private formBuilder: FormBuilder) {
     const today = new Date();
     const nextTwoWeeks = new Date();
     nextTwoWeeks.setDate(today.getDate() + 14);
@@ -27,7 +27,6 @@ export class DoctorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("Ulogovan: ", sessionStorage.getItem('username'))
     this.loggedInUsername = sessionStorage.getItem('username')
     this.loggedInFirstname = sessionStorage.getItem('first_name')
     this.loggedInLastname = sessionStorage.getItem('last_name')
@@ -47,24 +46,23 @@ export class DoctorComponent implements OnInit {
         { label: 'Kontakt telefon', value: this.loggedInUser.phone },
         { label: 'Specijalizacija', value: this.loggedInUser.specialization },
         { label: 'Ogranak', value: this.loggedInUser.branch }
-        ];
-        this.profileForm = this.formBuilder.group({
-          first_name: [this.loggedInUser.first_name, Validators.required],
-          last_name: [this.loggedInUser.last_name, Validators.required],
-          address: [this.loggedInUser.address, Validators.required],
-          email: [this.loggedInUser.email, [Validators.required, Validators.email]],
-          phone: [this.loggedInUser.phone, Validators.required],
-          specialization: [this.loggedInUser.specialization, Validators.required],
-          branch: [this.loggedInUser.branch, Validators.required]
-        });
-        this.refreshCheckedAppointments();
-
-
+      ];
+      this.profileForm = this.formBuilder.group({
+        first_name: [this.loggedInUser.first_name, Validators.required],
+        last_name: [this.loggedInUser.last_name, Validators.required],
+        address: [this.loggedInUser.address, Validators.required],
+        email: [this.loggedInUser.email, [Validators.required, Validators.email]],
+        phone: [this.loggedInUser.phone, Validators.required],
+        specialization: [this.loggedInUser.specialization, Validators.required],
+        branch: [this.loggedInUser.branch, Validators.required]
+      });
+      this.refreshCheckedAppointments();
 
     });
     this.refreshUpcomingAppointments();
 
   }
+
   appointmentsToCheck: any[] = [];
   profileForm: FormGroup;
   passwordForm: FormGroup;
@@ -77,7 +75,7 @@ export class DoctorComponent implements OnInit {
   editableFields: { label: string; value: string }[] = [];
   editingProfile: boolean = false;
   showEditProfilePictureInput: boolean = false;
-  passwordErrors: {[key: string]: string} = {
+  passwordErrors: { [key: string]: string } = {
     passwordRequirements: "Password must be between 8 and 14 characters, have 1 uppercase character, 1 number, 1 special character and start with a letter!",
     repeatingCharacters: "Password must not contain repeating characters."
   };
@@ -86,15 +84,15 @@ export class DoctorComponent implements OnInit {
 
 
   changeThePassword() {
-    this.error='';
-    this.passwordChanged=''
+    this.error = '';
+    this.passwordChanged = ''
     if (this.passwordForm.valid) {
       const oldPassword = this.passwordForm.get('oldPassword').value;
       const newPassword = this.passwordForm.get('newPassword').value;
       const confirmPassword = this.passwordForm.get('confirmPassword').value;
       if (newPassword === confirmPassword) {
-        this.servis.changePassword(this.loggedInUsername, oldPassword, newPassword).subscribe((respObj)=>{
-          if(respObj['message']=='ok'){
+        this.servis.changePassword(this.loggedInUsername, oldPassword, newPassword).subscribe((respObj) => {
+          if (respObj['message'] == 'ok') {
             this.passwordChanged = 'Lozinka je promenjena';
           }
           else {
@@ -104,9 +102,9 @@ export class DoctorComponent implements OnInit {
       } else {
         this.error = "Lozinke se ne podudaraju"
       }
-    } else{
+    } else {
       const passwordControl = this.passwordForm.get('newPassword');
-        if (passwordControl?.hasError('passwordRequirements')) {
+      if (passwordControl?.hasError('passwordRequirements')) {
         this.error = this.passwordErrors['passwordRequirements'];
       } else if (passwordControl?.hasError('repeatingCharacters')) {
         this.error = this.passwordErrors['repeatingCharacters'];
@@ -133,15 +131,15 @@ export class DoctorComponent implements OnInit {
       console.log(Object.keys(updatedProfile));
       console.log(this.profileForm.controls)
       if (Object.keys(updatedProfile).length > 0) {
-        this.servis.updateUserProfile(this.loggedInUsername, updatedProfile).subscribe((respObj)=>{
+        this.servis.updateUserProfile(this.loggedInUsername, updatedProfile).subscribe((respObj) => {
           if (respObj['message'] == 'ok') {
             for (const key in updatedProfile) {
               if (updatedProfile.hasOwnProperty(key)) {
                 this.loggedInUser[key] = updatedProfile[key];
               }
             }
-              this.editingProfile = false;
-              this.showEditProfilePictureInput = false;
+            this.editingProfile = false;
+            this.showEditProfilePictureInput = false;
           } else {
           }
         });
@@ -166,9 +164,9 @@ export class DoctorComponent implements OnInit {
     this.showEditProfilePictureInput = false;
   }
 
-  saveChosenExaminations(){
+  saveChosenExaminations() {
     console.log(this.appointmentsToCheck);
-    this.servis.saveCheckedAppointments(this.loggedInUsername, this.appointmentsToCheck).subscribe((respObj)=>{
+    this.servis.saveCheckedAppointments(this.loggedInUsername, this.appointmentsToCheck).subscribe((respObj) => {
       if (respObj['message'] == 'ok') {
 
       }
@@ -194,7 +192,7 @@ export class DoctorComponent implements OnInit {
 
         if (appoin['message'].length > 0) {
           const n = 3;
-          this.upcomingAppointments = appoin['message'].slice(0,n);
+          this.upcomingAppointments = appoin['message'].slice(0, n);
         } else {
           this.upcomingAppointments = [];
         }
@@ -206,17 +204,19 @@ export class DoctorComponent implements OnInit {
   userReports: Report[];
   openPatientRecord(appointment: BookedAppointment): void {
     this.selectedAppointment = appointment;
+    this.getPastBookedAppointments(this.loggedInUser, this.selectedAppointment.patient.username);
+    this.getUsersReport();
 
+  }
+
+  getUsersReport(){
     this.reportsService
       .getUserReports(this.selectedAppointment.patient.username)
       .subscribe((reports: Report[]) => {
         this.userReports = reports;
-        console.log(this.userReports);
-
       });
-
   }
-  noSelectedAppointments(){
+  noSelectedAppointments() {
     this.selectedAppointment = null;
   }
 
@@ -228,16 +228,14 @@ export class DoctorComponent implements OnInit {
     approved: false
   };
 
-  appointmentSuccess: string= "";
+  appointmentSuccess: string = "";
 
   onSubmit() {
     this.appointmentSuccess = "";
-    console.log(this.newAppointment);
-
-    this.servis.createAppointment(this.loggedInUser, this.newAppointment).subscribe((respObj)=>{
+    this.servis.createAppointment(this.loggedInUser, this.newAppointment).subscribe((respObj) => {
       console.log(respObj);
 
-      if(respObj['message']=='success'){
+      if (respObj['message'] == 'success') {
         this.appointmentSuccess = 'Vas pregled je sacuvan';
         this.refreshCheckedAppointments();
       }
@@ -252,14 +250,68 @@ export class DoctorComponent implements OnInit {
     };
   }
 
-  refreshCheckedAppointments(){
-    for(let a of this.loggedInUser.appointments){
+  refreshCheckedAppointments() {
+    for (let a of this.loggedInUser.appointments) {
       if (a.approved)
         this.appointmentsToCheck.push(a);
     }
   }
 
-  logout(){
+  selectedReport: Report = {
+    date: new Date(),
+    reasonForVisit: "",
+    diagnosis :"",
+    recommendedTherapy: "",
+    recommendedNextAppointment: null,
+    patient: null ,
+    doctor: null,
+    bookedAppointment: null
+  };
+
+  pastBookedAppointments: BookedAppointment[] = [];
+  getPastBookedAppointments(doctor, patient) {
+    this.servis
+      .getPastBookedAppointments(this.loggedInUsername, this.selectedAppointment.patient.username)
+      .subscribe((bookedAppointments: BookedAppointment[]) => {
+        this.pastBookedAppointments = bookedAppointments;
+      });
+
+  }
+
+  reportSuccess : string = '';
+  submitReport() {
+    this.selectedReport.doctor = this.loggedInUser;
+    this.selectedReport.patient = this.pastBookedAppointments[0].patient;
+
+    if (this.selectedReport.recommendedNextAppointment !== undefined)
+      this.selectedReport.recommendedNextAppointment = new Date(this.selectedReport.recommendedNextAppointment);
+    console.log(this.selectedReport);
+    this.reportsService.addReport(this.selectedReport).subscribe((respObj) => {
+
+      if (respObj['message'] == 'success') {
+        this.reportSuccess = 'Izvestaj je sacuvan';
+        this.refreshReports();
+      }
+    })
+
+      this.selectedReport = {
+        date: new Date(),
+        reasonForVisit: "",
+        diagnosis :"",
+        recommendedTherapy: "",
+        recommendedNextAppointment: null,
+        patient: null ,
+        doctor: null,
+        bookedAppointment: null
+      }
+  }
+
+  refreshReports(){
+    this.getPastBookedAppointments(this.loggedInUsername, this.selectedAppointment.patient.username);
+    this.getUsersReport();
+  }
+
+  logout() {
     sessionStorage.clear()
     this.router.navigate([''])
   }

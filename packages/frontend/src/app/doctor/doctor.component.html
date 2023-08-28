@@ -25,7 +25,11 @@
           <div>
             <mat-form-field>
               <mat-label>Ponovite novu lozinku</mat-label>
-              <input matInput type="password" formControlName="confirmPassword" />
+              <input
+                matInput
+                type="password"
+                formControlName="confirmPassword"
+              />
             </mat-form-field>
           </div>
           <mat-action-row>
@@ -52,14 +56,26 @@
     <mat-tab label="Profil">
       <div class="profile">
         <h2>Vaš Profil</h2>
-        <div class="profile-picture" (mouseover)="showEditButton = true" (mouseout)="showEditButton = false">
+        <div
+          class="profile-picture"
+          (mouseover)="showEditButton = true"
+          (mouseout)="showEditButton = false"
+        >
           <div class="centralImg">
-            <img class="profileImg" [src]="loggedInUser.profile_picture" alt="Profilna slika" />
+            <img
+              class="profileImg"
+              [src]="loggedInUser.profile_picture"
+              alt="Profilna slika"
+            />
           </div>
           <div>
             <mat-card *ngIf="showEditProfilePictureInput">
               <mat-card-content>
-                <input type="file" (change)="handleProfilePictureChange($event)" class="file-input" />
+                <input
+                  type="file"
+                  (change)="handleProfilePictureChange($event)"
+                  class="file-input"
+                />
               </mat-card-content>
             </mat-card>
           </div>
@@ -77,7 +93,11 @@
               {{ loggedInUser.specialization }}
             </p>
             <p><strong>Ogranak:</strong> {{ loggedInUser.branch }}</p>
-            <button mat-raised-button color="primary" (click)="startEditingProfile()">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="startEditingProfile()"
+            >
               Ažuriraj Profil
             </button>
           </ng-container>
@@ -113,10 +133,20 @@
                   <input matInput formControlName="phone" />
                 </mat-form-field>
               </div>
-              <button class="saveCancel" mat-raised-button color="primary" (click)="saveEditedProfile()">
+              <button
+                class="saveCancel"
+                mat-raised-button
+                color="primary"
+                (click)="saveEditedProfile()"
+              >
                 Sačuvaj
               </button>
-              <button class="saveCancel" mat-raised-button color="warn" (click)="cancelEditingProfile()">
+              <button
+                class="saveCancel"
+                mat-raised-button
+                color="warn"
+                (click)="cancelEditingProfile()"
+              >
                 Otkaži
               </button>
             </form>
@@ -125,11 +155,19 @@
         <div class="examination-list">
           <h3>Odaberite preglede koje zelite da obavljate</h3>
           <div class="checkboxes">
-            <mat-checkbox *ngFor="let a of appointmentsToCheck" [(ngModel)]="a.chosen">
+            <mat-checkbox
+              *ngFor="let a of appointmentsToCheck"
+              [(ngModel)]="a.chosen"
+            >
               {{ a.name }}
             </mat-checkbox>
           </div>
-          <button mat-raised-button color="primary" class="saved" (click)="saveChosenExaminations()">
+          <button
+            mat-raised-button
+            color="primary"
+            class="saved"
+            (click)="saveChosenExaminations()"
+          >
             Sacuvaj odabrane preglede
           </button>
         </div>
@@ -139,9 +177,17 @@
       <ng-container *ngIf="!selectedAppointment">
         <div>
           <h3 class="center-text">Budući pregledi</h3>
-          <ng-container *ngIf="upcomingAppointments.length > 0; else noUpcomingAppointments">
-            <div *ngFor="let appointment of upcomingAppointments; let i = index" class="appointment-card">
-              <div class="appointment-details" (click)="openPatientRecord(appointment)">
+          <ng-container
+            *ngIf="upcomingAppointments.length > 0; else noUpcomingAppointments"
+          >
+            <div
+              *ngFor="let appointment of upcomingAppointments; let i = index"
+              class="appointment-card"
+            >
+              <div
+                class="appointment-details"
+                (click)="openPatientRecord(appointment)"
+              >
                 <p class="detail-label">Pacijent:</p>
                 <p>
                   {{ appointment.patient.first_name }}
@@ -153,21 +199,21 @@
                 <p>{{ appointment.date | date : "dd.MM.yyyy HH:mm" }}h</p>
                 <p class="detail-label">Ogranak:</p>
                 <p>{{ appointment.doctor.branch }}</p>
-
               </div>
             </div>
           </ng-container>
 
-
           <ng-template #noUpcomingAppointments>
             <p class="no-appointments">Nemate zakazanih pregleda</p>
           </ng-template>
+          <!-- <button mat-stroked-button (click)="openPatientRecord(appointment)">Izvestaji</button> -->
         </div>
       </ng-container>
       <ng-container *ngIf="selectedAppointment">
-
         <div class="selected-appointment-details">
-          <h2>Karton pacijenta | {{selectedAppointment.patient.first_name}} {{selectedAppointment.patient.last_name}}
+          <h2>
+            Karton pacijenta | {{ selectedAppointment.patient.first_name }}
+            {{ selectedAppointment.patient.last_name }}
           </h2>
           <div *ngIf="userReports.length > 0; else noReports">
             <div *ngFor="let report of userReports" class="report-card">
@@ -180,16 +226,102 @@
               <p class="report-label">Preporučena terapija:</p>
               <p>{{ report.recommendedTherapy }}</p>
               <p class="report-label">Preporučen sledeći pregled:</p>
-              <p>{{ report.recommendedNextAppointment | date : "dd.MM.yyyy" }}</p>
+              <p>
+                {{ report.recommendedNextAppointment | date : "dd.MM.yyyy" }}
+              </p>
             </div>
           </div>
           <ng-template #noReports>
             <p class="no-reports">Nema dostupnih izveštaja.</p>
           </ng-template>
-          <button mat-stroked-button color="primary" (click)="noSelectedAppointments()">Nazad</button>
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="noSelectedAppointments()"
+          >
+            Nazad
+          </button>
+        </div>
+        <div class="add-report-form" *ngIf="pastBookedAppointments.length > 0">
+          <h2 class="mat-h2">Dodavanje novog izveštaja</h2>
+          <form (ngSubmit)="submitReport()">
+            <mat-form-field>
+              <mat-label for="selectedAppointment">Za pregled</mat-label>
+              <mat-select
+                id="selectedAppointment"
+                [(ngModel)]="selectedReport.bookedAppointment"
+                name="selectedAppointment"
+                required
+              >
+                <mat-option
+                  *ngFor="let appointment of pastBookedAppointments"
+                  [value]="appointment"
+                >
+                  {{ appointment.appointment.name }}
+                  {{ appointment.date | date : "dd.MM.yyyy" }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Razlog dolaska</mat-label>
+              <input
+                matInput
+                type="text"
+                id="reasonForVisit"
+                [(ngModel)]="selectedReport.reasonForVisit"
+                name="reasonForVisit"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Dijagnoza</mat-label>
+              <input
+                matInput
+                type="text"
+                id="diagnosis"
+                [(ngModel)]="selectedReport.diagnosis"
+                name="diagnosis"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Preporučena terapija</mat-label>
+              <input
+                matInput
+                type="text"
+                id="recommendedTherapy"
+                [(ngModel)]="selectedReport.recommendedTherapy"
+                name="recommendedTherapy"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label
+                >Preporučeni datum sledećeg pregleda/kontrole</mat-label
+              >
+              <input
+                matInput
+                type="date"
+                id="recommendedNextAppointment"
+                [min]="minDate"
+                [max]="maxDate"
+                [(ngModel)]="selectedReport.recommendedNextAppointment"
+                name="recommendedNextAppointment"
+                required
+              />
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit">
+              Dodaj izveštaj
+            </button>
+          </form>
+        </div>
+        <div class="message">
+          <p *ngIf="reportSuccess" class="appointmentSuccess">
+            {{ reportSuccess }}
+          </p>
         </div>
       </ng-container>
-
     </mat-tab>
 
     <mat-tab label="Razno">
@@ -197,16 +329,42 @@
         <h2 class="misc-tab-heading">Nova vrsta pregleda</h2>
         <form (ngSubmit)="onSubmit()" class="misc-form">
           <mat-form-field>
-            <input matInput placeholder="Naziv pregleda" [(ngModel)]="newAppointment.name" name="name" required>
+            <input
+              matInput
+              placeholder="Naziv pregleda"
+              [(ngModel)]="newAppointment.name"
+              name="name"
+              required
+            />
           </mat-form-field>
           <mat-form-field>
-            <input matInput type="number" placeholder="Trajanje (u minutima)" [(ngModel)]="newAppointment.duration"
-              name="duration" required>
+            <input
+              matInput
+              type="number"
+              placeholder="Trajanje (u minutima)"
+              [(ngModel)]="newAppointment.duration"
+              name="duration"
+              required
+            />
           </mat-form-field>
           <mat-form-field>
-            <input matInput type="number" placeholder="Cena" [(ngModel)]="newAppointment.price" name="price" required>
+            <input
+              matInput
+              type="number"
+              placeholder="Cena"
+              [(ngModel)]="newAppointment.price"
+              name="price"
+              required
+            />
           </mat-form-field>
-          <button mat-raised-button color="primary" type="submit" class="misc-button">Dodaj</button>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="misc-button"
+          >
+            Dodaj
+          </button>
         </form>
       </div>
       <div class="message">
@@ -215,7 +373,5 @@
         </p>
       </div>
     </mat-tab>
-
-
   </mat-tab-group>
 </div>

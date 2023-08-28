@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import User from './user';
 const { model } = mongoose;
 
 const Schema = mongoose.Schema;
@@ -25,8 +24,10 @@ const Report = new Schema({
     },
     reasonForVisit: {
         type: String
+    },
+    bookedAppointment: {
+        type: Object
     }
-
 });
 
 export default model('Reports', Report, 'reports');

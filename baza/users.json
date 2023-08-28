@@ -1,4 +1,16 @@
-[
+[   
+    {
+        "username": "manager",
+        "password" : "Manager123!",
+        "first_name" : "Anja",
+        "last_name" : "Negic",
+        "type": "manager",
+        "email": "anjanegic@gmail.com",
+        "address": "Bulevar Arsenija Carnojevica",
+        "phone": "0612288927",
+        "profile_picture": "../../assets/profile-icon-person-user-19.png",
+        "approved" : true
+    },
     {
         "username": "pera",
         "password" : "Pera123!",
@@ -50,7 +62,7 @@
         "address": "Nikole Markovica 22",
         "phone": "0622960898",
         "profile_picture": "../../assets/profile-icon-person-user-19.png",
-        "approved" : true,
+        "approved" : false,
         "bookedAppointments": []
     },
     {

@@ -16,4 +16,13 @@ export class ReportService {
     }
     return this.http.post(`${this.uri}/getUserReports`, data);
   }
+
+  addReport(report){
+    console.log(report);
+
+    const data = {
+      report: report
+    }
+    return this.http.post(`${this.uri}/addReport`, data);
+  }
 }

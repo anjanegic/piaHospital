@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 enum UserType {
     Patient = 'patient',
     Doctor = 'doctor',
+    Manager = 'manager'
   }
 
 const User = new Schema({
