@@ -21,5 +21,6 @@ userRouter.route('/saveCheckedAppointments').post((req, res) => new user_control
 userRouter.route('/createAppointment').post((req, res) => new user_controller_1.UserController().createAppointment(req, res));
 userRouter.route('/getPastBookedAppointments').post((req, res) => new user_controller_1.UserController().getPastBookedAppointments(req, res));
 userRouter.route('/getAllPatients').get((req, res) => new user_controller_1.UserController().getAllPatients(req, res));
+userRouter.route('/deleteUser').post((req, res) => new user_controller_1.UserController().deleteUser(req, res));
 exports.default = userRouter;
 //# sourceMappingURL=user.routes.js.map

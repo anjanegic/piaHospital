@@ -1,0 +1,74 @@
+[
+    {
+        "name": "Dermatohirurgija",
+        "appointments" : [
+            { "name": "Biopsija kože", "duration": 60, "price": 3000, "chosen": false, "approved": true  },
+            { "name": "Uklanjanje mladeža", "duration": 45, "price": 2500, "chosen": false, "approved": true   },
+            { "name": "Revizija ožiljaka", "duration": 90, "price": 4500, "chosen": false, "approved": true   }
+        ],
+        "branch": "Hirurgija dermatologije"
+    },
+    {
+        "name": "Pedijatrijska dermatologija",
+        "appointments" : [
+            { "name": "Konsultacija za dečiji ekcem", "duration": 30, "price": 1500, "chosen": false, "approved": true   },
+            { "name": "Testiranje alergije na koži kod dece", "duration": 75, "price": 4000, "chosen": false, "approved": true   },
+            { "name": "Procena začetka akni kod beba", "duration": 45, "price": 2500, "chosen": false, "approved": true   }
+        ] ,
+        "branch": "Dečija dermatologija"
+    },
+    {
+        "name": "Estetska dermatologija",
+        "appointments" : [
+            { "name": "Tretman botoksom", "duration": 30, "price": 2000, "chosen": false, "approved": true   },
+            { "name": "Punjenje filerima", "duration": 60, "price": 3500, "chosen": false, "approved": true   },
+            { "name": "Hemijski piling", "duration": 45, "price": 3000, "chosen": false, "approved": true   }
+        ] ,
+        "branch": "Estetika dermatologije"
+    },
+    {
+        "name": "Dermatopatologija",
+        "appointments" : [
+            { "name": "Analiza lezija na koži", "duration": 45, "price": 2500, "chosen": false, "approved": true   },
+            { "name": "Tumačenje biopsije", "duration": 60, "price": 3000, "chosen": false, "approved": true   },
+            { "name": "Konsultacija za histopatologiju", "duration": 90, "price": 4000, "chosen": false, "approved": true   }    
+        ] ,
+        "branch": "Patologija kože"
+    },
+    {
+        "name": "Dermatološka alergologija",
+        "appointments" : [
+            { "name": "Testiranje alergije flasterima", "duration": 60, "price": 3500, "chosen": false, "approved": true   },
+            { "name": "Testiranje alergije ubodom kože", "duration": 30, "price": 2000, "chosen": false, "approved": true   },
+            { "name": "Konsultacija za atopijski dermatitis", "duration": 45, "price": 2500, "chosen": false, "approved": true   }
+        ] ,
+        "branch": "Alergologija kože"
+    },
+    {
+        "name": "Dermatološka imunologija",
+        "appointments" : [
+            { "name": "Imunosupresivna terapija", "duration": 60, "price": 3000, "chosen": false, "approved": true   },
+            { "name": "Konsultacija za autoimune poremećaje kože", "duration": 45, "price": 2500, "chosen": false, "approved": true   },
+            { "name": "Procena imunodeficijencije", "duration": 90, "price": 4500, "chosen": false, "approved": true   }
+        ] ,
+        "branch": "Imunologija kože"
+    },
+    {
+        "name": "Dermato-onkologija",
+        "appointments" : [
+            { "name": "Pregled raka kože", "duration": 45, "price": 3000, "chosen": false, "approved": true   },
+            { "name": "Dijagnoza melanoma", "duration": 60, "price": 3500, "chosen": false, "approved": true   },
+            { "name": "Konsultacija za hemoterapiju", "duration": 90, "price": 4500, "chosen": false, "approved": true   }
+        ] ,
+        "branch": "Onkologija kože"
+    },
+    {
+        "name": "Dermatološka laserska terapija",
+        "appointments" : [
+            { "name": "Uklanjanje dlaka laserom", "duration": 30, "price": 2000, "chosen": false, "approved": true  },
+            { "name": "Uklanjanje tetovaža laserom", "duration": 60, "price": 3500, "chosen": false, "approved": true },
+            { "name": "Smanjenje ožiljaka laserom", "duration": 45, "price": 3000,"chosen": false, "approved": true  }
+        ] ,
+        "branch": "Laserska terapija kože"
+    }
+]

@@ -1,7 +1,5 @@
 import express from 'express'
-import { json } from 'stream/consumers';
 import User from '../models/user'
-const jwt = require('jsonwebtoken');
 
 export class UserController {
     login = (req: express.Request, res: express.Response) => {
@@ -17,12 +15,7 @@ export class UserController {
     }
 
     register = (req: express.Request, res: express.Response) => {
-        let profile_picture = req.body.profile_picture;
-        console.log(profile_picture)
-        if (!profile_picture) {
-            profile_picture = "../../assets/profile-icon-person-user-19.png"
-        }
-        console.log(profile_picture)
+       
         let user = new User({
             first_name: req.body.firstname,
             last_name: req.body.lastname,
@@ -33,7 +26,8 @@ export class UserController {
             phone: req.body.phone,
             type: "patient",
             approved: false,
-            profile_picture: profile_picture,
+            deleted: false,
+            profile_picture: req.body.profile_picture,
             appointments: [],
             bookedAppointments:[]
         })
@@ -307,9 +301,19 @@ export class UserController {
     }
 
     getAllPatients = (req: express.Request, res: express.Response) => {
-        User.find({ 'type': 'patient' }, (err, user) => {
+        User.find({ 'type': 'patient', 'approved': true}, (err, user) => {
             if (err) console.log(err)
             else res.json(user)
+        })
+    }
+
+    deleteUser = (req: express.Request, res: express.Response)=>{
+        let username = req.body.username;
+        console.log("Usao");
+        
+        User.updateOne({'username': username},{$set: {'approved': false}}, (err, resp)=>{
+            if(err) console.log(err);
+            else res.json({'message': 'ok'})
         })
     }
 }

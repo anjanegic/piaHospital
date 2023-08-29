@@ -63,6 +63,9 @@ const User = new Schema({
     },
     bookedAppointments: {
         type: Array
+    },
+    deleted: {
+        type: Boolean
     }
 });
 exports.default = mongoose_1.model('Users', User, 'users');

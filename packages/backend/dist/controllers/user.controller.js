@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../models/user"));
-const jwt = require('jsonwebtoken');
 class UserController {
     constructor() {
         this.login = (req, res) => {
@@ -19,12 +18,6 @@ class UserController {
             });
         };
         this.register = (req, res) => {
-            let profile_picture = req.body.profile_picture;
-            console.log(profile_picture);
-            if (!profile_picture) {
-                profile_picture = "../../assets/profile-icon-person-user-19.png";
-            }
-            console.log(profile_picture);
             let user = new user_1.default({
                 first_name: req.body.firstname,
                 last_name: req.body.lastname,
@@ -35,7 +28,8 @@ class UserController {
                 phone: req.body.phone,
                 type: "patient",
                 approved: false,
-                profile_picture: profile_picture,
+                deleted: false,
+                profile_picture: req.body.profile_picture,
                 appointments: [],
                 bookedAppointments: []
             });
@@ -294,11 +288,21 @@ class UserController {
             });
         };
         this.getAllPatients = (req, res) => {
-            user_1.default.find({ 'type': 'patient' }, (err, user) => {
+            user_1.default.find({ 'type': 'patient', 'approved': true }, (err, user) => {
                 if (err)
                     console.log(err);
                 else
                     res.json(user);
+            });
+        };
+        this.deleteUser = (req, res) => {
+            let username = req.body.username;
+            console.log("Usao");
+            user_1.default.updateOne({ 'username': username }, { $set: { 'approved': false } }, (err, resp) => {
+                if (err)
+                    console.log(err);
+                else
+                    res.json({ 'message': 'ok' });
             });
         };
     }

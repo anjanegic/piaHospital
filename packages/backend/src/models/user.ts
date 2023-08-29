@@ -56,6 +56,9 @@ const User = new Schema({
     },
     bookedAppointments: {
         type: Array
+    },
+    deleted: {
+        type: Boolean
     }
 });
 

@@ -9,7 +9,7 @@ import { ManagerComponent } from './manager/manager.component';
 
 const routes: Routes = [
   { path: "", component: LoginComponent, title: "Dobrodošli" },
-  { path: "register", component: RegisterComponent, title: "Dobrodošli" },
+  { path: "register", component: RegisterComponent, title: "Registracija" },
   { path: "patient", component: PatientComponent, title: "Pacijent"},
   { path: "doctor", component: DoctorComponent, title: "Doktor"},
   { path: "manager-login", component: ManagerLoginComponent, title: "Menadžer prijava"},

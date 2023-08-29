@@ -35,7 +35,7 @@ export class UserService {
       phone: phone,
       profile_picture: profile_picture
     }
-    console.log(data)
+    console.log("Servis: ", data)
     return this.http.post(`${this.uri}/register`, data);
   }
 
@@ -72,7 +72,6 @@ export class UserService {
   }
 
   updateUserProfile(loggedInUsername, updatedProfile){
-
     const data = {
       username: loggedInUsername,
       updatedProfile: updatedProfile
@@ -146,6 +145,13 @@ export class UserService {
       patient:patient
     }
     return this.http.post(`${this.uri}/getPastBookedAppointments`, data);
+  }
+
+  deleteUser(user){
+    const data = {
+      username:user
+    }
+    return this.http.post(`${this.uri}/deleteUser`, data);
   }
 
 }

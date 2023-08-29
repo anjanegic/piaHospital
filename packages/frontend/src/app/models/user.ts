@@ -14,6 +14,7 @@ export class User{
     specialization: string;
     branch: string;
     approved: boolean;
+    deleted: boolean;
     profile_picture: string;
     appointments: Array<Appointment>
     bookedAppointments: Array<BookedAppointment>

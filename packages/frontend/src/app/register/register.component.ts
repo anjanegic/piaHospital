@@ -19,8 +19,8 @@ export class RegisterComponent implements OnInit {
   errorRegister: string = "";
   registerSuccess: string = "";
   passwordErrors: {[key: string]: string} = {
-    passwordRequirements: "Password must be between 8 and 14 characters, have 1 uppercase character, 1 number, 1 special character and start with a letter!",
-    repeatingCharacters: "Password must not contain repeating characters."
+    passwordRequirements: "Lozinka mora da ima između 8 i 14 karaktera, da ima 1 veliko slovo, 1 broj, 1 specijalni znak i da počinje slovom",
+    repeatingCharacters: "Lozinka ne sme da sadrži znakove koji se ponavljaju"
   };
   selectedFile: File | null = null;
 
@@ -42,12 +42,10 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
-
   submitRegister() {
     this.errorRegister = "";
     if (this.formRegister.valid) {
-      let profilePicture = (this.formRegister.get('profilePicture').value) ? this.getImageUrl(this.formRegister.get('profilePicture').value): "../../../frontend/src/assets/profile-icon-person-user-19.png";
+      let profilePicture = (this.imagePath) ? this.imagePath : "../../assets/profile-icon-person-user-19.png";
       let username = this.formRegister.get('usernameRegister').value;
       let password = this.formRegister.get('passwordRegister').value;
       let firstname = this.formRegister.get('firstname').value;
@@ -58,7 +56,8 @@ export class RegisterComponent implements OnInit {
 
       this.servis.register(username, password, firstname, lastname, email, address, phone, profilePicture).subscribe((respObj)=>{
         if(respObj['message']=='ok'){
-          this.registerSuccess = 'You are registered';
+          this.registerSuccess = 'Uspesno';
+          this.formRegister.reset();
         }
         else{
           this.errorRegister = 'Something went wrong';
@@ -92,13 +91,18 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  getImageUrl(imageName: string): string {
-    return `../../assets/${imageName}`;
+  imagePath: string = ""
+  getImageUrl(imageName){
+    this.imagePath = `../../assets/${imageName}`;
   }
 
   onFileSelected(event: any) {
-    console.log(event.target.files[0])
-    this.selectedFile = event.target.files[0].name;
+    this.selectedFile = event.target.files[0]['name'];
+    this.getImageUrl(this.selectedFile);
+  }
+
+  back(){
+    this.ruter.navigate([''])
   }
 
 }

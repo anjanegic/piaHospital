@@ -78,13 +78,11 @@ export class LoginComponent implements OnInit {
             sessionStorage.setItem('username', user.username);
             sessionStorage.setItem('first_name', user.first_name);
             sessionStorage.setItem('last_name', user.last_name);
-            // this.authentication(user);
             this.ruter.navigate(['patient']);
-          }else{
+          }else if(user.type=="doctor"){
             sessionStorage.setItem('username', user.username);
             sessionStorage.setItem('first_name', user.first_name);
             sessionStorage.setItem('last_name', user.last_name);
-            // this.authentication(user);
             this.ruter.navigate(['doctor']);
           }
         }
@@ -113,7 +111,7 @@ export class LoginComponent implements OnInit {
       return this.sortAscending ? compareResult : -compareResult;
     });
     console.log(this.doctorsToDisplay)
-    this.doctorsToDisplay = [...this.filteredDoctors]; // Ažurirajte doctorsToDisplay
+    this.doctorsToDisplay = [...this.filteredDoctors]; 
   }
 
   filterDoctors() {

@@ -37,6 +37,7 @@ mat-card {
 .button {
   display: flex;
   justify-content: flex-end;
+  margin: 10px;
 }
 
 .main-description {
@@ -46,12 +47,12 @@ mat-card {
   padding: 16px;
   width: 300px;
   color: white;
-  background-color: red;
+  background-color: rgb(255 61 61 / 71%);
 }
 
 .registerSuccess {
   padding: 16px;
   width: 300px;
   color: white;
-  background-color: rgb(54, 165, 32);
+  background-color: rgb(128, 199, 114);
 }

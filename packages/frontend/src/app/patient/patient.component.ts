@@ -28,9 +28,9 @@ export class PatientComponent implements OnInit {
   editableFields: { label: string; value: string }[] = [];
   editingProfile: boolean = false;
   showEditProfilePictureInput: boolean = false;
-  passwordErrors: { [key: string]: string } = {
-    passwordRequirements: "Password must be between 8 and 14 characters, have 1 uppercase character, 1 number, 1 special character and start with a letter!",
-    repeatingCharacters: "Password must not contain repeating characters."
+  passwordErrors: {[key: string]: string} = {
+    passwordRequirements: "Lozinka mora da ima između 8 i 14 karaktera, da ima 1 veliko slovo, 1 broj, 1 specijalni znak i da počinje slovom",
+    repeatingCharacters: "Lozinka ne sme da sadrži znakove koji se ponavljaju"
   };
   minDate: string;
   maxDate: string;
@@ -101,6 +101,7 @@ export class PatientComponent implements OnInit {
   }
   userReports = [];
   bookedAppointmentsDoctors = [];
+  
   changeThePassword() {
     this.error = '';
     this.passwordChanged = ''

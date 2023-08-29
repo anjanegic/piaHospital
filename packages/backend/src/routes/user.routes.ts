@@ -63,4 +63,8 @@ userRouter.route('/getAllPatients').get(
     (req, res)=> new UserController().getAllPatients(req, res)
 )
 
+userRouter.route('/deleteUser').post(
+    (req, res)=> new UserController().deleteUser(req, res)
+)
+
 export default userRouter;

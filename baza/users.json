@@ -22,9 +22,8 @@
         "phone": "0612288927",
         "profile_picture": "../../assets/profile-icon-person-user-19.png",
         "approved" : true,
-        "bookedAppointments": [
-            
-        ]
+        "bookedAppointments": [],
+        "deleted" : false
     },
     {
         "username": "maja",
@@ -37,7 +36,8 @@
         "phone": "0632638837",
         "profile_picture": "../../assets/profile-icon-person-user-19.png",
         "approved" : true,
-        "bookedAppointments": []
+        "bookedAppointments": [],
+        "deleted" : false
     },
     {
         "username": "ana",
@@ -50,7 +50,8 @@
         "phone": "0652493997",
         "profile_picture": "../../assets/profile-icon-person-user-19.png",
         "approved" : true,
-        "bookedAppointments": []
+        "bookedAppointments": [],
+        "deleted" : false
     },
     {
         "username": "paja",
@@ -63,7 +64,8 @@
         "phone": "0622960898",
         "profile_picture": "../../assets/profile-icon-person-user-19.png",
         "approved" : false,
-        "bookedAppointments": []
+        "bookedAppointments": [],
+        "deleted" : false
     },
     {
         "first_name": "Miloš",
@@ -86,7 +88,8 @@
         ],
         "bookedAppointments": [
             
-        ]
+        ],
+        "deleted" : false
     },
     {
         "first_name": "Ana",
@@ -107,7 +110,8 @@
             { "name": "Testiranje alergije na koži kod dece", "duration": 75, "price": 4000, "chosen": false, "approved": true   },
             { "name": "Procena začetka akni kod beba", "duration": 45, "price": 2500, "chosen": false, "approved": true   }
         ],
-        "bookedAppointments": []
+        "bookedAppointments": [],
+        "deleted" : false
       },
       {
         "first_name": "Marko",
@@ -128,7 +132,8 @@
             { "name": "Punjenje filerima", "duration": 60, "price": 3500, "chosen": false, "approved": true   },
             { "name": "Hemijski piling", "duration": 45, "price": 3000, "chosen": false, "approved": true   }
         ],
-        "bookedAppointments": []
+        "bookedAppointments": [],
+        "deleted" : false
     },
     {
         "first_name": "Nikola",
@@ -149,7 +154,8 @@
             { "name": "Tumačenje biopsije", "duration": 60, "price": 3000, "chosen": false, "approved": true   },
             { "name": "Konsultacija za histopatologiju", "duration": 90, "price": 4000, "chosen": false, "approved": true   }    
         ],
-        "bookedAppointments": []
+        "bookedAppointments": [],
+        "deleted" : false
     },
     {
         "first_name": "Marija",
@@ -170,7 +176,8 @@
             { "name": "Testiranje alergije ubodom kože", "duration": 30, "price": 2000, "chosen": false, "approved": true   },
             { "name": "Konsultacija za atopijski dermatitis", "duration": 45, "price": 2500, "chosen": false, "approved": true   }
         ],
-        "bookedAppointments": []
+        "bookedAppointments": [],
+        "deleted" : false
     },
     {
         "first_name": "Ivan",
@@ -191,7 +198,8 @@
             { "name": "Konsultacija za autoimune poremećaje kože", "duration": 45, "price": 2500, "chosen": false, "approved": true   },
             { "name": "Procena imunodeficijencije", "duration": 90, "price": 4500, "chosen": false, "approved": true   }
         ],
-        "bookedAppointments": []
+        "bookedAppointments": [],
+        "deleted" : false
     },
     {
         "first_name": "Milica",
@@ -212,7 +220,8 @@
             { "name": "Dijagnoza melanoma", "duration": 60, "price": 3500, "chosen": false, "approved": true   },
             { "name": "Konsultacija za hemoterapiju", "duration": 90, "price": 4500, "chosen": false, "approved": true   }
         ],
-        "bookedAppointments": []
+        "bookedAppointments": [],
+        "deleted" : false
     },
     {
         "first_name": "Stefan",
@@ -233,7 +242,8 @@
             { "name": "Uklanjanje tetovaža laserom", "duration": 60, "price": 3500, "chosen": false, "approved": true },
             { "name": "Smanjenje ožiljaka laserom", "duration": 45, "price": 3000,"chosen": false, "approved": true  }
         ],
-        "bookedAppointments": []
+        "bookedAppointments": [],
+        "deleted" : false
     }
  
 ]
