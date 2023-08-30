@@ -42,6 +42,50 @@ class UserController {
                     res.json({ "message": "ok" });
             });
         };
+        this.registerDoctor = (req, res) => {
+            let user = new user_1.default({
+                first_name: req.body.firstname,
+                last_name: req.body.lastname,
+                username: req.body.username,
+                password: req.body.password,
+                email: req.body.email,
+                address: req.body.address,
+                phone: req.body.phone,
+                type: "doctor",
+                approved: true,
+                deleted: false,
+                profile_picture: req.body.profile_picture,
+                appointments: req.body.appointments,
+                specialization: req.body.specialization,
+                branch: req.body.branch,
+                license: req.body.license,
+                bookedAppointments: []
+            });
+            user.save((err, resp) => {
+                if (err) {
+                    console.log(err);
+                    res.status(400).json({ "message": "error" });
+                }
+                else
+                    res.json({ "message": "ok" });
+            });
+        };
+        this.checkExistingUser = (req, res) => {
+            const username = req.body.username;
+            const email = req.body.email;
+            user_1.default.findOne({ $or: [{ 'username': username }, { 'email': email }] }, (err, user) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).json({ "message": "error" });
+                }
+                else if (user) {
+                    res.json({ "message": "exists" });
+                }
+                else {
+                    res.json({ "message": "ok" });
+                }
+            });
+        };
         this.saveCheckedAppointments = (req, res) => {
             let savedApp = req.body.appointments;
             let username = req.body.user;
@@ -53,7 +97,7 @@ class UserController {
             });
         };
         this.getAllDoctors = (req, res) => {
-            user_1.default.find({ 'type': 'doctor' }, (err, user) => {
+            user_1.default.find({ 'type': 'doctor', 'deleted': false }, (err, user) => {
                 if (err)
                     console.log(err);
                 else
@@ -245,7 +289,6 @@ class UserController {
                             console.log(err);
                         }
                         else {
-                            console.log("USPEJHHHHH");
                             return res.json({ message: user.bookedAppointments });
                         }
                     });
@@ -261,6 +304,28 @@ class UserController {
                 }
                 else {
                     return res.json({ message: 'success' });
+                }
+            });
+        };
+        this.createAppointmentManager = (req, res) => {
+            let specialization = req.body.specialization;
+            let appointment = req.body.appointment;
+            console.log(specialization, appointment);
+            user_1.default.find({ 'specialization': specialization }, (err, users) => {
+                if (err)
+                    console.log(err);
+                else {
+                    for (let user of users) {
+                        console.log(user);
+                        user_1.default.updateOne({ 'username': user.username }, { $push: { 'appointments': appointment } }, (err, success) => {
+                            if (err) {
+                                return res.json({ message: 'error' });
+                            }
+                            else {
+                                return res.json({ message: 'success' });
+                            }
+                        });
+                    }
                 }
             });
         };
@@ -288,7 +353,15 @@ class UserController {
             });
         };
         this.getAllPatients = (req, res) => {
-            user_1.default.find({ 'type': 'patient', 'approved': true }, (err, user) => {
+            user_1.default.find({ 'type': 'patient', 'approved': true, 'deleted': false }, (err, user) => {
+                if (err)
+                    console.log(err);
+                else
+                    res.json(user);
+            });
+        };
+        this.getAllPatientsWaiting = (req, res) => {
+            user_1.default.find({ 'type': 'patient', 'approved': false, 'deleted': false }, (err, user) => {
                 if (err)
                     console.log(err);
                 else
@@ -297,12 +370,112 @@ class UserController {
         };
         this.deleteUser = (req, res) => {
             let username = req.body.username;
-            console.log("Usao");
-            user_1.default.updateOne({ 'username': username }, { $set: { 'approved': false } }, (err, resp) => {
+            user_1.default.updateOne({ 'username': username }, { $set: { 'approved': false, 'deleted': true } }, (err, resp) => {
                 if (err)
                     console.log(err);
                 else
                     res.json({ 'message': 'ok' });
+            });
+        };
+        this.approveUser = (req, res) => {
+            let username = req.body.username;
+            user_1.default.updateOne({ 'username': username }, { $set: { 'approved': true } }, (err, resp) => {
+                if (err)
+                    console.log(err);
+                else
+                    res.json({ 'message': 'ok' });
+            });
+        };
+        this.approveAppointment = (req, res) => {
+            let name = req.body.name;
+            let username = req.body.username;
+            let appointments = [];
+            user_1.default.findOne({ 'username': username }, (err, user) => {
+                if (err)
+                    console.log(err);
+                else {
+                    for (let a of user.appointments) {
+                        if (a.name === name) {
+                            a.approved = true;
+                        }
+                    }
+                    appointments = user.appointments;
+                    user_1.default.updateOne({ 'username': username }, { $set: { 'appointments': appointments } }, (err, userApp) => {
+                        if (err)
+                            console.log(err);
+                        else {
+                            user_1.default.findOne({ 'username': username }, (err, userUp) => {
+                                if (err)
+                                    console.log(err);
+                                else {
+                                    return res.json(userUp);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        };
+        this.changeAppointment = (req, res) => {
+            let appointments = [];
+            let newappointment = req.body.appointment;
+            let specialization = req.body.specialization;
+            let oldAppointment = req.body.oldAppointment;
+            user_1.default.find({ 'specialization': specialization }, (err, users) => {
+                if (err)
+                    console.log(err);
+                else {
+                    for (let user of users) {
+                        for (let i = 0; i < user.appointments.length; i++) {
+                            if (user.appointments[i].name === oldAppointment.name) {
+                                newappointment.chosen = user.appointments[i].chosen;
+                                break;
+                            }
+                        }
+                        user.appointments = user.appointments.filter(a => a.name !== oldAppointment.name);
+                        newappointment.approved = true;
+                        user.appointments.push(newappointment);
+                        user_1.default.updateOne({ 'username': user.username }, { $set: { "appointments": user.appointments } }, (err, resp) => {
+                            if (err)
+                                console.log(err);
+                            else
+                                console.log(resp);
+                        });
+                    }
+                    return res.json({ 'message': 'ok' });
+                }
+            });
+        };
+        this.disableAppointment = (req, res) => {
+            let appointments = [];
+            let appointment = req.body.appointment;
+            let specialization = req.body.specialization;
+            console.log(appointment);
+            console.log(specialization);
+            user_1.default.find({ 'specialization': specialization }, (err, users) => {
+                if (err)
+                    console.log(err);
+                else {
+                    for (let user of users) {
+                        console.log("user");
+                        console.log("pre ", user.appointments);
+                        for (let i = 0; i < user.appointments.length; i++) {
+                            if (user.appointments[i].name === appointment) {
+                                user.appointments[i].chosen = false;
+                                user.appointments[i].approved = false;
+                                break;
+                            }
+                        }
+                        console.log("Posle ", user.appointments);
+                        user_1.default.updateOne({ 'username': user.username }, { $set: { "appointments": user.appointments } }, (err, resp) => {
+                            if (err)
+                                console.log(err);
+                            else
+                                console.log(resp);
+                        });
+                    }
+                    return res.json({ 'message': 'ok' });
+                }
             });
         };
     }

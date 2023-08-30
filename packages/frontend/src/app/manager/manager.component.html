@@ -42,7 +42,9 @@
     </mat-accordion>
   </div>
   <div class="logout-button">
-    <button mat-raised-button color="primary" (click)="logout()">Izloguj se</button>
+    <button mat-raised-button color="primary" (click)="logout()">
+      Izloguj se
+    </button>
   </div>
 </div>
 <div class="menu">
@@ -53,21 +55,67 @@
         <div class="doctors-info" *ngIf="selectedDoctor; else doctorList">
           <div class="doctor-card-details">
             <ng-container *ngIf="!editingProfileDoctor">
-              <div class="doctor-info">
+              <div class="doctor-preview-details">
                 <p class="doctor-name">
                   {{ selectedDoctor.first_name }} {{ selectedDoctor.last_name }}
                 </p>
-                <p><strong>E-mail:</strong> {{ selectedDoctor.email }}</p>
-                <p><strong>Korisnicko ime:</strong> {{ selectedDoctor.username }}</p>
-                <img [src]="selectedDoctor.profile_picture" alt="Profilna slika" />
-                <p class="doctor-specialization">
-                  {{ selectedDoctor.specialization }}
-                </p>
-                <p>Ogranak: {{ selectedDoctor.branch }}</p>
+                <img width="250px" [src]="selectedDoctor.profile_picture" alt="Profilna slika" />
+                <div>
+                  <p class="doctor-specialization"><strong>E-mail:</strong> {{ selectedDoctor.email }}</p>
+                  <p class="doctor-specialization">
+                    <strong>Korisnicko ime: </strong> {{ selectedDoctor.username }}
+                  </p>
+
+                  <p class="doctor-specialization">
+                    <strong>Specijalizacija: </strong>{{ selectedDoctor.specialization }}
+                  </p>
+                  <p class="doctor-specialization">
+                    <strong>Ogranak: </strong>{{ selectedDoctor.branch }}
+                  </p>
+                </div>
               </div>
+              <div class="buttons_book_back">
+                <button mat-stroked-button color="primary" (click)="startEditingProfileDoctor()">
+                  Ažuriraj Profil
+                </button>
+              </div>
+
               <!-- PREGLEDI KOJE OMOGUCAVA LEKAR -->
               <div class="appointments">
-                <table mat-table [dataSource]="selectedDoctor.appointments" class="mat-elevation-z8 demo-table">
+                <table mat-table [dataSource]="approvedAppointments" id="table-appointments"
+                  class="mat-elevation-z8 demo-table">
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Pregled</th>
+                    <td mat-cell *matCellDef="let appointment" [ngClass]="{'color-row': appointment.chosen === true}">
+                      {{ appointment.name }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="duration">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Duzina pregleda (min)
+                    </th>
+                    <td mat-cell *matCellDef="let appointment" [ngClass]="{'color-row': appointment.chosen === true}">
+                      {{ appointment.duration }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef>Cena (RSD)</th>
+                    <td mat-cell *matCellDef="let appointment" [ngClass]="{'color-row': appointment.chosen === true}">
+                      {{ appointment.price }}
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="['name', 'duration', 'price']"></tr>
+                  <tr mat-row *matRowDef="
+                      let appointment;
+                      columns: ['name', 'duration', 'price']
+                    "></tr>
+                </table>
+                <h2>Pregledi za odobravanje</h2>
+                <table mat-table [dataSource]="unapprovedAppointments" id="table-appointments"
+                  class="mat-elevation-z8 demo-table">
                   <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>Pregled</th>
                     <td mat-cell *matCellDef="let appointment">
@@ -86,35 +134,44 @@
 
                   <ng-container matColumnDef="price">
                     <th mat-header-cell *matHeaderCellDef>Cena (RSD)</th>
-                    <td mat-cell *matCellDef="let appointment">
+                    <td mat-cell *matCellDef="let appointment" [ngClass]="{'color-row': appointment.chosen === true}">
                       {{ appointment.price }}
                     </td>
                   </ng-container>
 
-                  <tr mat-header-row *matHeaderRowDef="['name', 'duration', 'price']"></tr>
+                  <ng-container matColumnDef="approve">
+                    <th mat-header-cell *matHeaderCellDef>Cena (RSD)</th>
+                    <td mat-cell *matCellDef="let appointment">
+                      <button mat-raised-button (click)="approve(appointment)">
+                        <mat-icon>check</mat-icon>
+                      </button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="['name', 'duration', 'price', 'approve']"></tr>
                   <tr mat-row *matRowDef="
                       let appointment;
-                      columns: ['name', 'duration', 'price']
+                      columns: ['name', 'duration', 'price', 'approve']
                     "></tr>
                 </table>
-                <hr>
                 <div class="buttons_book_back">
                   <button mat-stroked-button color="primary" (click)="clearSelectedDoctor()">
                     Nazad
                   </button>
-                  <button mat-stroked-button color="primary" (click)="startEditingProfileDoctor()">
-                    Ažuriraj Profil
-                  </button>
                 </div>
-                <div style="margin-top: 10px; display: flex; justify-content: center;">
-                  <button mat-fab color="primary" (click)="deleteUser(selectedPatient)">
+                <div style="
+                    margin-top: 10px;
+                    display: flex;
+                    justify-content: center;
+                  ">
+                  <button mat-fab color="primary" (click)="deleteUser(selectedDoctor)">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </div>
               </div>
             </ng-container>
             <ng-container *ngIf="editingProfileDoctor">
-              <form [formGroup]="profileFormDoctor" style="width: 500px">
+              <form class="manage-user-form" [formGroup]="profileFormDoctor" style="width: 500px">
                 <div class="editFields">
                   <mat-form-field>
                     <mat-label>Ime</mat-label>
@@ -155,14 +212,14 @@
                   <mat-form-field>
                     <mat-label>Specijalizacija</mat-label>
                     <mat-select formControlName="specialization">
-                      <mat-option *ngFor="let s of specializations" [value]="s.name">{{s.name}}</mat-option>
+                      <mat-option *ngFor="let s of specializations" [value]="s.name">{{ s.name }}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
                 <button class="saveCancel" mat-raised-button color="primary" (click)="saveEditedProfileDoctor()">
                   Sačuvaj
                 </button>
-                <button class="saveCancel" mat-raised-button color="warn" (click)="cancelEditingProfileDoctor()">
+                <button class="saveCancel" mat-stroked-button color="primary" (click)="cancelEditingProfileDoctor()">
                   Otkaži
                 </button>
               </form>
@@ -179,12 +236,88 @@
             <ng-container *ngIf="doctors.length > 0; else noDoctors">
               <div *ngFor="let doctor of doctors" class="doctor-card" (click)="selectDoctor(doctor.username)">
                 <img [src]="doctor.profile_picture" alt="Profilna slika" />
-                <div class="doctor-info">
+                <div class="doctor-list-card">
                   <p>{{ doctor.first_name }} {{ doctor.last_name }}</p>
                   <p>{{ doctor.specialization }}</p>
                 </div>
               </div>
             </ng-container>
+          </div>
+          <div class="title-section">
+            <h2>
+              Dodaj novog lekara
+            </h2>
+            <div class="form-new-doctor">
+              <mat-card class="inline-block">
+
+                <mat-card-content>
+                  <form [formGroup]="formRegister" (ngSubmit)="submitNewUser()">
+                    <mat-form-field class="example-full-width">
+                      <input type="text" matInput placeholder="Ime" formControlName="firstname" />
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <input type="text" matInput placeholder="Prezime" formControlName="lastname" />
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <input type="text" matInput placeholder="Korisnicko ime" formControlName="usernameRegister" />
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <input type="password" matInput placeholder="Lozinka" formControlName="passwordRegister" />
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <input type="text" matInput placeholder="E-mail" formControlName="email" />
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <input type="text" matInput placeholder="Telefon" formControlName="phone" />
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <input type="text" matInput placeholder="Adresa" formControlName="address" />
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <input type="number" matInput placeholder="Licenca" formControlName="license" />
+                    </mat-form-field>
+
+                    <mat-form-field>
+                      <mat-label>Specijalizacija</mat-label>
+                      <mat-select formControlName="specialization">
+                        <mat-option *ngFor="let s of specializations" [value]="s.name">{{ s.name }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-card>
+                      <mat-card-header>
+                        <mat-card-title>Profilna slika</mat-card-title>
+                      </mat-card-header>
+                      <mat-card-content>
+                        <input type="file" (change)="onFileSelected($event)" />
+                      </mat-card-content>
+                    </mat-card>
+
+                    <p *ngIf="errorRegister" class="error">
+                      {{ errorRegister }}
+                    </p>
+
+                    <p *ngIf="registerSuccess" class="registerSuccess">
+                      {{ registerSuccess }}
+                    </p>
+
+                    <div class="button">
+
+                      <button type="submit" mat-raised-button color="primary">
+                        Dodaj
+                      </button>
+                    </div>
+                  </form>
+                </mat-card-content>
+              </mat-card>
+            </div>
           </div>
         </ng-template>
       </div>
@@ -194,27 +327,28 @@
       </ng-template>
     </mat-tab>
 
-
-
-
     <!-- PACIJENTI -->
     <mat-tab label="Pacijenti">
       <div class="container">
         <div class="doctors-info" *ngIf="selectedPatient; else patientList">
           <div class="profile-details">
             <ng-container *ngIf="!editingProfile">
+              <p class="doctor-name">
+                {{ selectedPatient.first_name }} {{ selectedPatient.last_name }}
+              </p>
+
               <div class="centralImg">
                 <img class="profileImg" [src]="selectedPatient.profile_picture" alt="Profilna slika" />
               </div>
-              <p><strong>Ime:</strong> {{ selectedPatient.first_name }}</p>
-              <p><strong>Prezime:</strong> {{ selectedPatient.last_name }}</p>
+
               <p><strong>Adresa:</strong> {{ selectedPatient.address }}</p>
               <p><strong>E-mail adresa:</strong> {{ selectedPatient.email }}</p>
-              <p><strong>Korisnicko ime:</strong> {{ selectedPatient.username }}</p>
+              <p>
+                <strong>Korisnicko ime:</strong> {{ selectedPatient.username }}
+              </p>
               <p>
                 <strong>Kontakt telefon:</strong> {{ selectedPatient.phone }}
               </p>
-              <hr>
               <div class="buttons_book_back">
                 <button mat-stroked-button color="primary" (click)="clearSelectedPatient()">
                   Nazad
@@ -224,15 +358,14 @@
                   Ažuriraj Profil
                 </button>
               </div>
-              <div style="margin-top: 10px;">
+              <div style="margin-top: 10px">
                 <button mat-fab color="primary" (click)="deleteUser(selectedPatient)">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
-
             </ng-container>
             <ng-container *ngIf="editingProfile">
-              <form [formGroup]="profileForm">
+              <form class="doctor-form" [formGroup]="profileForm">
                 <div class="editFields">
                   <mat-form-field>
                     <mat-label>Ime</mat-label>
@@ -273,7 +406,7 @@
                   Sačuvaj
                 </button>
 
-                <button class="saveCancel" mat-raised-button color="warn" (click)="cancelEditingProfile()">
+                <button class="saveCancel" mat-stroked-button color="primary" (click)="cancelEditingProfile()">
                   Otkaži
                 </button>
               </form>
@@ -303,6 +436,215 @@
       <ng-template #noPaticent>
         <p>Nema pacijenata</p>
       </ng-template>
+    </mat-tab>
+
+    <!-- REGISTRACIJE -->
+    <mat-tab label="Registracije">
+      <div class="container">
+        <div class="title-section">
+          <h2>Registracije na cekanju</h2>
+        </div>
+        <div class="doctors-container">
+          <ng-container *ngIf="patientsWaiting.length > 0; else noPaticent">
+            <div *ngFor="let patient of patientsWaiting" class="doctor-card">
+              <img [src]="patient.profile_picture" alt="Profilna slika" />
+              <div class="doctor-info">
+                <p>{{ patient.first_name }} {{ patient.last_name }}</p>
+              </div>
+              <div>
+                <button mat-raised-button color="primary" (click)="approvePatient(patient.username)">Odobri</button>
+
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <ng-template #noPaticent>
+        <p>Nema pacijenata</p>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Specijalizacije">
+
+      <div class="new-spec-title">
+        <h2>Nova specijalizacija</h2>
+      </div>
+      <div class="new-spec-form">
+        <form [formGroup]="specializationForm" (ngSubmit)="submitSpecialization()">
+          <mat-form-field>
+            <input matInput formControlName="name" placeholder="Specijalizacija" required>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput formControlName="branch" placeholder="Ogranak" required>
+          </mat-form-field>
+          <p *ngIf="specSuccess" class="registerSuccess">
+            {{ specSuccess }}
+          </p>
+          <div class="new-spec-button">
+            <button mat-raised-button color="primary" type="submit">Dodaj specijalizaciju</button>
+          </div>
+
+        </form>
+      </div>
+      <div class="all-spec">
+        <h2 style="text-align: center;">Sve specijalizacije</h2>
+        <div>
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let specialization of specializations">
+              <mat-expansion-panel-header class="panel-header">
+                <div class="panel-title">{{ specialization.name }}</div>
+                <div class="panel-description">{{ specialization.branch }}</div>
+              </mat-expansion-panel-header>
+              <div class="mat-table-app">
+                <ng-container *ngIf="specialization.appointments.length > 0; else noApp">
+                  <table mat-table [dataSource]="specialization.appointments" class="mat-elevation-z8">
+                    <ng-container matColumnDef="name">
+                      <th mat-header-cell *matHeaderCellDef>Pregled</th>
+                      <td mat-cell *matCellDef="let appointment">{{ appointment.name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="duration">
+                      <th mat-header-cell *matHeaderCellDef>Duzina pregleda (min)</th>
+                      <td mat-cell *matCellDef="let appointment">{{ appointment.duration }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="price">
+                      <th mat-header-cell *matHeaderCellDef>Cena (RSD)</th>
+                      <td mat-cell *matCellDef="let appointment">{{ appointment.price }}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="['name', 'duration', 'price']"></tr>
+                    <tr mat-row *matRowDef="let appointment; columns: ['name', 'duration', 'price']"></tr>
+                  </table>
+                </ng-container>
+              </div>
+              <ng-template #noApp>
+                Nema pregleda za ovu specijalizaciju
+              </ng-template>
+
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </div>
+
+    </mat-tab>
+    <mat-tab label="Pregledi">
+      <div class="new-spec-title">
+        <h2>Izmene</h2>
+      </div>
+      <div class="app-change">
+        <mat-form-field>
+          <mat-label>Odaberi specijalizaciju</mat-label>
+          <mat-select [(value)]="selectedSpecialization" (selectionChange)="onSpecializationChange()">
+            <mat-option *ngFor="let specialization of specializations" [value]="specialization">
+              {{ specialization.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="spec-app-details" *ngIf="selectedSpecialization">
+
+          <table mat-table [dataSource]="selectedSpecialization.appointments">
+            <ng-container matColumnDef="name" >
+              <th mat-header-cell *matHeaderCellDef>Pregled</th>
+              <td mat-cell *matCellDef="let appointment" [ngClass]="{'selected-row': selectedAppointmentForEdit === appointment}">{{ appointment.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="duration">
+              <th mat-header-cell *matHeaderCellDef>Duzina pregleda (min)</th>
+              <td mat-cell *matCellDef="let appointment">{{ appointment.duration }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef>Cena (RSD)</th>
+              <td mat-cell *matCellDef="let appointment">{{ appointment.price }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef>
+
+              </th>
+              <td mat-cell *matCellDef="let appointment"><button mat-button (click)="deleteAppointment(appointment)">
+                  <mat-icon>delete</mat-icon>
+                </button></td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="['name', 'duration', 'price', 'delete']"></tr>
+            <tr mat-row *matRowDef="let appointment; columns: ['name', 'duration', 'price', 'delete']"
+              (click)="selectAppointmentForEdit(appointment)"
+              >
+            </tr>
+          </table>
+        </div>
+        <div class="edit-appointment-form">
+
+          <form [formGroup]="editForm">
+            <mat-form-field>
+              <input matInput type="text" formControlName="name" placeholder="Ime pregleda" />
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput type="number" formControlName="duration" placeholder="Duzina pregleda (min)" />
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput type="number" formControlName="price" placeholder="Cena (RSD)" />
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="saveEditedAppointment()">Sacuvaj</button>
+          </form>
+        </div>
+
+
+      </div>
+      <div class="misc-tab-content">
+        <h2 class="misc-tab-heading">Nova vrsta pregleda</h2>
+        <form (ngSubmit)="onSubmit()" class="misc-form">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Naziv pregleda"
+              [(ngModel)]="newAppointment.name"
+              name="name"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              placeholder="Trajanje (u minutima)"
+              [(ngModel)]="newAppointment.duration"
+              name="duration"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              placeholder="Cena"
+              [(ngModel)]="newAppointment.price"
+              name="price"
+              required
+            />
+          </mat-form-field>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="misc-button"
+          >
+            Dodaj
+          </button>
+        </form>
+      </div>
+      <div class="message">
+        <p *ngIf="appointmentSuccess" class="appointmentSuccess">
+          {{ appointmentSuccess }}
+        </p>
+        <p *ngIf="appointmentError" class="appointmentError">
+          {{ appointmentError }}
+        </p>
+      </div>
     </mat-tab>
   </mat-tab-group>
 </div>

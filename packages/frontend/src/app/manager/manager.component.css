@@ -105,12 +105,13 @@ mat-card {
 }
 
 .doctor-name {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
 }
 
 .doctor-specialization {
-  font-size: 18px;
+  font-size: 16px;
+  text-align: center;
 }
 
 .demo-table {
@@ -136,9 +137,8 @@ mat-card {
 .buttons_book_back {
   margin: auto 20px;
   padding-bottom: 15px;
-  padding-top: 15px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
 .appointments {
@@ -148,5 +148,202 @@ mat-card {
 .doctors-info {
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
+
+}
+
+.doctor-preview-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 17px;
+}
+
+.doctor-list-card {
+  text-align: center;
+}
+
+.manage-user-form {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* .saveCancel{
+  margin: auto;
+} */
+
+#table-appointments{
+  margin: 20px auto
+}
+
+
+/* NEW DOCTOR */
+
+
+.inline-block {
+  display: inline-block;
+  width: 400px;
+}
+
+mat-card {
+  box-shadow: 0px 0px 10px 0px #9b9b9b,
+      0 1px 1px 0 #000000,
+      0 1px 3px 0 #9b9b9b;
+
+}
+
+
+.log-reg {
+  display: flex;
+  justify-content: center;
+  max-width: 450;
+  margin: 0 auto;
+  padding: 12px;
+}
+
+
+.mat-form-field {
+  width: 100%;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px;
+}
+
+.main-description {
+  color: rgba(88, 35, 117, 1);
+}
+.error {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: rgb(255 61 61 / 71%);
+}
+
+.registerSuccess {
+  padding: 16px;
+  color: white;
+  background-color: rgb(128, 199, 114);
+}
+
+.color-row{
+  color: rgb(9, 121, 9) !important;
+  font-weight: bold;
+}
+
+.new-spec-title{
+  display: flex;
+  justify-content: center;
+}
+
+.new-spec-form{
+  display: flex;
+  justify-content: center;
+}
+
+.new-spec-button{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.panel-description {
+  margin-left: auto;
+    margin-right: 20px;
+    font-size: 15px;
+    color: #391942;
+}
+
+.panel-title{
+  font-size: 16px;
+}
+
+.panel-header{
+  display: flex;
+  justify-content: center;
+}
+
+.all-spec{
+  padding: 50px;
+}
+
+.mat-expansion-panel-body{
+  padding: 0 24px 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.mat-table-app{
+  padding: 0 24px 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.app-change{
+  margin:auto;
+  width: 700px;
+}
+
+.spec-app-details{
+  display: flex;
+  flex-direction: column;
+}
+
+.selected-row {
+  color: #8f809143;
+  font-weight: bold;
+}
+
+
+.misc-tab-content {
+  margin: auto 150px;
+}
+
+.misc-tab-heading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.misc-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.misc-form mat-form-field {
+  margin-bottom: 10px;
+}
+
+.misc-button {
+  width: 100%;
+  max-width: 300px;
+}
+
+.appointmentSuccess {
+  display: flex;
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: rgb(163 209 154);
+}
+.appointmentError {
+  display: flex;
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: rgb(233, 153, 165);
+}
+
+.message{
+  display: flex;
   justify-content: center;
 }

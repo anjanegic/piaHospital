@@ -11,6 +11,14 @@ userRouter.route('/register').post(
     (req, res)=>new UserController().register(req, res)
 )
 
+userRouter.route('/registerDoctor').post(
+    (req, res)=>new UserController().registerDoctor(req, res)
+)
+
+userRouter.route('/checkExistingUser').post(
+    (req, res)=>new UserController().checkExistingUser(req, res)
+)
+
 userRouter.route('/getAllDoctors').get(
     (req, res)=> new UserController().getAllDoctors(req, res)
 )
@@ -63,8 +71,32 @@ userRouter.route('/getAllPatients').get(
     (req, res)=> new UserController().getAllPatients(req, res)
 )
 
+userRouter.route('/getAllPatientsWaiting').get(
+    (req, res)=> new UserController().getAllPatientsWaiting(req, res)
+)
+
 userRouter.route('/deleteUser').post(
     (req, res)=> new UserController().deleteUser(req, res)
+)
+
+userRouter.route('/approveUser').post(
+    (req, res)=> new UserController().approveUser(req, res)
+)
+
+userRouter.route('/approveAppointment').post(
+    (req, res)=> new UserController().approveAppointment(req, res)
+)
+
+userRouter.route('/changeAppointment').post(
+    (req, res)=> new UserController().changeAppointment(req, res)
+)
+
+userRouter.route('/disableAppointment').post(
+    (req, res)=> new UserController().disableAppointment(req, res)
+)
+
+userRouter.route('/createAppointmentManager').post(
+    (req, res)=> new UserController().createAppointmentManager(req, res)
 )
 
 export default userRouter;

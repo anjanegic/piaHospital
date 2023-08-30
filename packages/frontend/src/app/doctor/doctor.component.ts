@@ -189,10 +189,10 @@ export class DoctorComponent implements OnInit {
     this.servis
       .getBookedAppointments(this.loggedInUsername)
       .subscribe((appoin: BookedAppointment[]) => {
-
         if (appoin['message'].length > 0) {
-          const n = 3;
-          this.upcomingAppointments = appoin['message'].slice(0, n);
+          this.upcomingAppointments = appoin['message']
+            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+            .slice(0, 3); 
         } else {
           this.upcomingAppointments = [];
         }
@@ -251,6 +251,7 @@ export class DoctorComponent implements OnInit {
   }
 
   refreshCheckedAppointments() {
+    this.appointmentsToCheck=[];
     for (let a of this.loggedInUser.appointments) {
       if (a.approved)
         this.appointmentsToCheck.push(a);

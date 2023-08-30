@@ -35,8 +35,33 @@ export class UserService {
       phone: phone,
       profile_picture: profile_picture
     }
-    console.log("Servis: ", data)
     return this.http.post(`${this.uri}/register`, data);
+  }
+
+  registerDoctor(username, password, firstname, lastname, email, address, phone, profile_picture, license, specialization, branch, appointments){
+    const data = {
+      username: username,
+      password: password,
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      address: address,
+      phone: phone,
+      profile_picture: profile_picture,
+      license: license,
+      specialization: specialization,
+      branch: branch,
+      appointments: appointments
+    }
+    return this.http.post(`${this.uri}/registerDoctor`, data);
+  }
+
+  checkExistingUser(username, email){
+    const data = {
+      username: username,
+      email: email,
+    }
+    return this.http.post(`${this.uri}/checkExistingUser`, data);
   }
 
   getBooks(user) {
@@ -53,6 +78,10 @@ export class UserService {
 
   getAllPatients(){
     return this.http.get(`${this.uri}/getAllPatients`);
+  }
+
+  getAllPatientsWaiting(){
+    return this.http.get(`${this.uri}/getAllPatientsWaiting`);
   }
 
   changePassword(loggedInUsername, oldPassword, newPassword){
@@ -139,6 +168,14 @@ export class UserService {
     return this.http.post(`${this.uri}/createAppointment`, data);
   }
 
+  createAppointmentManager(specialization, appointment){
+    const data = {
+      specialization:specialization.name,
+      appointment:appointment
+    }
+    return this.http.post(`${this.uri}/createAppointmentManager`, data);
+  }
+
   getPastBookedAppointments(doctor, patient){
     const data = {
       doctor:doctor,
@@ -152,6 +189,40 @@ export class UserService {
       username:user
     }
     return this.http.post(`${this.uri}/deleteUser`, data);
+  }
+
+  approveUser(username){
+    const data = {
+      username:username
+    }
+    return this.http.post(`${this.uri}/approveUser`, data);
+  }
+
+  approveAppointment(username,name){
+    const data = {
+      username:username,
+      name:name
+    }
+    return this.http.post(`${this.uri}/approveAppointment`, data);
+  }
+
+  changeAppointment(appointment, specialization, oldAppointment){
+    const data = {
+      appointment:appointment,
+      specialization:specialization.name,
+      oldAppointment: oldAppointment
+    }
+    console.log(data);
+
+    return this.http.post(`${this.uri}/changeAppointment`, data);
+  }
+
+  disableAppointment(appointment, specialization){
+    const data = {
+      appointment:appointment,
+      specialization:specialization
+    }
+    return this.http.post(`${this.uri}/disableAppointment`, data);
   }
 
 }

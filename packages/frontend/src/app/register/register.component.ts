@@ -54,15 +54,25 @@ export class RegisterComponent implements OnInit {
       let address = this.formRegister.get('address').value;
       let phone = this.formRegister.get('phone').value;
 
-      this.servis.register(username, password, firstname, lastname, email, address, phone, profilePicture).subscribe((respObj)=>{
-        if(respObj['message']=='ok'){
-          this.registerSuccess = 'Uspesno';
-          this.formRegister.reset();
+      this.servis.checkExistingUser(username, email).subscribe((respObj) => {
+        if (respObj['message'] === 'exists') {
+          this.errorRegister = 'Korisnik sa istim korisničkim imenom ili emailom već postoji';
+        } else if (respObj['message'] === 'ok') {
+          this.servis.register(username, password, firstname, lastname, email, address, phone, profilePicture).subscribe((respObj)=>{
+            if(respObj['message']=='ok'){
+              this.registerSuccess = 'Uspesno';
+              this.formRegister.reset();
+            }
+            else{
+              this.errorRegister = 'Doslo je do greške';
+            }
+          })
+        } else {
+          this.errorRegister = 'Došlo je do greške';
         }
-        else{
-          this.errorRegister = 'Something went wrong';
-        }
-      })
+      });
+
+
     } else {
       const passwordControl = this.formRegister.get('passwordRegister');
       if (this.formRegister.get('firstname')?.hasError('required')) {

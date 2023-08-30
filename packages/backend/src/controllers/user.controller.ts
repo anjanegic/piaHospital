@@ -15,7 +15,7 @@ export class UserController {
     }
 
     register = (req: express.Request, res: express.Response) => {
-       
+
         let user = new User({
             first_name: req.body.firstname,
             last_name: req.body.lastname,
@@ -29,7 +29,7 @@ export class UserController {
             deleted: false,
             profile_picture: req.body.profile_picture,
             appointments: [],
-            bookedAppointments:[]
+            bookedAppointments: []
         })
 
         user.save((err, resp) => {
@@ -41,6 +41,52 @@ export class UserController {
         })
     }
 
+    registerDoctor = (req: express.Request, res: express.Response) => {
+
+        let user = new User({
+            first_name: req.body.firstname,
+            last_name: req.body.lastname,
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email,
+            address: req.body.address,
+            phone: req.body.phone,
+            type: "doctor",
+            approved: true,
+            deleted: false,
+            profile_picture: req.body.profile_picture,
+            appointments: req.body.appointments,
+            specialization: req.body.specialization,
+            branch: req.body.branch,
+            license: req.body.license,
+            bookedAppointments: []
+        })
+
+        user.save((err, resp) => {
+            if (err) {
+                console.log(err);
+                res.status(400).json({ "message": "error" })
+            }
+            else res.json({ "message": "ok" })
+        })
+    }
+
+    checkExistingUser = (req: express.Request, res: express.Response) => {
+        const username = req.body.username;
+        const email = req.body.email;
+
+        User.findOne({ $or: [{ 'username': username }, { 'email': email }] }, (err, user) => {
+            if (err) {
+                console.error(err);
+                res.status(500).json({ "message": "error" });
+            } else if (user) {
+                res.json({ "message": "exists" });
+            } else {
+                res.json({ "message": "ok" });
+            }
+        });
+    };
+
     saveCheckedAppointments = (req: express.Request, res: express.Response) => {
         let savedApp = req.body.appointments;
         let username = req.body.user;
@@ -51,7 +97,7 @@ export class UserController {
     }
 
     getAllDoctors = (req: express.Request, res: express.Response) => {
-        User.find({ 'type': 'doctor' }, (err, user) => {
+        User.find({ 'type': 'doctor', 'deleted': false }, (err, user) => {
             if (err) console.log(err)
             else res.json(user)
         })
@@ -172,9 +218,9 @@ export class UserController {
                         return res.json({ message: 'error' });
                     }
                 });
-            
+
             })
-           
+
         })
         return res.json({ message });
     }
@@ -206,77 +252,99 @@ export class UserController {
     getChosenAppointments = (req: express.Request, res: express.Response) => {
         let user = req.body.user;
         console.log(user);
-        
-        User.findOne({'username': user },(err, userD)=>{
+
+        User.findOne({ 'username': user }, (err, userD) => {
             if (err) console.log(err)
             else {
                 let chosenApp = [];
-                for(let i of userD.appointments){
-                    if (i.chosen){
+                for (let i of userD.appointments) {
+                    if (i.chosen) {
                         chosenApp.push(i)
                     }
                 }
                 res.json(chosenApp);
             }
         })
-        
+
     }
 
     deleteAppointment = (req: express.Request, res: express.Response) => {
         let app = req.body.app;
         let username = req.body.username;
-        User.findOne({'username': username }, function (err, user) {
-            if (err){
+        User.findOne({ 'username': username }, function (err, user) {
+            if (err) {
                 console.log(err)
             }
-            else{
+            else {
                 for (let b of user.bookedAppointments) {
                     const first = new Date(app.date);
                     const sec = new Date(b.date);
-                    console.log("PRVI "+ first.getTime() + ", DRUGI: "+sec.getTime());
-                    
+                    console.log("PRVI " + first.getTime() + ", DRUGI: " + sec.getTime());
+
                     if (first.getTime() === sec.getTime()) {
                         const indexToRemove = user.bookedAppointments.findIndex(appointment => first.getTime() === sec.getTime());
-                      
+
                         if (indexToRemove !== -1) {
-                          user.bookedAppointments.splice(indexToRemove, 1);
-                          console.log('Element je uspešno uklonjen.');
-                          break;
+                            user.bookedAppointments.splice(indexToRemove, 1);
+                            console.log('Element je uspešno uklonjen.');
+                            break;
                         } else {
-                          console.log('Element nije pronađen u nizu.');
+                            console.log('Element nije pronađen u nizu.');
                         }
                     }
 
 
                 }
-                User.updateOne({ 'username': username }, { $set:  {"bookedAppointments": user.bookedAppointments}}, (err, resp) => {
+                User.updateOne({ 'username': username }, { $set: { "bookedAppointments": user.bookedAppointments } }, (err, resp) => {
                     if (err) {
                         console.log(err)
                     }
                     else {
-                        console.log("USPEJHHHHH")
-                        return res.json({ message: user.bookedAppointments})
+                        return res.json({ message: user.bookedAppointments })
                     }
                 })
-                
+
             }
         });
     }
 
-    createAppointment= (req: express.Request, res: express.Response) => {
+    createAppointment = (req: express.Request, res: express.Response) => {
         let user = req.body.user;
         let appointment = req.body.appointment;
 
         User.findOneAndUpdate({ username: user.username }, { $push: { appointments: appointment } }, (err, success) => {
             if (err) {
                 return res.json({ message: 'error' });
-            } else{
+            } else {
                 return res.json({ message: 'success' });
             }
         });
     }
 
-    getPastBookedAppointments = (req: express.Request, res: express.Response) =>{
+    createAppointmentManager = (req: express.Request, res: express.Response) => {
+        let specialization = req.body.specialization;
+        let appointment = req.body.appointment;
+        console.log(specialization, appointment)
+        User.find({'specialization': specialization }, (err, users) => {
+            if (err) console.log(err);
+            else {
+                for (let user of users) {
+                    console.log(user);
+                    
+                    User.updateOne({ 'username': user.username }, { $push: { 'appointments': appointment } }, (err, success) => {
+                        if (err) {
+                            return res.json({ message: 'error' });
+                        } else {
+                            return res.json({ message: 'success' });
+                        }
+                    });
+                }
+            }
+        });
+       
+    }
+
+    getPastBookedAppointments = (req: express.Request, res: express.Response) => {
         let patient = req.body.patient;
         let doctor = req.body.doctor;
         User.findOne({ 'username': patient }, (err, u) => {
@@ -301,19 +369,130 @@ export class UserController {
     }
 
     getAllPatients = (req: express.Request, res: express.Response) => {
-        User.find({ 'type': 'patient', 'approved': true}, (err, user) => {
+        User.find({ 'type': 'patient', 'approved': true, 'deleted': false }, (err, user) => {
             if (err) console.log(err)
             else res.json(user)
         })
     }
 
-    deleteUser = (req: express.Request, res: express.Response)=>{
+    getAllPatientsWaiting = (req: express.Request, res: express.Response) => {
+        User.find({ 'type': 'patient', 'approved': false, 'deleted': false }, (err, user) => {
+            if (err) console.log(err)
+            else res.json(user)
+        })
+    }
+
+    deleteUser = (req: express.Request, res: express.Response) => {
         let username = req.body.username;
-        console.log("Usao");
-        
-        User.updateOne({'username': username},{$set: {'approved': false}}, (err, resp)=>{
-            if(err) console.log(err);
-            else res.json({'message': 'ok'})
+
+        User.updateOne({ 'username': username }, { $set: { 'approved': false, 'deleted': true } }, (err, resp) => {
+            if (err) console.log(err);
+            else res.json({ 'message': 'ok' })
+        })
+    }
+
+    approveUser = (req: express.Request, res: express.Response) => {
+        let username = req.body.username;
+
+        User.updateOne({ 'username': username }, { $set: { 'approved': true } }, (err, resp) => {
+            if (err) console.log(err);
+            else res.json({ 'message': 'ok' })
+        })
+    }
+
+    approveAppointment = (req: express.Request, res: express.Response) => {
+        let name = req.body.name;
+        let username = req.body.username;
+        let appointments = [];
+        User.findOne({ 'username': username }, (err, user) => {
+            if (err) console.log(err);
+            else {
+                for (let a of user.appointments) {
+                    if (a.name === name) {
+                        a.approved = true;
+                    }
+                }
+                appointments = user.appointments;
+                User.updateOne({ 'username': username }, { $set: { 'appointments': appointments } }, (err, userApp) => {
+                    if (err) console.log(err);
+                    else {
+                        User.findOne({ 'username': username }, (err, userUp) => {
+                            if (err) console.log(err);
+                            else {
+                                return res.json(userUp);
+                            }
+                        })
+                    }
+                })
+            }
+        })
+
+    }
+
+    changeAppointment = (req: express.Request, res: express.Response) => {
+
+        let appointments = [];
+        let newappointment = req.body.appointment;
+        let specialization = req.body.specialization;
+        let oldAppointment = req.body.oldAppointment;
+
+        User.find({ 'specialization': specialization }, (err, users) => {
+            if (err) console.log(err);
+            else {
+                for (let user of users) {
+                    
+                    for (let i = 0; i < user.appointments.length; i++) {
+                        if (user.appointments[i].name === oldAppointment.name) {
+                            newappointment.chosen = user.appointments[i].chosen;
+                            break;
+                        }
+                    }
+                    user.appointments = user.appointments.filter(a => a.name !== oldAppointment.name);
+                    newappointment.approved = true;
+                    user.appointments.push(newappointment);
+                    User.updateOne({ 'username': user.username }, { $set: { "appointments": user.appointments } }, (err, resp) => {
+                        if (err) console.log(err);
+                        else console.log(resp);
+                        
+                    })
+                }
+                return res.json({ 'message': 'ok' });
+            }
+        })
+    }
+
+    disableAppointment= (req: express.Request, res: express.Response) => {
+      
+        let appointments=[];
+        let appointment = req.body.appointment;
+        let specialization = req.body.specialization;
+        console.log(appointment);
+        console.log(specialization);
+    
+        User.find({ 'specialization': specialization }, (err, users) => {
+            if (err) console.log(err);
+            else {
+                for (let user of users) {
+                    console.log("user");
+                    
+                    console.log("pre ", user.appointments);
+                    for (let i = 0; i < user.appointments.length; i++) {
+                        if (user.appointments[i].name === appointment) {
+                            user.appointments[i].chosen = false;
+                            user.appointments[i].approved = false;
+                            break;
+                        }
+                    }
+                    
+                    console.log("Posle ",user.appointments);
+                   
+                    User.updateOne({ 'username': user.username }, { $set: { "appointments": user.appointments } }, (err, resp) => {
+                        if (err) console.log(err);
+                        else console.log(resp); 
+                    })
+                }
+                return res.json({ 'message': 'ok' });
+            }
         })
     }
 }

@@ -13,4 +13,39 @@ export class SpecializationService {
   getAllSpecializations(){
     return this.http.get(`${this.uri}/getAllSpecializations`);
   }
+
+  addSpecialization(name, branch){
+    const data = {
+      name:name,
+      branch:branch
+    }
+    return this.http.post(`${this.uri}/addSpecialization`, data);
+  }
+
+  deleteAppointment(appointment, specialization){
+    const data = {
+      appointment:appointment,
+      specialization:specialization
+    }
+    return this.http.post(`${this.uri}/deleteAppointment`, data);
+  }
+
+  changeAppointment(appointment, specialization, oldAppointment){
+    const data = {
+      appointment:appointment,
+      specialization:specialization.name,
+      oldAppointment: oldAppointment
+    }
+    console.log(data);
+
+    return this.http.post(`${this.uri}/changeAppointment`, data);
+  }
+
+  createAppointment(specialization, appointment){
+    const data = {
+      specialization:specialization.name,
+      appointment:appointment
+    }
+    return this.http.post(`${this.uri}/createAppointment`, data);
+  }
 }
