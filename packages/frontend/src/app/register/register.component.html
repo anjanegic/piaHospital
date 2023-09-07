@@ -18,6 +18,9 @@
         <mat-form-field class="example-full-width">
           <input type="password" matInput placeholder="Lozinka" formControlName="passwordRegister" />
         </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input type="password" matInput placeholder="Potvrdi lozinku" formControlName="passwordRegisterControl" />
+        </mat-form-field>
 
         <mat-form-field class="example-full-width">
           <input type="text" matInput placeholder="E-mail" formControlName="email" />
@@ -36,7 +39,7 @@
             <mat-card-title>Profilna slika</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <input type="file" (change)="onFileSelected($event)" />
+            <input type="file" #fileInput (change)="onFileSelected($event)" />
           </mat-card-content>
         </mat-card>
 

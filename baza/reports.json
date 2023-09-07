@@ -1,56 +1,204 @@
-{
-    
-    "patient": {
-        "username": "pera",
-        "password" : "Pera123!",
-        "first_name" : "Petar",
-        "last_name" : "Peric",
-        "type": "patient",
-        "email": "pera@gmail.com",
-        "address": "Bulevar Nikole Tesle 15",
-        "phone": "0612288927",
-        "profile_picture": "../../assets/profile-icon-person-user-19.png",
-        "approved" : true,
-        "bookedAppointments": [
-            {
-                "date": "2023-08-23T09:00:00.000Z",
-                "appointment": { "name": "Biopsija kože", "duration": 60, "price": 3000 },
-                "doctor": "milos_petrovic",
-                "patient": "pera"
-            },
-            {
-                "date": "2023-08-24T010:00:00.000Z",
-                "appointment": { "name": "Biopsija kože", "duration": 60, "price": 3000 },
-                "doctor": "milos_petrovic",
-                "patient": "maja"
-            }
-        ]
-    
+[
+    {
+        "patient": {
+            "username": "pera",
+            "password": "Pera123!",
+            "first_name": "Petar",
+            "last_name": "Peric",
+            "type": "patient",
+            "email": "pera@gmail.com",
+            "address": "Bulevar Nikole Tesle 15",
+            "phone": "0612288927",
+            "profile_picture": "../../assets/profile-icon-person-user-19.png",
+            "approved": true,
+            "bookedAppointments": [
+                {
+                    "date": "2023-08-23T09:00:00.000Z",
+                    "appointment": {
+                        "name": "Biopsija kože",
+                        "duration": 60,
+                        "price": 3000
+                    },
+                    "doctor": "milos_petrovic",
+                    "patient": "pera"
+                },
+                {
+                    "date": "2023-08-24T010:00:00.000Z",
+                    "appointment": {
+                        "name": "Biopsija kože",
+                        "duration": 60,
+                        "price": 3000
+                    },
+                    "doctor": "milos_petrovic",
+                    "patient": "maja"
+                }
+            ]
+        },
+        "doctor": {
+            "first_name": "Marko",
+            "last_name": "Nikolić",
+            "username": "marko_nikolic",
+            "password": "Marko123!",
+            "type": "doctor",
+            "email": "marko@example.com",
+            "address": "Kneza Mihaila 10, Beograd",
+            "phone": "065-111-222",
+            "license": 98765,
+            "specialization": "Estetska dermatologija",
+            "branch": "Estetika dermatologije",
+            "approved": true,
+            "profile_picture": "../../assets/doctor4.jpeg",
+            "appointments": [
+                {
+                    "name": "Tretman botoksom",
+                    "duration": 30,
+                    "price": 2000
+                },
+                {
+                    "name": "Punjenje filerima",
+                    "duration": 60,
+                    "price": 3500
+                },
+                {
+                    "name": "Hemijski piling",
+                    "duration": 45,
+                    "price": 3000
+                }
+            ],
+            "bookedAppointments": []
+        },
+        "date": "2023-08-25T09:00:00.000Z",
+        "recommendedNextAppointment": "2023-09-15T10:30:00.000Z",
+        "recommendedTherapy": "Uzimanje propisane terapije svakodnevno u trajanju od 2 nedelje.",
+        "diagnosis": "Pacijentu je dijagnostikovan blaži oblik alergijske reakcije na koži.",
+        "reasonForVisit": "Pacijent se žali na svrab i crvenilo kože."
     },
-    "doctor": {
-        "first_name": "Marko",
-        "last_name": "Nikolić",
-        "username": "marko_nikolic",
-        "password": "Marko123!",
-        "type": "doctor",
-        "email": "marko@example.com",
-        "address": "Kneza Mihaila 10, Beograd",
-        "phone": "065-111-222",
-        "license": 98765,
-        "specialization": "Estetska dermatologija",
-        "branch": "Estetika dermatologije",
-        "approved": true,
-        "profile_picture": "../../assets/doctor4.jpeg",
-        "appointments": [
-            { "name": "Tretman botoksom", "duration": 30, "price": 2000 },
-            { "name": "Punjenje filerima", "duration": 60, "price": 3500 },
-            { "name": "Hemijski piling", "duration": 45, "price": 3000 }
-        ],
-        "bookedAppointments": []
+    {
+        "patient": {
+            "username": "pera",
+            "password": "Pera123!",
+            "first_name": "Petar",
+            "last_name": "Peric",
+            "type": "patient",
+            "email": "pera@gmail.com",
+            "address": "Bulevar Nikole Tesle 15",
+            "phone": "0612288927",
+            "profile_picture": "../../assets/profile-icon-person-user-19.png",
+            "approved": true,
+            "bookedAppointments": [
+                {
+                    "date": "2023-08-23T09:00:00.000Z",
+                    "appointment": {
+                        "name": "Biopsija kože",
+                        "duration": 60,
+                        "price": 3000
+                    },
+                    "doctor": "milos_petrovic",
+                    "patient": "pera"
+                },
+                {
+                    "date": "2023-08-24T010:00:00.000Z",
+                    "appointment": {
+                        "name": "Biopsija kože",
+                        "duration": 60,
+                        "price": 3000
+                    },
+                    "doctor": "milos_petrovic",
+                    "patient": "maja"
+                }
+            ]
+        },
+        "doctor": {
+            "first_name": "Marko",
+            "last_name": "Nikolić",
+            "username": "marko_nikolic",
+            "password": "Marko123!",
+            "type": "doctor",
+            "email": "marko@example.com",
+            "address": "Kneza Mihaila 10, Beograd",
+            "phone": "065-111-222",
+            "license": 98765,
+            "specialization": "Estetska dermatologija",
+            "branch": "Estetika dermatologije",
+            "approved": true,
+            "profile_picture": "../../assets/doctor4.jpeg",
+            "appointments": [
+                {
+                    "name": "Tretman botoksom",
+                    "duration": 30,
+                    "price": 2000
+                },
+                {
+                    "name": "Punjenje filerima",
+                    "duration": 60,
+                    "price": 3500
+                },
+                {
+                    "name": "Hemijski piling",
+                    "duration": 45,
+                    "price": 3000
+                }
+            ],
+            "bookedAppointments": []
+        },
+        "date": "2023-08-27T12:00:00.000Z",
+        "recommendedNextAppointment": "2023-09-17T10:00:00.000Z",
+        "recommendedTherapy": "Uzimanje propisane terapije svakodnevno u trajanju od 2 nedelje.",
+        "diagnosis": "Pacijentu je dijagnostikovan blaži oblik alergijske reakcije na koži.",
+        "reasonForVisit": "Pacijent se žali na svrab i crvenilo kože."
     },
-    "date": "2023-08-25T09:00:00.000Z",
-    "recommendedNextAppointment": "2023-09-15T10:30:00.000Z",
-    "recommendedTherapy": "Uzimanje propisane terapije svakodnevno u trajanju od 2 nedelje.",
-    "diagnosis": "Pacijentu je dijagnostikovan blaži oblik alergijske reakcije na koži.",
-    "reasonForVisit": "Pacijent se žali na svrab i crvenilo kože."
-  }
+    {
+        "patient": {
+            "username": "maja",
+          "password": "Maja123!",
+          "first_name": "Marija",
+          "last_name": "Maric",
+          "type": "patient",
+          "email": "maja@gmail.com",
+          "address": "Bulevar Mihajla Pupina 32",
+          "phone": "0632638837",
+          "profile_picture": "../../assets/profile-icon-person-user-19.png",
+          "approved": true,
+          "bookedAppointments": [],
+          "deleted": false
+        },
+        "doctor": {
+            "first_name": "Miloš",
+          "last_name": "Petrović",
+          "username": "milos_petrovic",
+          "password": "Milos123!",
+          "type": "doctor",
+          "email": "milos@example.com",
+          "address": "Knez Mihailova 10, Beograd",
+          "phone": "065-111-222",
+          "license": 12345,
+          "specialization": "Estetska dermatologija",
+          "branch": "Estetika dermatologije",
+          "approved": true,
+          "profile_picture": "../../assets/doctor1.jpeg",
+          "appointments": [
+                {
+                    "name": "Tretman botoksom",
+                    "duration": 30,
+                    "price": 2000
+                },
+                {
+                    "name": "Punjenje filerima",
+                    "duration": 60,
+                    "price": 3500
+                },
+                {
+                    "name": "Hemijski piling",
+                    "duration": 45,
+                    "price": 3000
+                }
+            ],
+            "bookedAppointments": []
+        },
+        "date": "2023-08-28T11:00:00.000Z",
+        "recommendedNextAppointment": "2023-09-15T10:30:00.000Z",
+        "recommendedTherapy": "Uzimanje propisane terapije svakodnevno.",
+        "diagnosis": "Pacijentu je dijagnostikovan oblik akni na koži.",
+        "reasonForVisit": "Pacijent se žali crvenilo kože."
+    }
+]

@@ -1,3 +1,6 @@
+import { HttpClient } from '@angular/common/http';
+import { ViewChild } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, PatternValidator, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -24,11 +27,12 @@ export class RegisterComponent implements OnInit {
   };
   selectedFile: File | null = null;
 
-  constructor(private servis: UserService ,private ruter: Router) {
+  constructor(private servis: UserService ,private ruter: Router, private http:HttpClient) {
 
     this.formRegister = new FormGroup({
       usernameRegister: new FormControl('', Validators.required),
       passwordRegister: new FormControl('', [Validators.required, passwordValidator()]),
+      passwordRegisterControl: new FormControl('', [Validators.required]),
       firstname: new FormControl('', Validators.required),
       lastname: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.pattern("^[A-Za-z0-9+_.-]+@(.+)$")]),
@@ -42,12 +46,18 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  @ViewChild('fileInput', {static: false}) fileInput: ElementRef;
+
   submitRegister() {
     this.errorRegister = "";
-    if (this.formRegister.valid) {
+
+    if( this.formRegister.get('passwordRegister').value !== this.formRegister.get('passwordRegisterControl').value){
+      this.errorRegister = "Unete lozinke nisu iste";
+    } else if (this.formRegister.valid) {
       let profilePicture = (this.imagePath) ? this.imagePath : "../../assets/profile-icon-person-user-19.png";
       let username = this.formRegister.get('usernameRegister').value;
       let password = this.formRegister.get('passwordRegister').value;
+      let passwordCheck = this.formRegister.get('passwordRegisterControl').value;
       let firstname = this.formRegister.get('firstname').value;
       let lastname = this.formRegister.get('lastname').value;
       let email = this.formRegister.get('email').value;
@@ -60,8 +70,17 @@ export class RegisterComponent implements OnInit {
         } else if (respObj['message'] === 'ok') {
           this.servis.register(username, password, firstname, lastname, email, address, phone, profilePicture).subscribe((respObj)=>{
             if(respObj['message']=='ok'){
-              this.registerSuccess = 'Uspesno';
-              this.formRegister.reset();
+              if(respObj['message']=='ok'){
+                const imageBlob = this.fileInput.nativeElement.files[0]
+                const file = new FormData();
+                file.set("file", imageBlob);
+                if (profilePicture != "../../assets/profile-icon-person-user-19.png"){
+                  this.http.post('http://localhost:4000/profile', file).subscribe(response =>{
+                  })
+                }
+                this.registerSuccess = 'Uspesno';
+                this.formRegister.reset();
+              }
             }
             else{
               this.errorRegister = 'Doslo je do greške';
@@ -72,9 +91,9 @@ export class RegisterComponent implements OnInit {
         }
       });
 
-
     } else {
       const passwordControl = this.formRegister.get('passwordRegister');
+
       if (this.formRegister.get('firstname')?.hasError('required')) {
         this.errorRegister = "Ime je obavezno polje";
       } else if (this.formRegister.get('lastname')?.hasError('required')) {

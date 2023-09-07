@@ -36,7 +36,7 @@ export class SpecializationService {
       specialization:specialization.name,
       oldAppointment: oldAppointment
     }
-    console.log(data);
+
 
     return this.http.post(`${this.uri}/changeAppointment`, data);
   }

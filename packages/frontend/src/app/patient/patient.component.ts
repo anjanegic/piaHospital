@@ -52,7 +52,6 @@ export class PatientComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Ulogovan: ', sessionStorage.getItem('username'));
     this.loggedInUsername = sessionStorage.getItem('username');
     this.loggedInFirstname = sessionStorage.getItem('first_name');
     this.loggedInLastname = sessionStorage.getItem('last_name');
@@ -95,13 +94,13 @@ export class PatientComponent implements OnInit {
     this.reportsService
       .getUserReports(this.loggedInUsername)
       .subscribe((reports: Report[]) => {
-        this.userReports = reports;
+        this.userReports = reports.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
       });
 
   }
   userReports = [];
   bookedAppointmentsDoctors = [];
-  
+
   changeThePassword() {
     this.error = '';
     this.passwordChanged = ''
@@ -113,6 +112,7 @@ export class PatientComponent implements OnInit {
         this.servis.changePassword(this.loggedInUsername, oldPassword, newPassword).subscribe((respObj) => {
           if (respObj['message'] == 'ok') {
             this.passwordChanged = 'Lozinka je promenjena';
+            this.logout();
           }
           else {
             this.error = 'Pogresna stara lozinka';
@@ -139,16 +139,13 @@ export class PatientComponent implements OnInit {
   saveEditedProfile() {
     if (this.profileForm.valid) {
       const updatedProfile = {};
-      console.log(updatedProfile)
-      console.log(this.profileForm.controls)
       for (const field in this.profileForm.controls) {
 
         if (this.profileForm.controls[field].dirty) {
           updatedProfile[field] = this.profileForm.controls[field].value;
         }
       }
-      console.log(Object.keys(updatedProfile));
-      console.log(this.profileForm.controls)
+
       if (Object.keys(updatedProfile).length > 0) {
         this.servis.updateUserProfile(this.loggedInUsername, updatedProfile).subscribe((respObj) => {
           if (respObj['message'] == 'ok') {
@@ -179,7 +176,7 @@ export class PatientComponent implements OnInit {
       const compareResult = a[column].localeCompare(b[column]);
       return this.sortAscending ? compareResult : -compareResult;
     });
-    console.log(this.doctorsToDisplay)
+
     this.doctorsToDisplay = [...this.filteredDoctors];
   }
 
@@ -227,8 +224,16 @@ export class PatientComponent implements OnInit {
       this.selectedDoctor = user;
       this.servis.getChosenAppointments(doctor).subscribe((app: Appointment[]) => {
         this.doctorsAppointments = app;
+        this.getApprovedAppointments();
       });
     });
+
+  }
+
+
+  approvedAppointments: Appointment[]
+  getApprovedAppointments(){
+    this.approvedAppointments= this.selectedDoctor.appointments.filter(a=>a.approved)
   }
 
   clearSelectedDoctor(): void {
@@ -246,7 +251,11 @@ export class PatientComponent implements OnInit {
     this.errorBook = '';
     this.successBook = '';
     let selectedDateTime = null;
-    if (this.selectedDate && this.selectedHour !== undefined) {
+
+
+    if (this.selectedAppointmentType === ""){
+      this.errorBook = "Morate odabrati tip pregleda"
+    }else if (this.selectedDate && this.selectedHour !== undefined) {
       const [year, month, day] = this.selectedDate.split('-');
       selectedDateTime = new Date(
         parseInt(year),
@@ -271,7 +280,7 @@ export class PatientComponent implements OnInit {
                 this.selectedAppointmentType
               )
               .subscribe((respObj) => {
-                console.log(respObj);
+
 
                 if (respObj['message'] == 'Success') {
                   this.successBook = 'Vas termin je zakazan';
@@ -280,16 +289,18 @@ export class PatientComponent implements OnInit {
               });
           }
         });
+    }else{
+      this.errorBook = "Morate odabrati datum i vreme pregleda"
     }
   }
 
   cancelAppointment(appointment) {
     this.servis.deleteAppointment(appointment, this.loggedInUsername).subscribe((respObj: BookedAppointment[]) => {
-      console.log(respObj['message'])
+
       if (respObj) {
-        this.upcomingAppointments = respObj['message'];
+        this.refreshUpcomingAppointments()
       } else {
-        console.log("Error");
+
       }
     })
   }
@@ -298,9 +309,8 @@ export class PatientComponent implements OnInit {
     this.servis
       .getBookedAppointments(this.loggedInUsername)
       .subscribe((appoin: BookedAppointment[]) => {
-        console.log(JSON.stringify(appoin['message']));
         if (appoin['message'].length > 0) {
-          this.upcomingAppointments = appoin['message'];
+          this.upcomingAppointments = appoin['message'].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
         } else {
           this.upcomingAppointments = [];
         }

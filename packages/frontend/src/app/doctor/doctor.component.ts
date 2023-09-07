@@ -94,6 +94,7 @@ export class DoctorComponent implements OnInit {
         this.servis.changePassword(this.loggedInUsername, oldPassword, newPassword).subscribe((respObj) => {
           if (respObj['message'] == 'ok') {
             this.passwordChanged = 'Lozinka je promenjena';
+            this.logout();
           }
           else {
             this.error = 'Pogresna stara lozinka';
@@ -120,16 +121,12 @@ export class DoctorComponent implements OnInit {
   saveEditedProfile() {
     if (this.profileForm.valid) {
       const updatedProfile = {};
-      console.log(updatedProfile)
-      console.log(this.profileForm.controls)
       for (const field in this.profileForm.controls) {
 
         if (this.profileForm.controls[field].dirty) {
           updatedProfile[field] = this.profileForm.controls[field].value;
         }
       }
-      console.log(Object.keys(updatedProfile));
-      console.log(this.profileForm.controls)
       if (Object.keys(updatedProfile).length > 0) {
         this.servis.updateUserProfile(this.loggedInUsername, updatedProfile).subscribe((respObj) => {
           if (respObj['message'] == 'ok') {
@@ -154,18 +151,16 @@ export class DoctorComponent implements OnInit {
   showEditButton: boolean = false;
 
   editProfilePicture() {
-    // Implementirajte logiku za izmenu profilne slike
   }
+  
   handleProfilePictureChange(event: any) {
     const file = event.target.files[0];
     if (file) {
-      // Implementirajte logiku za promenu profilne slike
     }
     this.showEditProfilePictureInput = false;
   }
 
   saveChosenExaminations() {
-    console.log(this.appointmentsToCheck);
     this.servis.saveCheckedAppointments(this.loggedInUsername, this.appointmentsToCheck).subscribe((respObj) => {
       if (respObj['message'] == 'ok') {
 
@@ -192,7 +187,7 @@ export class DoctorComponent implements OnInit {
         if (appoin['message'].length > 0) {
           this.upcomingAppointments = appoin['message']
             .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-            .slice(0, 3); 
+            .slice(0, 3);
         } else {
           this.upcomingAppointments = [];
         }
@@ -233,7 +228,6 @@ export class DoctorComponent implements OnInit {
   onSubmit() {
     this.appointmentSuccess = "";
     this.servis.createAppointment(this.loggedInUser, this.newAppointment).subscribe((respObj) => {
-      console.log(respObj);
 
       if (respObj['message'] == 'success') {
         this.appointmentSuccess = 'Vas pregled je sacuvan';
@@ -286,7 +280,7 @@ export class DoctorComponent implements OnInit {
 
     if (this.selectedReport.recommendedNextAppointment !== undefined)
       this.selectedReport.recommendedNextAppointment = new Date(this.selectedReport.recommendedNextAppointment);
-    console.log(this.selectedReport);
+
     this.reportsService.addReport(this.selectedReport).subscribe((respObj) => {
 
       if (respObj['message'] == 'success') {

@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Appointment } from './../models/appointment';
 import { Specialization } from './../models/spetialization';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
 import { UserService } from '../user.service';
@@ -15,7 +16,7 @@ import { passwordValidator } from '../validators/passwordValidator';
 })
 export class ManagerComponent implements OnInit {
 
-  constructor(private servis: UserService, private specServis: SpecializationService,private ruter: Router,  private formBuilder: FormBuilder) {
+  constructor(private servis: UserService, private specServis: SpecializationService,private ruter: Router,  private formBuilder: FormBuilder, private http: HttpClient) {
     this.formRegister = new FormGroup({
       usernameRegister: new FormControl('', Validators.required),
       passwordRegister: new FormControl('', [Validators.required, passwordValidator()]),
@@ -34,14 +35,16 @@ export class ManagerComponent implements OnInit {
       price: ['']
     });
   }
+  loggedInUsername: string = "";
+  loggedInFirstname: string = "";
+  loggedInLastname: string = "";
+  loggedInUser: User;
 
   editForm: FormGroup;
   passwordForm: FormGroup;
   error: string = "";
   passwordChanged: string = "";
 
-  loggedInUsername: string = "";
-  loggedInUser: User;
 
   showEditProfilePictureInput: boolean = false;
 
@@ -62,6 +65,9 @@ export class ManagerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loggedInUsername = sessionStorage.getItem('username');
+    this.loggedInFirstname = sessionStorage.getItem('first_name');
+    this.loggedInLastname = sessionStorage.getItem('last_name');
     this.refreshDoctors();
     this.refreshPatients();
     this.refreshPatientsWaiting();
@@ -231,7 +237,7 @@ export class ManagerComponent implements OnInit {
             }
           }
         }
-        console.log(updatedProfile);
+
 
       }
       if (Object.keys(updatedProfile).length > 0) {
@@ -319,6 +325,9 @@ export class ManagerComponent implements OnInit {
   };
   selectedFile: File | null = null;
 
+
+  @ViewChild('fileInput', {static: false}) fileInput: ElementRef;
+
   submitNewUser(){
     this.errorRegister = "";
     if (this.formRegister.valid) {
@@ -330,7 +339,6 @@ export class ManagerComponent implements OnInit {
       let email = this.formRegister.get('email').value;
       let address = this.formRegister.get('address').value;
       let phone = this.formRegister.get('phone').value;
-
       let license = this.formRegister.get('license').value;
       let specialization = this.formRegister.get('specialization').value;
       let appointments;
@@ -350,9 +358,21 @@ export class ManagerComponent implements OnInit {
         } else if (respObj['message'] === 'ok') {
           this.servis.registerDoctor(username, password, firstname, lastname, email, address, phone, profilePicture, license, specialization, branch, appointments).subscribe((respObj)=>{
             if(respObj['message']=='ok'){
-              this.registerSuccess = 'Uspesno';
-              this.formRegister.reset();
-              this.refreshDoctors();
+              const imageBlob = this.fileInput.nativeElement.files[0]
+              const file = new FormData();
+              file.set("file", imageBlob);
+              if (profilePicture != "../../assets/profile-icon-person-user-19.png"){
+                this.http.post('http://localhost:4000/profile', file).subscribe(response =>{
+                  this.registerSuccess = 'Uspesno';
+                  this.formRegister.reset();
+                  this.refreshDoctors();
+                })
+              }else{
+                this.registerSuccess = 'Uspesno';
+                this.selectedFile = null;
+                this.formRegister.reset();
+                this.refreshDoctors();
+              }
             }
             else{
               this.errorRegister = 'Doslo je do greške';
@@ -434,8 +454,6 @@ export class ManagerComponent implements OnInit {
 
 
   deleteAppointment(appointment) {
-    console.log(appointment);
-    console.log(this.selectedSpecialization);
 
     this.specServis.deleteAppointment(appointment.name, this.selectedSpecialization.name).subscribe((spec: Specialization) => {
       if (spec) {
@@ -445,15 +463,14 @@ export class ManagerComponent implements OnInit {
     })
     this.servis.disableAppointment(appointment.name, this.selectedSpecialization.name).subscribe((user: User) => {
       if (user) {
-
+        this.specializationForm.reset();
+        this.editForm.reset();
       }
     })
-
   }
 
   selectAppointmentForEdit(appointment) {
     this.selectedAppointmentForEdit = { ...appointment };
-    console.log(this.selectedAppointmentForEdit);
     this.editForm.patchValue({
       name: appointment.name,
       duration: appointment.duration,
@@ -470,24 +487,34 @@ export class ManagerComponent implements OnInit {
     });
   }
 
-  saveEditedAppointment() {
-    console.log(this.selectedAppointmentForEdit);
+  appointmentChangeError: string=""
+  appointmentChangeSuccess: string=""
 
+  saveEditedAppointment() {
+    this.appointmentChangeError="";
+    this.appointmentChangeSuccess="";
     const editedAppointment = this.editForm.value;
-    console.log(editedAppointment);
-    this.specServis.changeAppointment(editedAppointment, this.selectedSpecialization, this.selectedAppointmentForEdit).subscribe((respObj) => {
-      if (respObj) {
-        this.getAllSpec();
-        this.editForm.reset();
-      }
-    })
-    this.servis.changeAppointment(editedAppointment, this.selectedSpecialization, this.selectedAppointmentForEdit).subscribe((respObj) => {
-      if (respObj['message'] == 'ok') {
-        this.getAllSpec();
-        this.editForm.reset();
-      }
-    })
-    this.specializationForm.reset();
+    if (this.selectedSpecialization==null){
+      this.appointmentChangeError = 'Morate odabrati specijalizaciju';
+    }else if(this.selectedAppointmentForEdit==null){
+      this.appointmentChangeError = 'Morate odabrati pregled iz tabele';
+    }else{
+      this.specServis.changeAppointment(editedAppointment, this.selectedSpecialization, this.selectedAppointmentForEdit).subscribe((respObj) => {
+        if (respObj) {
+          this.getAllSpec();
+          this.editForm.reset();
+        }
+      })
+      this.servis.changeAppointment(editedAppointment, this.selectedSpecialization, this.selectedAppointmentForEdit).subscribe((respObj) => {
+        if (respObj['message'] == 'ok') {
+          this.getAllSpec();
+          this.editForm.reset();
+          this.appointmentChangeSuccess = 'Pregled je sacuvan';
+        }
+      })
+      this.specializationForm.reset();
+    }
+
   }
 
   newAppointment: Appointment = {
@@ -506,18 +533,15 @@ export class ManagerComponent implements OnInit {
       this.appointmentError = 'Morate odabrati specijalizaciju';
     }else{
       this.servis.createAppointmentManager(this.selectedSpecialization, this.newAppointment).subscribe((respObj) => {
-        console.log(respObj);
+
 
         if (respObj['message'] == 'success') {
-
-          //this.refreshCheckedAppointments();
         }
       })
       this.specServis.createAppointment(this.selectedSpecialization, this.newAppointment).subscribe((respObj) => {
-        console.log(respObj);
+
         if (respObj['message'] == 'success') {
           this.appointmentSuccess = 'Pregled je sacuvan';
-          //this.refreshCheckedAppointments();
         }
       })
     }
@@ -539,10 +563,13 @@ export class ManagerComponent implements OnInit {
       const oldPassword = this.passwordForm.get('oldPassword').value;
       const newPassword = this.passwordForm.get('newPassword').value;
       const confirmPassword = this.passwordForm.get('confirmPassword').value;
+
+
       if (newPassword === confirmPassword) {
         this.servis.changePassword(this.loggedInUsername, oldPassword, newPassword).subscribe((respObj) => {
           if (respObj['message'] == 'ok') {
             this.passwordChanged = 'Lozinka je promenjena';
+            this.logout();
           }
           else {
             this.error = 'Pogresna stara lozinka';

@@ -18,7 +18,7 @@ export class ReportService {
   }
 
   addReport(report){
-    console.log(report);
+
 
     const data = {
       report: report

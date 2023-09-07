@@ -15,9 +15,12 @@
     "lerna": "^7.1.5"
   },
   "dependencies": {
+    "@types/express": "^4.17.17",
+    "@types/multer": "^1.4.7",
     "angular-calendar": "^0.31.0",
     "dotenv": "^16.3.1",
     "jsonwebtoken": "^9.0.1",
+    "multer": "^1.4.5-lts.1",
     "stream-browserify": "^3.0.0",
     "util": "^0.12.5"
   }

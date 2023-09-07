@@ -28,12 +28,10 @@ export class ReportController {
                     return res.json({ message: 'error' });
                 } else{
                     for (let b of user.bookedAppointments){
-                        //console.log("PRE: ", user.bookedAppointments)
                         if (b.date === rep.bookedAppointment.date){
                             b.report = true;
                             break;
                         }
-                        //console.log("POSLE: ",  user.bookedAppointments)
                     }
                 }
                 User.findOneAndUpdate({ username: reportUser.patient.username }, { $set: { bookedAppointments: user.bookedAppointments } }, (err, success) => {

@@ -107,11 +107,12 @@
                   <input matInput formControlName="phone" />
                 </mat-form-field>
               </div>
+
+              <button class="saveCancel" mat-stroked-button color="primary" (click)="cancelEditingProfile()">
+                Otkaži
+              </button>
               <button class="saveCancel" mat-raised-button color="primary" (click)="saveEditedProfile()">
                 Sačuvaj
-              </button>
-              <button class="saveCancel" mat-raised-button color="warn" (click)="cancelEditingProfile()">
-                Otkaži
               </button>
             </form>
           </ng-container>
@@ -163,10 +164,10 @@
             </div>
             <!-- PREGLEDI KOJE OMOGUCAVA LEKAR -->
             <div class="appointments">
-              <table mat-table [dataSource]="selectedDoctor.appointments" class="mat-elevation-z8 demo-table">
+              <table mat-table [dataSource]="approvedAppointments" class="mat-elevation-z8 demo-table">
                 <ng-container matColumnDef="name">
                   <th mat-header-cell *matHeaderCellDef>Pregled</th>
-                  <td mat-cell *matCellDef="let appointment">
+                  <td mat-cell *matCellDef="let appointment" [ngClass]="{'color-row': appointment.chosen === true}">
                     {{ appointment.name }}
                   </td>
                 </ng-container>
@@ -175,14 +176,14 @@
                   <th mat-header-cell *matHeaderCellDef>
                     Duzina pregleda (min)
                   </th>
-                  <td mat-cell *matCellDef="let appointment">
+                  <td mat-cell *matCellDef="let appointment" [ngClass]="{'color-row': appointment.chosen === true}">
                     {{ appointment.duration }}
                   </td>
                 </ng-container>
 
                 <ng-container matColumnDef="price">
                   <th mat-header-cell *matHeaderCellDef>Cena (RSD)</th>
-                  <td mat-cell *matCellDef="let appointment">
+                  <td mat-cell *matCellDef="let appointment" [ngClass]="{'color-row': appointment.chosen === true}">
                     {{ appointment.price }}
                   </td>
                 </ng-container>

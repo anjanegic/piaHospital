@@ -47,6 +47,7 @@
     </button>
   </div>
 </div>
+<br>
 <div class="menu">
   <mat-tab-group animationDuration="0ms" class="full-width-tabs">
     <mat-tab label="Lekari">
@@ -64,6 +65,12 @@
                   <p class="doctor-specialization"><strong>E-mail:</strong> {{ selectedDoctor.email }}</p>
                   <p class="doctor-specialization">
                     <strong>Korisnicko ime: </strong> {{ selectedDoctor.username }}
+                  </p>
+                  <p class="doctor-specialization">
+                    <strong>Adresa: </strong> {{ selectedDoctor.address }}
+                  </p>
+                  <p class="doctor-specialization">
+                    <strong>Telefon: </strong> {{ selectedDoctor.phone }}
                   </p>
 
                   <p class="doctor-specialization">
@@ -296,7 +303,7 @@
                         <mat-card-title>Profilna slika</mat-card-title>
                       </mat-card-header>
                       <mat-card-content>
-                        <input type="file" (change)="onFileSelected($event)" />
+                        <input type="file" #fileInput (change)="onFileSelected($event)" />
                       </mat-card-content>
                     </mat-card>
 
@@ -531,7 +538,7 @@
     </mat-tab>
     <mat-tab label="Pregledi">
       <div class="new-spec-title">
-        <h2>Izmene</h2>
+        <h2>Odaberi specijalizaciju</h2>
       </div>
       <div class="app-change">
         <mat-form-field>
@@ -542,7 +549,10 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-
+        <br><br>
+        <div class="new-spec-title-app">
+          <h2>Pregledi</h2>
+        </div>
         <div class="spec-app-details" *ngIf="selectedSpecialization">
 
           <table mat-table [dataSource]="selectedSpecialization.appointments">
@@ -577,6 +587,7 @@
             </tr>
           </table>
         </div>
+        <br><br>
         <div class="edit-appointment-form">
 
           <form [formGroup]="editForm">
@@ -588,8 +599,17 @@
             </mat-form-field>
             <mat-form-field>
               <input matInput type="number" formControlName="price" placeholder="Cena (RSD)" />
-            </mat-form-field>
-            <button mat-raised-button color="primary" (click)="saveEditedAppointment()">Sacuvaj</button>
+            </mat-form-field><div class="message">
+              <p *ngIf="appointmentChangeSuccess" class="appointmentSuccess">
+                {{ appointmentChangeSuccess }}
+              </p>
+              <p *ngIf="appointmentChangeError" class="appointmentError">
+                {{ appointmentChangeError }}
+              </p>
+            </div>
+            <div class="button-add">
+              <button class="misc-button" mat-raised-button color="primary" (click)="saveEditedAppointment()">Sacuvaj</button>
+            </div>
           </form>
         </div>
 
@@ -627,7 +647,16 @@
               required
             />
           </mat-form-field>
-          <button
+          <div class="message">
+            <p *ngIf="appointmentSuccess" class="appointmentSuccess">
+              {{ appointmentSuccess }}
+            </p>
+            <p *ngIf="appointmentError" class="appointmentError">
+              {{ appointmentError }}
+            </p>
+          </div>
+          <div class="button-add">
+            <button
             mat-raised-button
             color="primary"
             type="submit"
@@ -635,16 +664,10 @@
           >
             Dodaj
           </button>
+          </div>
         </form>
       </div>
-      <div class="message">
-        <p *ngIf="appointmentSuccess" class="appointmentSuccess">
-          {{ appointmentSuccess }}
-        </p>
-        <p *ngIf="appointmentError" class="appointmentError">
-          {{ appointmentError }}
-        </p>
-      </div>
+
     </mat-tab>
   </mat-tab-group>
 </div>

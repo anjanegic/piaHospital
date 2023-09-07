@@ -31,14 +31,10 @@ export class SpecializationController {
         let appointments=[];
         let appointment = req.body.appointment;
         let specialization = req.body.specialization;
-        console.log(appointment);
-        console.log(specialization);
 
         Specialization.findOne({'name': specialization}, (err, spec)=>{
             if(err) console.log(err);
             else {
-                console.log(spec.appointments);
-                
                 for (let i = 0; i < spec.appointments.length; i++) {
                     if (spec.appointments[i].name === appointment) {
                       spec.appointments.splice(i, 1);
@@ -46,7 +42,6 @@ export class SpecializationController {
                     }
                 }
                 appointments = spec.appointments;
-                console.log(spec.appointments);
                 Specialization.updateOne({'name': specialization},{ $set: {"appointments": spec.appointments}}, (err, resp)=>{
                     if(err) console.log(err);
                     else {
@@ -69,8 +64,6 @@ export class SpecializationController {
         let newappointment = req.body.appointment;
         let specialization = req.body.specialization;
         let oldAppointment = req.body.oldAppointment;
-        console.log(newappointment);
-        console.log(specialization);
 
         Specialization.findOne({'name': specialization}, (err, spec)=>{
             if(err) console.log(err);

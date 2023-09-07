@@ -38,6 +38,7 @@ export class UserService {
     return this.http.post(`${this.uri}/register`, data);
   }
 
+
   registerDoctor(username, password, firstname, lastname, email, address, phone, profile_picture, license, specialization, branch, appointments){
     const data = {
       username: username,
@@ -118,7 +119,6 @@ export class UserService {
   }
 
   bookAppointment(doctor, patient, date, appointment){
-    console.log(doctor.username)
     const data = {
       doctor: doctor.username,
       patient: patient,
@@ -132,7 +132,7 @@ export class UserService {
     const data = {
       user:user
     }
-    console.log(data)
+
     return this.http.post(`${this.uri}/getBookedAppointments`, data);
   }
 
@@ -212,7 +212,6 @@ export class UserService {
       specialization:specialization.name,
       oldAppointment: oldAppointment
     }
-    console.log(data);
 
     return this.http.post(`${this.uri}/changeAppointment`, data);
   }

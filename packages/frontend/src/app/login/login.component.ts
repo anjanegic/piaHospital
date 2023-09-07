@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     this.errorLogin = "";
     this.waitApproval = "";
     if (this.formLogin.valid) {
-      console.log(this.formLogin.get('username'))
+
       this.servis.login(this.formLogin.get('username').value, this.formLogin.get('password').value).subscribe((user: User)=>{
         if(!user){
           this.errorLogin = 'Pogresni podaci';
@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit {
 
   updateDisplayedDoctors() {
     if (this.searchText === '') {
-      console.log(this.doctors[8])
+
       this.doctorsToDisplay = this.doctors;
     }
   }
@@ -110,8 +110,8 @@ export class LoginComponent implements OnInit {
       const compareResult = a[column].localeCompare(b[column]);
       return this.sortAscending ? compareResult : -compareResult;
     });
-    console.log(this.doctorsToDisplay)
-    this.doctorsToDisplay = [...this.filteredDoctors]; 
+
+    this.doctorsToDisplay = [...this.filteredDoctors];
   }
 
   filterDoctors() {
